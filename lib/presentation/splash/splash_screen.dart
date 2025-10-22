@@ -7,13 +7,27 @@ class SplashScreen extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    //states
+    late final opacity = useState<double>(0);
+
+    final controller = useAnimationController(
+      duration: const Duration(seconds: 2),
+    );
+
+    late final Animation<AlignmentGeometry> animation =
+        Tween<AlignmentGeometry>(
+          begin: Alignment.topCenter,
+          end: Alignment.center,
+        ).animate(
+          CurvedAnimation(parent: controller, curve: Curves.decelerate),
+        );
+
     useEffect(() {
-      Future.delayed(Duration(seconds: 1), () {
-        if (context.mounted) {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => HomeScreen()),
-          );
+      controller.forward();
+
+      controller.addStatusListener((status) {
+        if (status == AnimationStatus.completed) {
+          opacity.value = 1;
         }
       });
       return null;
@@ -22,18 +36,45 @@ class SplashScreen extends HookWidget {
     return MaterialApp(
       home: Scaffold(
         body: SafeArea(
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              spacing: 6,
-              children: [
-                Image.asset('assets/images/logo.png', width: 120, height: 120),
-                Text(
-                  'Mi Referencia',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-              ],
-            ),
+          child: Stack(
+            children: [
+              Stack(
+                children: [
+                  Stack(
+                    children: [
+                      AlignTransition(
+                        alignment: animation,
+                        child: Image.asset(
+                          'assets/images/logo.png',
+                          width: 120,
+                          height: 120,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Align(
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 160),
+                      child: AnimatedOpacity(
+                        opacity: opacity.value,
+                        duration: const Duration(seconds: 1),
+                        onEnd: () => Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (context) => HomeScreen()),
+                        ),
+                        child: Text(
+                          'Mi Referencia',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
           ),
         ),
       ),

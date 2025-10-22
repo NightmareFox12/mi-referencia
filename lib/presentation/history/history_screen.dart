@@ -6,6 +6,22 @@ class HistoryScreen extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text('reflejos que no estan');
+    return Column(
+      children: [
+        Text('on losted'),
+        Expanded(
+          child: ListView(
+            children: [
+              Text('aqui es scroll'),
+
+              Text('aqui es scroll'),
+              Text('aqui es scroll'),
+              Text('aqui es scroll'),
+              Text('aqui es scroll'),
+            ],
+          ),
+        ),
+      ],
+    );
   }
 }

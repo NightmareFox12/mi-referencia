@@ -26,9 +26,18 @@ class HomeScreen extends HookWidget {
             ),
           ],
         ),
-        floatingActionButton: currentScreen.value == 0
-            ? FloatingActionButton(onPressed: () {}, child: Icon(Icons.create))
-            : SizedBox.shrink(),
+        // floatingActionButton: currentScreen.value == 0
+        floatingActionButton: IgnorePointer(
+          ignoring: currentScreen.value != 0,
+          child: AnimatedOpacity(
+            opacity: currentScreen.value == 0 ? 1 : 0,
+            duration: Duration(milliseconds: 400),
+            child: FloatingActionButton(
+              onPressed: () {},
+              child: Icon(Icons.create),
+            ),
+          ),
+        ),
         body: SafeArea(
           child: currentScreen.value == 0 ? HistoryScreen() : Text('ma'),
         ),

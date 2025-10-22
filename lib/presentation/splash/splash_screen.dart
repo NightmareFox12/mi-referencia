@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:mi_referencia/presentation/history/history_screen.dart';
+import 'package:mi_referencia/presentation/home/home_screen.dart';
 
 class SplashScreen extends HookWidget {
   const SplashScreen({super.key});
@@ -12,7 +12,7 @@ class SplashScreen extends HookWidget {
         if (context.mounted) {
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => HistoryScreen()),
+            MaterialPageRoute(builder: (context) => HomeScreen()),
           );
         }
       });

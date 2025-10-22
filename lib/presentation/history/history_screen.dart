@@ -6,10 +6,6 @@ class HistoryScreen extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        body: SafeArea(child: Text('yo quisiera amarla como usted se merece')),
-      ),
-    );
+    return Text('reflejos que no estan');
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:mi_referencia/presentation/history/history_screen.dart';
+import 'package:mi_referencia/presentation/widgets/fab.dart';
 
 class HomeScreen extends HookWidget {
   const HomeScreen({super.key});
@@ -27,17 +28,8 @@ class HomeScreen extends HookWidget {
           ],
         ),
         // floatingActionButton: currentScreen.value == 0
-        floatingActionButton: IgnorePointer(
-          ignoring: currentScreen.value != 0,
-          child: AnimatedOpacity(
-            opacity: currentScreen.value == 0 ? 1 : 0,
-            duration: Duration(milliseconds: 400),
-            child: FloatingActionButton(
-              onPressed: () {},
-              child: Icon(Icons.create),
-            ),
-          ),
-        ),
+        floatingActionButton: Fab(currentScreen: currentScreen.value),
+
         body: SafeArea(
           child: currentScreen.value == 0 ? HistoryScreen() : Text('ma'),
         ),

@@ -56,11 +56,20 @@ class AllModal {
             ),
           ),
           actions: <Widget>[
+            OutlinedButton.icon(
+              label: Text('Cancelar'),
+              icon: Icon(Icons.close),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+
             FilledButton.icon(
               label: Text('Guardar'),
               icon: Icon(Icons.check),
               onPressed: () {
                 Navigator.of(context).pop();
+                //TODO: luego de guardar la referencia mostrarle un toast y cerrar el modal
               },
             ),
           ],

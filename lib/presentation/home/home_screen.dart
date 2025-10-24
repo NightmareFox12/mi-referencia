@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:mi_referencia/presentation/history/history_screen.dart';
 import 'package:mi_referencia/presentation/widgets/fab_menu.dart';
 
 class HomeScreen extends HookWidget {
@@ -30,14 +31,13 @@ class HomeScreen extends HookWidget {
         // floatingActionButton: Fab(currentScreen: currentScreen.value),
         body: Stack(
           alignment: Alignment.bottomRight,
-          children: [FabMenu(currentScreen: currentScreen.value)],
+          children: [
+            currentScreen.value == 0
+                ? HistoryScreen()
+                : Center(child: Text('Pantalla de inicio')),
+            FabMenu(currentScreen: currentScreen.value),
+          ],
         ),
-
-        // body: SafeArea(
-        //   child: currentScreen.value == 0
-        //       ? FabMenu(currentScreen: currentScreen.value)
-        //       : HistoryScreen(),
-        // ),
       ),
     );
   }

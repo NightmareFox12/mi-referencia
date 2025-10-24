@@ -10,10 +10,7 @@ class ReferenceForm extends HookWidget {
       home: Scaffold(
         appBar: AppBar(
           title: Text('Crear Referencia'),
-          leading: IconButton(
-            onPressed: () => Navigator.pop(context),
-            icon: Icon(Icons.arrow_back),
-          ),
+          leading: BackButton(onPressed: () => Navigator.pop(context)),
         ),
         body: Padding(
           padding: const EdgeInsets.all(12),

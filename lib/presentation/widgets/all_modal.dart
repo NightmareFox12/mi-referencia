@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class AllModal {
-  Future<void> showRefDialog(BuildContext context) async {
+  Future<void> showFastReferenceDialog(BuildContext context) async {
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
@@ -11,31 +11,16 @@ class AllModal {
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
-                Text('This is a demo alert dialog.'),
-                Text('Would you like to approve of this message?'),
+                Text('Nose que poner aqui'),
+                SizedBox(height: 10),
 
                 TextFormField(
+                  keyboardType: TextInputType.number,
                   decoration: const InputDecoration(
-                    icon: Icon(Icons.person),
-                    hintText: 'What do people call you?',
-                    labelText: 'Nombre *',
-                  ),
-                  onSaved: (String? value) {
-                    // This optional block of code can be used to run
-                    // code when the user saves the form.
-                  },
-                  validator: (String? value) {
-                    return (value != null && value.contains('@'))
-                        ? 'Do not use the @ char.'
-                        : null;
-                  },
-                ),
-
-                TextFormField(
-                  decoration: const InputDecoration(
-                    icon: Icon(Icons.person),
-                    hintText: 'What do people call you?',
+                    // icon: Icon(Icons.person),
+                    hintText: 'Ej: 2534',
                     labelText: 'Referencia *',
+                    border: OutlineInputBorder(),
                   ),
                   onSaved: (String? value) {
                     // This optional block of code can be used to run
@@ -47,29 +32,15 @@ class AllModal {
                         : null;
                   },
                 ),
+                SizedBox(height: 12),
 
                 TextFormField(
                   decoration: const InputDecoration(
-                    icon: Icon(Icons.person),
-                    hintText: 'What do people call you?',
+                    // icon: Icon(Icons.person),
+                    hintText: 'Ej: 100',
                     labelText: 'Monto *',
-                  ),
-                  onSaved: (String? value) {
-                    // This optional block of code can be used to run
-                    // code when the user saves the form.
-                  },
-                  validator: (String? value) {
-                    return (value != null && value.contains('@'))
-                        ? 'Do not use the @ char.'
-                        : null;
-                  },
-                ),
-
-                TextFormField(
-                  decoration: const InputDecoration(
-                    icon: Icon(Icons.person),
-                    hintText: 'What do people call you?',
-                    labelText: 'Nombre *',
+                    suffixText: 'Bs.F',
+                    border: OutlineInputBorder(),
                   ),
                   onSaved: (String? value) {
                     // This optional block of code can be used to run
@@ -85,8 +56,9 @@ class AllModal {
             ),
           ),
           actions: <Widget>[
-            TextButton(
-              child: const Text('Approve'),
+            FilledButton.icon(
+              label: Text('Guardar'),
+              icon: Icon(Icons.check),
               onPressed: () {
                 Navigator.of(context).pop();
               },

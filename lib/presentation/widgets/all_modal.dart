@@ -38,7 +38,7 @@ class AllModal {
                   decoration: const InputDecoration(
                     // icon: Icon(Icons.person),
                     hintText: 'Ej: 100',
-                    labelText: 'Monto *',
+                    labelText: 'Monto Bs.F *',
                     suffixText: 'Bs.F',
                     border: OutlineInputBorder(),
                   ),

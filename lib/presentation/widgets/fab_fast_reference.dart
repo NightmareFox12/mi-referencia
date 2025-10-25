@@ -1,29 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mi_referencia/data/datasources/data_source.dart';
-import 'package:mi_referencia/data/datasources/database.dart';
+import 'package:mi_referencia/data/database/database.dart';
+import 'package:mi_referencia/domain/reference_notifier.dart';
 
-class FabFastReference extends HookWidget {
+class FabFastReference extends HookConsumerWidget {
   final db = AppDatabase();
 
   Future<void> addFastReference(
+    WidgetRef ref,
     ValueNotifier<int> reference,
     ValueNotifier<double> amount,
+    AsyncValue<List<Reference>> referencesAsync,
   ) async {
     final id = await ReferenceDataSource(
       db,
     ).setFastReference(reference.value, amount.value);
 
-    print(id);
+    ref.read(referenceProvider.notifier).load();
+
     //TODO: Meter TOAST
   }
 
   Future<void> showFastReferenceDialog(
     BuildContext context,
+    WidgetRef ref,
     ValueNotifier<int> reference,
     ValueNotifier<double> amount,
     ValueNotifier<String?> referenceErr,
     ValueNotifier<String?> amountErr,
+    AsyncValue<List<Reference>> referencesAsync,
   ) async {
     return showDialog<void>(
       context: context,
@@ -104,7 +111,8 @@ class FabFastReference extends HookWidget {
               FilledButton.icon(
                 label: Text('Guardar'),
                 icon: Icon(Icons.check),
-                onPressed: () => addFastReference(reference, amount),
+                onPressed: () =>
+                    addFastReference(ref, reference, amount, referencesAsync),
                 // onPressed: () {
 
                 //   // Navigator.of(context).pop();
@@ -118,7 +126,9 @@ class FabFastReference extends HookWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final referencesAsync = ref.watch(referenceProvider);
+
     //states
     final reference = useState<int>(0);
     final amount = useState<double>(0);
@@ -129,10 +139,12 @@ class FabFastReference extends HookWidget {
       heroTag: 'fab1',
       onPressed: () => showFastReferenceDialog(
         context,
+        ref,
         reference,
         amount,
         referenceErr,
         amountErr,
+        referencesAsync,
       ),
       tooltip: 'Referencia Rápida',
       child: const Icon(Icons.add),

@@ -64,20 +64,25 @@ class FabFastReference extends HookWidget {
                   SizedBox(height: 12),
 
                   TextFormField(
+                    keyboardType: TextInputType.number,
+                    forceErrorText: amountErr.value,
                     decoration: const InputDecoration(
-                      // icon: Icon(Icons.person),
                       hintText: 'Ej: 100',
-                      labelText: 'Monto Bs.F *',
+                      labelText: 'Monto (Bs.F) *',
                       suffixText: 'Bs.F',
                       border: OutlineInputBorder(),
                     ),
-                    onSaved: (String? value) {
-                      if (value != null) amount.value = double.parse(value);
-                    },
-                    validator: (String? value) {
-                      return (value != null && value.contains('@'))
-                          ? 'Do not use the @ char.'
-                          : null;
+                    onChanged: (value) {
+                      final parsedNumber = double.tryParse(value);
+                      if (parsedNumber != null) {
+                        amount.value = parsedNumber;
+                        amountErr.value = null;
+                      } else {
+                        if (value.isNotEmpty)
+                          amountErr.value = 'El monto no es válido.';
+                      }
+
+                      setState(() => {});
                     },
                   ),
                 ],

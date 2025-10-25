@@ -52,7 +52,11 @@ class FabFastReference extends HookWidget {
                       final parsedNumber = int.tryParse(value);
                       if (parsedNumber != null) {
                         reference.value = parsedNumber;
-                        referenceErr.value = null;
+
+                        if (value.isNotEmpty && value.length < 4) {
+                          referenceErr.value = 'La referencia no es válida.';
+                        } else
+                          referenceErr.value = null;
                       } else {
                         if (value.isNotEmpty)
                           referenceErr.value = 'La referencia no es válida.';

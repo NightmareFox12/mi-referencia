@@ -1,6 +1,6 @@
 import 'package:drift/drift.dart';
 import 'package:drift_flutter/drift_flutter.dart';
-import 'package:mi_referencia/data/datasources/tables.dart';
+import 'package:mi_referencia/data/database/tables.dart';
 import 'package:path_provider/path_provider.dart';
 
 part 'database.g.dart';

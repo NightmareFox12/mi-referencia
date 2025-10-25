@@ -1,4 +1,4 @@
-import 'package:mi_referencia/data/datasources/database.dart';
+import 'package:mi_referencia/data/database/database.dart';
 import 'package:drift/drift.dart';
 
 class ReferenceDataSource {

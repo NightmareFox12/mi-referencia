@@ -1,11 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:mi_referencia/data/datasources/data_source.dart';
+import 'package:mi_referencia/data/datasources/database.dart';
 
 class FabFastReference extends HookWidget {
+  final db = AppDatabase();
+
+  //states
+  final reference = useState<int>(0);
+  final amount = useState<double>(0);
+
+  final referenceErr = useState<String?>(null);
+  final amountErr = useState<String?>(null);
+
+  validateReference(String value) {
+    if (value.isEmpty) referenceErr.value = null;
+    final number = int.tryParse(value);
+
+    if (number == null)
+      referenceErr.value = 'El valor ingresado no es un número válido.';
+  }
+
+  Future<void> addFastReference() async {
+    final id = await ReferenceDataSource(
+      db,
+    ).setFastReference(reference.value, amount.value);
+
+    print(id);
+    //TODO: Meter TOAST
+  }
+
   Future<void> showFastReferenceDialog(BuildContext context) async {
     return showDialog<void>(
       context: context,
-      barrierDismissible: false, // user must tap button!
+      barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text('Referencia'),
@@ -17,20 +45,17 @@ class FabFastReference extends HookWidget {
 
                 TextFormField(
                   keyboardType: TextInputType.number,
+                  autofocus: true,
+                  forceErrorText: referenceErr.value,
                   decoration: const InputDecoration(
                     // icon: Icon(Icons.person),
                     hintText: 'Ej: 2534',
                     labelText: 'Referencia *',
                     border: OutlineInputBorder(),
                   ),
-                  onSaved: (String? value) {
-                    // This optional block of code can be used to run
-                    // code when the user saves the form.
-                  },
-                  validator: (String? value) {
-                    return (value != null && value.contains('@'))
-                        ? 'Do not use the @ char.'
-                        : null;
+                  onChanged: (value) {
+                    reference.value = int.parse(value);
+                    validateReference(value);
                   },
                 ),
                 SizedBox(height: 12),
@@ -44,8 +69,7 @@ class FabFastReference extends HookWidget {
                     border: OutlineInputBorder(),
                   ),
                   onSaved: (String? value) {
-                    // This optional block of code can be used to run
-                    // code when the user saves the form.
+                    if (value != null) amount.value = double.parse(value);
                   },
                   validator: (String? value) {
                     return (value != null && value.contains('@'))
@@ -68,10 +92,11 @@ class FabFastReference extends HookWidget {
             FilledButton.icon(
               label: Text('Guardar'),
               icon: Icon(Icons.check),
-              onPressed: () {
-                Navigator.of(context).pop();
-                //TODO: luego de guardar la referencia mostrarle un toast y cerrar el modal
-              },
+              onPressed: () => addFastReference(),
+              // onPressed: () {
+
+              //   // Navigator.of(context).pop();
+              // },
             ),
           ],
         );

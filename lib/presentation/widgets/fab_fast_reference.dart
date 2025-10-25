@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:mi_referencia/data/datasources/database.dart';
 
-class AllModal {
+class FabFastReference extends HookWidget {
   Future<void> showFastReferenceDialog(BuildContext context) async {
     return showDialog<void>(
       context: context,
@@ -77,6 +76,16 @@ class AllModal {
           ],
         );
       },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FloatingActionButton(
+      heroTag: 'fab1',
+      onPressed: () => showFastReferenceDialog(context),
+      tooltip: 'Referencia Rápida',
+      child: const Icon(Icons.add),
     );
   }
 }

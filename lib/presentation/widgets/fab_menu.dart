@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:mi_referencia/presentation/reference/reference_form.dart';
-import 'package:mi_referencia/presentation/widgets/all_modal.dart';
+import 'package:mi_referencia/presentation/widgets/fab_fast_reference.dart';
 
 class FabMenu extends HookWidget {
   final int currentScreen;
@@ -37,12 +37,7 @@ class FabMenu extends HookWidget {
 
           SizedBox(height: 10),
 
-          FloatingActionButton(
-            heroTag: 'fab1',
-            onPressed: () => AllModal().showFastReferenceDialog(context),
-            tooltip: 'Referencia Rápida',
-            child: Icon(Icons.add),
-          ),
+          FabFastReference(),
         ],
       ),
     );

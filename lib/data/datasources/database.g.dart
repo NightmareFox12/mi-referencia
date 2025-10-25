@@ -4,7 +4,7 @@ part of 'database.dart';
 
 // ignore_for_file: type=lint
 class $ReferenceItemTable extends ReferenceItem
-    with TableInfo<$ReferenceItemTable, ReferenceItemData> {
+    with TableInfo<$ReferenceItemTable, Reference> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
@@ -95,7 +95,7 @@ class $ReferenceItemTable extends ReferenceItem
   static const String $name = 'reference_item';
   @override
   VerificationContext validateIntegrity(
-    Insertable<ReferenceItemData> instance, {
+    Insertable<Reference> instance, {
     bool isInserting = false,
   }) {
     final context = VerificationContext();
@@ -147,9 +147,9 @@ class $ReferenceItemTable extends ReferenceItem
   @override
   Set<GeneratedColumn> get $primaryKey => {referenceID};
   @override
-  ReferenceItemData map(Map<String, dynamic> data, {String? tablePrefix}) {
+  Reference map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return ReferenceItemData(
+    return Reference(
       referenceID: attachedDatabase.typeMapping.read(
         DriftSqlType.int,
         data['${effectivePrefix}reference_i_d'],
@@ -183,15 +183,14 @@ class $ReferenceItemTable extends ReferenceItem
   }
 }
 
-class ReferenceItemData extends DataClass
-    implements Insertable<ReferenceItemData> {
+class Reference extends DataClass implements Insertable<Reference> {
   final int referenceID;
   final String? name;
   final String? lastName;
   final int reference;
   final double? amount;
   final DateTime date;
-  const ReferenceItemData({
+  const Reference({
     required this.referenceID,
     this.name,
     this.lastName,
@@ -232,12 +231,12 @@ class ReferenceItemData extends DataClass
     );
   }
 
-  factory ReferenceItemData.fromJson(
+  factory Reference.fromJson(
     Map<String, dynamic> json, {
     ValueSerializer? serializer,
   }) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
-    return ReferenceItemData(
+    return Reference(
       referenceID: serializer.fromJson<int>(json['referenceID']),
       name: serializer.fromJson<String?>(json['name']),
       lastName: serializer.fromJson<String?>(json['lastName']),
@@ -259,14 +258,14 @@ class ReferenceItemData extends DataClass
     };
   }
 
-  ReferenceItemData copyWith({
+  Reference copyWith({
     int? referenceID,
     Value<String?> name = const Value.absent(),
     Value<String?> lastName = const Value.absent(),
     int? reference,
     Value<double?> amount = const Value.absent(),
     DateTime? date,
-  }) => ReferenceItemData(
+  }) => Reference(
     referenceID: referenceID ?? this.referenceID,
     name: name.present ? name.value : this.name,
     lastName: lastName.present ? lastName.value : this.lastName,
@@ -274,8 +273,8 @@ class ReferenceItemData extends DataClass
     amount: amount.present ? amount.value : this.amount,
     date: date ?? this.date,
   );
-  ReferenceItemData copyWithCompanion(ReferenceItemCompanion data) {
-    return ReferenceItemData(
+  Reference copyWithCompanion(ReferenceItemCompanion data) {
+    return Reference(
       referenceID: data.referenceID.present
           ? data.referenceID.value
           : this.referenceID,
@@ -289,7 +288,7 @@ class ReferenceItemData extends DataClass
 
   @override
   String toString() {
-    return (StringBuffer('ReferenceItemData(')
+    return (StringBuffer('Reference(')
           ..write('referenceID: $referenceID, ')
           ..write('name: $name, ')
           ..write('lastName: $lastName, ')
@@ -306,7 +305,7 @@ class ReferenceItemData extends DataClass
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is ReferenceItemData &&
+      (other is Reference &&
           other.referenceID == this.referenceID &&
           other.name == this.name &&
           other.lastName == this.lastName &&
@@ -315,7 +314,7 @@ class ReferenceItemData extends DataClass
           other.date == this.date);
 }
 
-class ReferenceItemCompanion extends UpdateCompanion<ReferenceItemData> {
+class ReferenceItemCompanion extends UpdateCompanion<Reference> {
   final Value<int> referenceID;
   final Value<String?> name;
   final Value<String?> lastName;
@@ -338,7 +337,7 @@ class ReferenceItemCompanion extends UpdateCompanion<ReferenceItemData> {
     this.amount = const Value.absent(),
     this.date = const Value.absent(),
   }) : reference = Value(reference);
-  static Insertable<ReferenceItemData> custom({
+  static Insertable<Reference> custom({
     Expression<int>? referenceID,
     Expression<String>? name,
     Expression<String>? lastName,
@@ -557,21 +556,17 @@ class $$ReferenceItemTableTableManager
         RootTableManager<
           _$AppDatabase,
           $ReferenceItemTable,
-          ReferenceItemData,
+          Reference,
           $$ReferenceItemTableFilterComposer,
           $$ReferenceItemTableOrderingComposer,
           $$ReferenceItemTableAnnotationComposer,
           $$ReferenceItemTableCreateCompanionBuilder,
           $$ReferenceItemTableUpdateCompanionBuilder,
           (
-            ReferenceItemData,
-            BaseReferences<
-              _$AppDatabase,
-              $ReferenceItemTable,
-              ReferenceItemData
-            >,
+            Reference,
+            BaseReferences<_$AppDatabase, $ReferenceItemTable, Reference>,
           ),
-          ReferenceItemData,
+          Reference,
           PrefetchHooks Function()
         > {
   $$ReferenceItemTableTableManager(_$AppDatabase db, $ReferenceItemTable table)
@@ -629,17 +624,17 @@ typedef $$ReferenceItemTableProcessedTableManager =
     ProcessedTableManager<
       _$AppDatabase,
       $ReferenceItemTable,
-      ReferenceItemData,
+      Reference,
       $$ReferenceItemTableFilterComposer,
       $$ReferenceItemTableOrderingComposer,
       $$ReferenceItemTableAnnotationComposer,
       $$ReferenceItemTableCreateCompanionBuilder,
       $$ReferenceItemTableUpdateCompanionBuilder,
       (
-        ReferenceItemData,
-        BaseReferences<_$AppDatabase, $ReferenceItemTable, ReferenceItemData>,
+        Reference,
+        BaseReferences<_$AppDatabase, $ReferenceItemTable, Reference>,
       ),
-      ReferenceItemData,
+      Reference,
       PrefetchHooks Function()
     >;
 

@@ -1,5 +1,6 @@
 import 'package:drift/drift.dart';
 
+@DataClassName('Reference')
 class ReferenceItem extends Table {
   IntColumn get referenceID => integer().autoIncrement()();
   TextColumn get name => text().withLength(min: 6, max: 32).nullable()();

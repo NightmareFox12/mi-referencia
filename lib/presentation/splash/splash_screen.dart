@@ -33,49 +33,47 @@ class SplashScreen extends HookWidget {
       return null;
     }, []);
 
-    return MaterialApp(
-      home: Scaffold(
-        body: SafeArea(
-          child: Stack(
-            children: [
-              Stack(
-                children: [
-                  Stack(
-                    children: [
-                      AlignTransition(
-                        alignment: animation,
-                        child: Image.asset(
-                          'assets/images/logo.png',
-                          width: 120,
-                          height: 120,
-                        ),
+    return Scaffold(
+      body: SafeArea(
+        child: Stack(
+          children: [
+            Stack(
+              children: [
+                Stack(
+                  children: [
+                    AlignTransition(
+                      alignment: animation,
+                      child: Image.asset(
+                        'assets/images/logo.png',
+                        width: 120,
+                        height: 120,
                       ),
-                    ],
-                  ),
-                  Align(
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 160),
-                      child: AnimatedOpacity(
-                        opacity: opacity.value,
-                        duration: const Duration(seconds: 1),
-                        onEnd: () => Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(builder: (context) => HomeScreen()),
-                        ),
-                        child: Text(
-                          'Mi Referencia',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
+                    ),
+                  ],
+                ),
+                Align(
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 160),
+                    child: AnimatedOpacity(
+                      opacity: opacity.value,
+                      duration: const Duration(seconds: 1),
+                      onEnd: () => Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => HomeScreen()),
+                      ),
+                      child: Text(
+                        'Mi Referencia',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
                   ),
-                ],
-              ),
-            ],
-          ),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );

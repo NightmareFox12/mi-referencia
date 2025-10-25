@@ -14,13 +14,15 @@ class FabFastReference extends HookConsumerWidget {
     ValueNotifier<double> amount,
     AsyncValue<List<Reference>> referencesAsync,
   ) async {
-    final id = await ReferenceDataSource(
+    await ReferenceDataSource(
       db,
     ).setFastReference(reference.value, amount.value);
 
     ref.read(referenceProvider.notifier).load();
 
     //TODO: Meter TOAST
+    //TODO: Reiniciar los inputs
+    //TODO: cerrar modal
   }
 
   Future<void> showFastReferenceDialog(

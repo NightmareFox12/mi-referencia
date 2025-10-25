@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:mi_referencia/data/datasources/data_source.dart';
-import 'package:mi_referencia/data/datasources/database.dart';
 import 'package:mi_referencia/presentation/history/history_screen.dart';
 import 'package:mi_referencia/presentation/widgets/fab_menu.dart';
 
@@ -12,16 +10,6 @@ class HomeScreen extends HookWidget {
   Widget build(BuildContext context) {
     //states
     final currentScreen = useState<int>(0);
-
-    void epale() async {
-      final appDatabase = AppDatabase();
-
-      // 2. Instanciar el DataSource, inyectándole la DB
-      final localDataSource = ReferenceDataSource(appDatabase);
-
-      final allReferences = await localDataSource.getAllReferences();
-      print(allReferences);
-    }
 
     return MaterialApp(
       home: Scaffold(
@@ -50,7 +38,7 @@ class HomeScreen extends HookWidget {
                     child: Column(
                       children: [
                         IconButton.filled(
-                          onPressed: () => epale(),
+                          onPressed: () {},
                           icon: Icon(Icons.agriculture_rounded),
                         ),
                       ],

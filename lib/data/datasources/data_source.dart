@@ -1,5 +1,4 @@
 import 'package:mi_referencia/data/database/database.dart';
-import 'package:drift/drift.dart';
 
 class ReferenceDataSource {
   final AppDatabase db;
@@ -18,10 +17,7 @@ class ReferenceDataSource {
     return db
         .into(db.referenceItem)
         .insert(
-          ReferenceItemCompanion.insert(
-            reference: reference,
-            amount: Value(amount),
-          ),
+          ReferenceItemCompanion.insert(reference: reference, amount: amount),
         );
   }
 }

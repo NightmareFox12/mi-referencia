@@ -65,9 +65,9 @@ class $ReferenceItemTable extends ReferenceItem
   late final GeneratedColumn<double> amount = GeneratedColumn<double>(
     'amount',
     aliasedName,
-    true,
+    false,
     type: DriftSqlType.double,
-    requiredDuringInsert: false,
+    requiredDuringInsert: true,
   );
   static const VerificationMeta _dateMeta = const VerificationMeta('date');
   @override
@@ -134,6 +134,8 @@ class $ReferenceItemTable extends ReferenceItem
         _amountMeta,
         amount.isAcceptableOrUnknown(data['amount']!, _amountMeta),
       );
+    } else if (isInserting) {
+      context.missing(_amountMeta);
     }
     if (data.containsKey('date')) {
       context.handle(
@@ -169,7 +171,7 @@ class $ReferenceItemTable extends ReferenceItem
       amount: attachedDatabase.typeMapping.read(
         DriftSqlType.double,
         data['${effectivePrefix}amount'],
-      ),
+      )!,
       date: attachedDatabase.typeMapping.read(
         DriftSqlType.dateTime,
         data['${effectivePrefix}date'],
@@ -188,14 +190,14 @@ class Reference extends DataClass implements Insertable<Reference> {
   final String? name;
   final String? lastName;
   final int reference;
-  final double? amount;
+  final double amount;
   final DateTime date;
   const Reference({
     required this.referenceID,
     this.name,
     this.lastName,
     required this.reference,
-    this.amount,
+    required this.amount,
     required this.date,
   });
   @override
@@ -209,9 +211,7 @@ class Reference extends DataClass implements Insertable<Reference> {
       map['last_name'] = Variable<String>(lastName);
     }
     map['reference'] = Variable<int>(reference);
-    if (!nullToAbsent || amount != null) {
-      map['amount'] = Variable<double>(amount);
-    }
+    map['amount'] = Variable<double>(amount);
     map['date'] = Variable<DateTime>(date);
     return map;
   }
@@ -224,9 +224,7 @@ class Reference extends DataClass implements Insertable<Reference> {
           ? const Value.absent()
           : Value(lastName),
       reference: Value(reference),
-      amount: amount == null && nullToAbsent
-          ? const Value.absent()
-          : Value(amount),
+      amount: Value(amount),
       date: Value(date),
     );
   }
@@ -241,7 +239,7 @@ class Reference extends DataClass implements Insertable<Reference> {
       name: serializer.fromJson<String?>(json['name']),
       lastName: serializer.fromJson<String?>(json['lastName']),
       reference: serializer.fromJson<int>(json['reference']),
-      amount: serializer.fromJson<double?>(json['amount']),
+      amount: serializer.fromJson<double>(json['amount']),
       date: serializer.fromJson<DateTime>(json['date']),
     );
   }
@@ -253,7 +251,7 @@ class Reference extends DataClass implements Insertable<Reference> {
       'name': serializer.toJson<String?>(name),
       'lastName': serializer.toJson<String?>(lastName),
       'reference': serializer.toJson<int>(reference),
-      'amount': serializer.toJson<double?>(amount),
+      'amount': serializer.toJson<double>(amount),
       'date': serializer.toJson<DateTime>(date),
     };
   }
@@ -263,14 +261,14 @@ class Reference extends DataClass implements Insertable<Reference> {
     Value<String?> name = const Value.absent(),
     Value<String?> lastName = const Value.absent(),
     int? reference,
-    Value<double?> amount = const Value.absent(),
+    double? amount,
     DateTime? date,
   }) => Reference(
     referenceID: referenceID ?? this.referenceID,
     name: name.present ? name.value : this.name,
     lastName: lastName.present ? lastName.value : this.lastName,
     reference: reference ?? this.reference,
-    amount: amount.present ? amount.value : this.amount,
+    amount: amount ?? this.amount,
     date: date ?? this.date,
   );
   Reference copyWithCompanion(ReferenceItemCompanion data) {
@@ -319,7 +317,7 @@ class ReferenceItemCompanion extends UpdateCompanion<Reference> {
   final Value<String?> name;
   final Value<String?> lastName;
   final Value<int> reference;
-  final Value<double?> amount;
+  final Value<double> amount;
   final Value<DateTime> date;
   const ReferenceItemCompanion({
     this.referenceID = const Value.absent(),
@@ -334,9 +332,10 @@ class ReferenceItemCompanion extends UpdateCompanion<Reference> {
     this.name = const Value.absent(),
     this.lastName = const Value.absent(),
     required int reference,
-    this.amount = const Value.absent(),
+    required double amount,
     this.date = const Value.absent(),
-  }) : reference = Value(reference);
+  }) : reference = Value(reference),
+       amount = Value(amount);
   static Insertable<Reference> custom({
     Expression<int>? referenceID,
     Expression<String>? name,
@@ -360,7 +359,7 @@ class ReferenceItemCompanion extends UpdateCompanion<Reference> {
     Value<String?>? name,
     Value<String?>? lastName,
     Value<int>? reference,
-    Value<double?>? amount,
+    Value<double>? amount,
     Value<DateTime>? date,
   }) {
     return ReferenceItemCompanion(
@@ -428,7 +427,7 @@ typedef $$ReferenceItemTableCreateCompanionBuilder =
       Value<String?> name,
       Value<String?> lastName,
       required int reference,
-      Value<double?> amount,
+      required double amount,
       Value<DateTime> date,
     });
 typedef $$ReferenceItemTableUpdateCompanionBuilder =
@@ -437,7 +436,7 @@ typedef $$ReferenceItemTableUpdateCompanionBuilder =
       Value<String?> name,
       Value<String?> lastName,
       Value<int> reference,
-      Value<double?> amount,
+      Value<double> amount,
       Value<DateTime> date,
     });
 
@@ -586,7 +585,7 @@ class $$ReferenceItemTableTableManager
                 Value<String?> name = const Value.absent(),
                 Value<String?> lastName = const Value.absent(),
                 Value<int> reference = const Value.absent(),
-                Value<double?> amount = const Value.absent(),
+                Value<double> amount = const Value.absent(),
                 Value<DateTime> date = const Value.absent(),
               }) => ReferenceItemCompanion(
                 referenceID: referenceID,
@@ -602,7 +601,7 @@ class $$ReferenceItemTableTableManager
                 Value<String?> name = const Value.absent(),
                 Value<String?> lastName = const Value.absent(),
                 required int reference,
-                Value<double?> amount = const Value.absent(),
+                required double amount,
                 Value<DateTime> date = const Value.absent(),
               }) => ReferenceItemCompanion.insert(
                 referenceID: referenceID,

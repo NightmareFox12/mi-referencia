@@ -35,7 +35,7 @@ class HistoryScreen extends HookConsumerWidget {
                 child: ListTile(
                   // leading: Icon(Icons.abc_outlined),
                   title: Text(
-                    data[index].reference.toString(),
+                    'Referencia #${data[index].reference}',
                     style: TextStyle(fontWeight: FontWeight.bold),
                     textAlign: TextAlign.center,
                   ),
@@ -43,7 +43,10 @@ class HistoryScreen extends HookConsumerWidget {
                   //   '#${data[index].referenceID}',
                   //   textAlign: TextAlign.center,
                   // ),
-                  subtitle: Text(data[index].amount.toString()),
+                  subtitle: Text(
+                    'Monto: ${data[index].amount}Bs.F',
+                    textAlign: TextAlign.center,
+                  ),
                 ),
               ),
             ),

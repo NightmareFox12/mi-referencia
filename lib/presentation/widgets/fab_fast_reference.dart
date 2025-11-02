@@ -21,7 +21,7 @@ class FabFastReference extends HookConsumerWidget {
     ref.read(referenceProvider.notifier).load();
 
     //TODO: Meter TOAST
-    //TODO: Reiniciar los inputs
+    //TODO: Reiniciar los inputs luego de guardar
     //TODO: cerrar modal
   }
 

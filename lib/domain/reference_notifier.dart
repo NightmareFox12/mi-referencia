@@ -11,7 +11,6 @@ class ReferenceNotifier extends AsyncNotifier<List<Reference>> {
     final db = AppDatabase();
     final data = await ReferenceDataSource(db).getAllReferences();
 
-    // Asegúrate de que esto se llama después de que el notifier esté listo
     state = AsyncValue.data(data);
   }
 }

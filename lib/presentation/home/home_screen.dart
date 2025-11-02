@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:mi_referencia/presentation/history/history_screen.dart';
 import 'package:mi_referencia/presentation/widgets/fab_menu.dart';
-import 'package:mi_referencia/presentation/widgets/snackbar_widget.dart';
 
 class HomeScreen extends HookWidget {
   const HomeScreen({super.key});
@@ -47,7 +46,6 @@ class HomeScreen extends HookWidget {
               );
             },
           ),
-
 
           currentScreen.value == 0
               ? HistoryScreen()

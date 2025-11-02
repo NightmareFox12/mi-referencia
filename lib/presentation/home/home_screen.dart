@@ -19,23 +19,22 @@ class HomeScreen extends HookWidget {
       body: Stack(
         alignment: Alignment.bottomRight,
         children: [
-          ElevatedButton(
-            child: const Text('Show Snackbar'),
-            onPressed: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: const Text('Awesome Snackbar!'),
-                  action: SnackBarAction(
-                    label: 'Action',
-                    onPressed: () {
-                      // Code to execute.
-                    },
-                  ),
-                ),
-              );
-            },
-          ),
-
+          // ElevatedButton(
+          //   child: const Text('Show Snackbar'),
+          //   onPressed: () {
+          //     ScaffoldMessenger.of(context).showSnackBar(
+          //       SnackBar(
+          //         content: const Text('Awesome Snackbar!'),
+          //         action: SnackBarAction(
+          //           label: 'Action',
+          //           onPressed: () {
+          //             // Code to execute.
+          //           },
+          //         ),
+          //       ),
+          //     );
+          //   },
+          // ),
           currentScreen.value == 0
               ? HistoryScreen()
               : Center(

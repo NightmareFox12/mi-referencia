@@ -18,7 +18,7 @@ class FabFastReference extends HookConsumerWidget {
       db,
     ).setFastReference(reference.value, amount.value);
 
-    ref.read(referenceProvider.notifier).load();
+    // ref.read(referenceProvider.notifier).load();
 
     //TODO: Meter TOAST
     //TODO: Reiniciar los inputs luego de guardar

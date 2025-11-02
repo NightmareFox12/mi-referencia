@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mi_referencia/data/database/database.dart';
 import 'package:mi_referencia/domain/reference_notifier.dart';
@@ -21,8 +20,8 @@ class HistoryScreen extends HookConsumerWidget {
     // }
 
     //functions
-    Future<void> loadReferences() async =>
-        await ref.read(referenceProvider.notifier).load();
+    // Future<void> loadReferences() async =>
+    // await ref.read(referenceProvider.notifier).load();
 
     // useEffect(() {
     //   loadReferences();
@@ -30,20 +29,24 @@ class HistoryScreen extends HookConsumerWidget {
     // }, []);
 
     return Column(
-      children: referencesAsync.when(
-        data: (data) => [
-          Text(data.toString()),
-          // ListTile(
-          //   leading: Icon(Icons.abc_outlined),
-          //   title: Text('sigo cargando mi carma'),
-          //   // title: Text(data[0].reference.toString()),
-          //   subtitle: Text('#'),
-          //   trailing: Icon(Icons.abc_sharp),
-          // ),
-        ],
-        loading: () => [CircularProgressIndicator()],
-        error: (error, stackTrace) => [Text(error.toString())],
-      ),
+      children: [
+        Expanded(
+          child: referencesAsync.when(
+            data: (data) => ListView.builder(
+              itemCount: data.length,
+              itemBuilder: (context, index) => ListTile(
+                leading: Icon(Icons.abc_outlined),
+                title: Text(data[index].reference.toString()),
+                subtitle: Text('#${data[index].referenceID}'),
+                trailing: Icon(Icons.abc_sharp),
+              ),
+            ),
+
+            loading: () => Center(child: CircularProgressIndicator()),
+            error: (error, stackTrace) => Text(error.toString()),
+          ),
+        ),
+      ],
     );
   }
 }

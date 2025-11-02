@@ -3,7 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mi_referencia/data/datasources/data_source.dart';
 import 'package:mi_referencia/data/database/database.dart';
-import 'package:mi_referencia/domain/reference_notifier.dart';
+import 'package:mi_referencia/domain/reference_provider.dart';
 
 class FabFastReference extends HookConsumerWidget {
   final db = AppDatabase();

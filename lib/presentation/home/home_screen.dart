@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:mi_referencia/presentation/history/history_screen.dart';
+import 'package:mi_referencia/presentation/widgets/bottom_bar_widget.dart';
 import 'package:mi_referencia/presentation/widgets/fab_menu.dart';
 
 class HomeScreen extends HookWidget {
@@ -13,19 +14,7 @@ class HomeScreen extends HookWidget {
 
     return Scaffold(
       appBar: AppBar(title: Text('Mi Referencia')),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: currentScreen.value,
-        onTap: (value) {
-          currentScreen.value = value;
-        },
-        items: [
-          BottomNavigationBarItem(label: 'Inicio', icon: Icon(Icons.home)),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.ac_unit_sharp),
-            label: 'Graficas',
-          ),
-        ],
-      ),
+      bottomNavigationBar: BottomBarWidget(currentScreen: currentScreen),
 
       body: Stack(
         alignment: Alignment.bottomRight,

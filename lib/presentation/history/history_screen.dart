@@ -23,27 +23,39 @@ class HistoryScreen extends HookConsumerWidget {
     // Future<void> loadReferences() async =>
     // await ref.read(referenceProvider.notifier).load();
 
-    // useEffect(() {
-    //   loadReferences();
-    //   return null;
-    // }, []);
-
     return Column(
       children: [
         Expanded(
+          flex: 3,
           child: referencesAsync.when(
             data: (data) => ListView.builder(
               itemCount: data.length,
-              itemBuilder: (context, index) => ListTile(
-                leading: Icon(Icons.abc_outlined),
-                title: Text(data[index].reference.toString()),
-                subtitle: Text('#${data[index].referenceID}'),
-                trailing: Icon(Icons.abc_sharp),
+              itemBuilder: (context, index) => Padding(
+                padding: const EdgeInsets.only(left: 8, right: 8),
+                child: ListTile(
+                  // leading: Icon(Icons.abc_outlined),
+                  title: Text(
+                    data[index].reference.toString(),
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                    textAlign: TextAlign.center,
+                  ),
+                  // subtitle: Text(
+                  //   '#${data[index].referenceID}',
+                  //   textAlign: TextAlign.center,
+                  // ),
+                  subtitle: Text(data[index].amount.toString()),
+                ),
               ),
             ),
 
             loading: () => Center(child: CircularProgressIndicator()),
             error: (error, stackTrace) => Text(error.toString()),
+          ),
+        ),
+        Expanded(
+          flex: 1,
+          child: Column(
+            children: [Text('Monto total'), Text(494994944.toString())],
           ),
         ),
       ],

@@ -7,6 +7,6 @@ class ReferenceItem extends Table {
   TextColumn get lastName => text().nullable()();
   IntColumn get reference =>
       integer().check(reference.cast<String>().length.equals(4))();
-  RealColumn get amount => real().nullable()();
+  RealColumn get amount => real()();
   DateTimeColumn get date => dateTime().withDefault(currentDateAndTime)();
 }

@@ -2,21 +2,40 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mi_referencia/data/database/database.dart';
 import 'package:mi_referencia/data/datasources/data_source.dart';
 
+final databaseProvider = Provider<AppDatabase>((ref) {
+  final db = AppDatabase();
+  ref.onDispose(() => db.close());
+  return db;
+});
+
+final referenceDataSourceProvider = Provider<ReferenceDataSource>((ref) {
+  final db = ref.watch(databaseProvider);
+  return ReferenceDataSource(db);
+});
+
 class ReferenceProvider extends AsyncNotifier<List<Reference>> {
   @override
   Future<List<Reference>> build() async {
-    final db = AppDatabase();
-    final data = await ReferenceDataSource(db).getAllReferences();
-
-    return data;
+    final dataSource = ref.watch(referenceDataSourceProvider);
+    return await dataSource.getAllReferences();
   }
 
-  // Future<void> load() async {
-  //   final db = AppDatabase();
-  //   final data = await ReferenceDataSource(db).getAllReferences();
+  Future<void> refresh() async {
+    ref.invalidateSelf();
+    await future;
+  }
 
-  //   state = AsyncValue.data(data);
-  // }
+  Future<void> addReference(Reference reference) async {
+    final dataSource = ref.read(referenceDataSourceProvider);
+    await dataSource.setReference(reference);
+    ref.invalidateSelf(); // Recargar la lista
+  }
+
+  Future<void> addFastReference(int reference, double amount) async {
+    final dataSource = ref.read(referenceDataSourceProvider);
+    await dataSource.setFastReference(reference, amount);
+    ref.invalidateSelf();
+  }
 }
 
 final referenceProvider =

@@ -20,11 +20,6 @@ class ReferenceProvider extends AsyncNotifier<List<Reference>> {
     return await dataSource.getAllReferences();
   }
 
-  Future<void> refresh() async {
-    ref.invalidateSelf();
-    await future;
-  }
-
   Future<void> addReference(Reference reference) async {
     final dataSource = ref.read(referenceDataSourceProvider);
     await dataSource.setReference(reference);
@@ -36,6 +31,11 @@ class ReferenceProvider extends AsyncNotifier<List<Reference>> {
     await dataSource.setFastReference(reference, amount);
     ref.invalidateSelf();
   }
+
+  // Future<void> refresh() async {
+  //   ref.invalidateSelf();
+  //   await future;
+  // }
 }
 
 final referenceProvider =
@@ -43,21 +43,32 @@ final referenceProvider =
       ReferenceProvider.new,
     );
 
-class AmountTotalNotifier extends AsyncNotifier<double> {
-  @override
-  Future<double> build() async {
-    final db = AppDatabase();
-    return await ReferenceDataSource(db).getAmountTotalReference();
-  }
+// 3. Para las CONSULTAS, usa FutureProviders simples (NO Notifiers)
+final totalAmountProvider = FutureProvider<double>((ref) async {
+  final dataSource = ref.watch(referenceDataSourceProvider);
 
-  Future<void> refresh() async {
-    state = const AsyncValue.loading();
-    final db = AppDatabase();
-    final total = await ReferenceDataSource(db).getAmountTotalReference();
-    state = AsyncValue.data(total);
-  }
-}
+  // Escuchar cambios en las referencias para actualizar automáticamente
+  ref.watch(referenceProvider);
 
-final amountTotalProvider = AsyncNotifierProvider<AmountTotalNotifier, double>(
-  AmountTotalNotifier.new,
-);
+  return await dataSource.getAmountTotalReference();
+});
+
+
+// class AmountTotalNotifier extends AsyncNotifier<double> {
+//   @override
+//   Future<double> build() async {
+//     final db = AppDatabase();
+//     return await ReferenceDataSource(db).getAmountTotalReference();
+//   }
+
+//   Future<void> refresh() async {
+//     state = const AsyncValue.loading();
+//     final db = AppDatabase();
+//     final total = await ReferenceDataSource(db).getAmountTotalReference();
+//     state = AsyncValue.data(total);
+//   }
+// }
+
+// final amountTotalProvider = AsyncNotifierProvider<AmountTotalNotifier, double>(
+//   AmountTotalNotifier.new,
+// );

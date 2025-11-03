@@ -6,6 +6,7 @@ class ReferenceDataSource {
 
   ReferenceDataSource(this.db);
 
+  //CRUD
   Future<List<Reference>> getAllReferences() {
     return db.select(db.referenceItem).get();
   }
@@ -20,6 +21,10 @@ class ReferenceDataSource {
         .insert(
           ReferenceItemCompanion.insert(reference: reference, amount: amount),
         );
+  }
+
+  deleteAll() async {
+    await db.delete(db.referenceItem).go();
   }
 
   // COUNT

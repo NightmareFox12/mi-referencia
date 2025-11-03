@@ -30,6 +30,12 @@ class HistoryScreen extends HookConsumerWidget {
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                 ),
 
+                OutlinedButton(
+                  onPressed: () =>
+                      ref.read(referenceProvider.notifier).deleteAll(),
+                  child: Text('eliminar todo'),
+                ),
+
                 totalAmountReferenceAsync.when(
                   data: (data) {
                     final formatter = NumberFormat('#,##0.0', 'es_VE');

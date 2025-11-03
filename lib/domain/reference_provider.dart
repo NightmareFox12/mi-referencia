@@ -32,6 +32,12 @@ class ReferenceProvider extends AsyncNotifier<List<Reference>> {
     ref.invalidateSelf();
   }
 
+  Future<void> deleteAll() async {
+    final dataSource = ref.read(referenceDataSourceProvider);
+    await dataSource.deleteAll();
+    ref.invalidateSelf();
+  }
+
   // Future<void> refresh() async {
   //   ref.invalidateSelf();
   //   await future;

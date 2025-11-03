@@ -30,6 +30,7 @@ class HistoryScreen extends HookConsumerWidget {
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                 ),
 
+                //TODO: llamar este button en otro component separado con HookConsumerWidget para evitar re-construir todo
                 OutlinedButton(
                   onPressed: () =>
                       ref.read(referenceProvider.notifier).deleteAll(),
@@ -52,31 +53,41 @@ class HistoryScreen extends HookConsumerWidget {
         Expanded(
           flex: 5,
           child: referencesAsync.when(
-            data: (data) => ListView.separated(
-              itemCount: data.length,
-              itemBuilder: (context, index) => Padding(
-                padding: const EdgeInsets.only(left: 8, right: 8),
-                child: ListTile(
-                  // leading: Icon(Icons.abc_outlined),
-                  title: Text(
-                    'Referencia #${data[index].reference}',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                    textAlign: TextAlign.center,
+            data: (data) => data.isEmpty
+                ? Center(
+                    child: Text(
+                      'No hay referencias',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),
+                    ),
+                  )
+                : ListView.separated(
+                    itemCount: data.length,
+                    itemBuilder: (context, index) => Padding(
+                      padding: const EdgeInsets.only(left: 8, right: 8),
+                      child: ListTile(
+                        // leading: Icon(Icons.abc_outlined),
+                        title: Text(
+                          'Referencia #${data[index].reference}',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                          textAlign: TextAlign.center,
+                        ),
+                        // subtitle: Text(
+                        //   '#${data[index].referenceID}',
+                        //   textAlign: TextAlign.center,
+                        // ),
+                        subtitle: Text(
+                          'Monto: ${data[index].amount}Bs.F',
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ),
+                    separatorBuilder: (BuildContext context, int index) {
+                      return Divider();
+                    },
                   ),
-                  // subtitle: Text(
-                  //   '#${data[index].referenceID}',
-                  //   textAlign: TextAlign.center,
-                  // ),
-                  subtitle: Text(
-                    'Monto: ${data[index].amount}Bs.F',
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              ),
-              separatorBuilder: (BuildContext context, int index) {
-                return Divider();
-              },
-            ),
 
             loading: () => Center(child: CircularProgressIndicator()),
             error: (error, stackTrace) => Text(error.toString()),

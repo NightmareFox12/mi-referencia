@@ -18,8 +18,6 @@ class FabFastReference extends HookConsumerWidget {
       db,
     ).setFastReference(reference.value, amount.value);
 
-    // ref.read(referenceProvider.notifier).load();
-
     //TODO: Meter TOAST
     //TODO: Reiniciar los inputs luego de guardar
     //TODO: cerrar modal
@@ -113,8 +111,10 @@ class FabFastReference extends HookConsumerWidget {
               FilledButton.icon(
                 label: Text('Guardar'),
                 icon: Icon(Icons.check),
-                onPressed: () =>
-                    addFastReference(ref, reference, amount, referencesAsync),
+                onPressed: () => ref
+                    .read(referenceProvider.notifier)
+                    .addFastReference(reference.value, amount.value),
+                // addFastReference(ref, reference, amount, referencesAsync),
                 // onPressed: () {
 
                 //   // Navigator.of(context).pop();

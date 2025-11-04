@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:mi_referencia/presentation/widgets/reference_form.dart';
+import 'package:mi_referencia/presentation/widgets/reference_group_button.dart';
 
 class ReferenceFormScreen extends HookWidget {
   const ReferenceFormScreen({super.key});
@@ -18,32 +19,7 @@ class ReferenceFormScreen extends HookWidget {
         ),
         body: Column(
           children: [
-            Center(
-              child: SegmentedButton<int>(
-                segments: [
-                  ButtonSegment(
-                    value: 1,
-                    icon: Icon(Icons.phone),
-                    label: Text('Telefono'),
-                  ),
-                  ButtonSegment(
-                    value: 2,
-                    icon: Icon(Icons.person),
-                    label: Text('Nombre'),
-                  ),
-                  ButtonSegment(
-                    value: 3,
-                    icon: Icon(Icons.widgets),
-                    label: Text('Todo'),
-                  ),
-                ],
-                onSelectionChanged: (newSelection) =>
-                    selectedFields.value = newSelection,
-                selected: selectedFields.value,
-                multiSelectionEnabled: true,
-                emptySelectionAllowed: true,
-              ),
-            ),
+            ReferenceGroupButton(selectedFields),
 
             ReferenceForm(selectedFields),
           ],

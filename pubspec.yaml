@@ -15,6 +15,7 @@ dependencies:
   path_provider: ^2.1.5
   hooks_riverpod: ^3.0.3
   intl: ^0.20.2
+  shared_preferences: ^2.5.3
 
 dependency_overrides: 
   analyzer_buffer: ^0.1.11

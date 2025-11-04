@@ -6,6 +6,9 @@ class ReferenceForm extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    // final _formKey = useMemoized(() => GlobalKey<FormState>());
+    final selectedFields = useState<Set<int>>({1});
+
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
@@ -16,84 +19,30 @@ class ReferenceForm extends HookWidget {
           padding: const EdgeInsets.all(12),
           child: Column(
             children: [
-              Expanded(
-                child: ListView(
-                  children: [
-                    TextFormField(
-                      decoration: const InputDecoration(
-                        icon: Icon(Icons.person),
-                        hintText: 'What do people call you?',
-                        labelText: 'Nombre',
-                        border: OutlineInputBorder(),
-                      ),
-                      onSaved: (String? value) {
-                        // This optional block of code can be used to run
-                        // code when the user saves the form.
-                      },
-                      validator: (String? value) {
-                        return (value != null && value.contains('@'))
-                            ? 'Do not use the @ char.'
-                            : null;
-                      },
+              Center(
+                child: SegmentedButton<int>(
+                  segments: [
+                    ButtonSegment(
+                      value: 1,
+                      icon: Icon(Icons.phone),
+                      label: Text('Telefono'),
                     ),
-                    SizedBox(height: 16),
-
-                    TextFormField(
-                      decoration: const InputDecoration(
-                        icon: Icon(Icons.person),
-                        hintText: 'What do people call you?',
-                        labelText: 'Apellido',
-                        border: OutlineInputBorder(),
-                      ),
-                      onSaved: (String? value) {
-                        // This optional block of code can be used to run
-                        // code when the user saves the form.
-                      },
-                      validator: (String? value) {
-                        return (value != null && value.contains('@'))
-                            ? 'Do not use the @ char.'
-                            : null;
-                      },
+                    ButtonSegment(
+                      value: 2,
+                      icon: Icon(Icons.person),
+                      label: Text('Nombre'),
                     ),
-                    SizedBox(height: 16),
-
-                    TextFormField(
-                      decoration: const InputDecoration(
-                        icon: Icon(Icons.person),
-                        hintText: 'What do people call you?',
-                        labelText: 'Referencia *',
-                        border: OutlineInputBorder(),
-                      ),
-                      onSaved: (String? value) {
-                        // This optional block of code can be used to run
-                        // code when the user saves the form.
-                      },
-                      validator: (String? value) {
-                        return (value != null && value.contains('@'))
-                            ? 'Do not use the @ char.'
-                            : null;
-                      },
-                    ),
-                    SizedBox(height: 16),
-
-                    TextFormField(
-                      decoration: const InputDecoration(
-                        icon: Icon(Icons.person),
-                        hintText: 'What do people call you?',
-                        labelText: 'Monto *',
-                        border: OutlineInputBorder(),
-                      ),
-                      onSaved: (String? value) {
-                        // This optional block of code can be used to run
-                        // code when the user saves the form.
-                      },
-                      validator: (String? value) {
-                        return (value != null && value.contains('@'))
-                            ? 'Do not use the @ char.'
-                            : null;
-                      },
+                    ButtonSegment(
+                      value: 3,
+                      icon: Icon(Icons.widgets),
+                      label: Text('Todo'),
                     ),
                   ],
+                  onSelectionChanged: (newSelection) =>
+                      selectedFields.value = newSelection,
+                  selected: selectedFields.value,
+                  multiSelectionEnabled: true,
+                  emptySelectionAllowed: true,
                 ),
               ),
             ],

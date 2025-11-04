@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:mi_referencia/presentation/reference/reference_form.dart';
+import 'package:mi_referencia/presentation/reference_form/reference_form_screen.dart';
 import 'package:mi_referencia/presentation/widgets/fab_fast_reference.dart';
 
 class FabMenu extends HookWidget {
@@ -28,7 +28,9 @@ class FabMenu extends HookWidget {
                 tooltip: 'Referencia Completa',
                 onPressed: () => Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => ReferenceForm()),
+                  MaterialPageRoute(
+                    builder: (context) => ReferenceFormScreen(),
+                  ),
                 ),
                 child: Icon(Icons.assignment_add),
               ),

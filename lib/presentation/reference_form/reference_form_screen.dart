@@ -45,7 +45,7 @@ class ReferenceFormScreen extends HookWidget {
               ),
             ),
 
-            ReferenceForm(),
+            ReferenceForm(selectedFields),
           ],
         ),
       ),

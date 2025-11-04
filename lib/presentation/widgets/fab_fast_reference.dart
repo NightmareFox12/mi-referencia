@@ -1,28 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:mi_referencia/data/datasources/data_source.dart';
 import 'package:mi_referencia/data/database/database.dart';
 import 'package:mi_referencia/domain/reference_provider.dart';
 
 class FabFastReference extends HookConsumerWidget {
-  final db = AppDatabase();
-
-  Future<void> addFastReference(
-    WidgetRef ref,
-    ValueNotifier<int> reference,
-    ValueNotifier<double> amount,
-    AsyncValue<List<Reference>> referencesAsync,
-  ) async {
-    await ReferenceDataSource(
-      db,
-    ).setFastReference(reference.value, amount.value);
-
-    //TODO: Meter TOAST
-    //TODO: Reiniciar los inputs luego de guardar
-    //TODO: cerrar modal
-  }
-
   Future<void> showFastReferenceDialog(
     BuildContext context,
     WidgetRef ref,

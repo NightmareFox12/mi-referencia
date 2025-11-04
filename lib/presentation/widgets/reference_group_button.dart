@@ -11,13 +11,14 @@ class ReferenceGroupButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //functions
     handleChange(Set<int> newSelection) async {
-      selectedFields.value = selectedFields.value;
+      final List<String> res = newSelection
+          .map((data) => data.toString())
+          .toList();
 
-      final result = newSelection.map((data) => data.toString());
-
-      print(result);
-      await SharedPreferencesService().setSelectedFields();
+      await SharedPreferencesService().setSelectedFields(res);
+      selectedFields.value = newSelection;
     }
 
     return Center(

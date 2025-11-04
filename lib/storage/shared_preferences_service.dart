@@ -7,9 +7,9 @@ class SharedPreferencesService {
     return prefs;
   }
 
-  setSelectedFields() async {
+  setSelectedFields(List<String> res) async {
     final prefs = await _getInstance();
 
-    await prefs.setStringList('fields', <String>['1']);
+    await prefs.setStringList('fields', res);
   }
 }

@@ -24,9 +24,8 @@ class FabFastReference extends HookConsumerWidget {
             content: SingleChildScrollView(
               child: ListBody(
                 children: <Widget>[
-                  Text('Nose que poner aqui'),
-                  SizedBox(height: 10),
-
+                  // Text('Nose que poner aqui'),
+                  // SizedBox(height: 10),
                   TextFormField(
                     keyboardType: TextInputType.number,
                     autofocus: true,
@@ -93,14 +92,12 @@ class FabFastReference extends HookConsumerWidget {
               FilledButton.icon(
                 label: Text('Guardar'),
                 icon: Icon(Icons.check),
-                onPressed: () => ref
-                    .read(referenceProvider.notifier)
-                    .addFastReference(reference.value, amount.value),
-                // addFastReference(ref, reference, amount, referencesAsync),
-                // onPressed: () {
-
-                //   // Navigator.of(context).pop();
-                // },
+                onPressed: () {
+                  ref
+                      .read(referenceProvider.notifier)
+                      .addFastReference(reference.value, amount.value);
+                  Navigator.of(context).pop();
+                },
               ),
             ],
           ),

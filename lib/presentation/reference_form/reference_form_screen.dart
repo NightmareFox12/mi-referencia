@@ -32,7 +32,6 @@ class ReferenceFormScreen extends HookWidget {
         body: Column(
           children: [
             ReferenceGroupButton(selectedFields),
-
             ReferenceForm(selectedFields),
           ],
         ),

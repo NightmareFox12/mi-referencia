@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:mi_referencia/presentation/widgets/bank_autocomplete_form.dart';
 
 class ReferenceForm extends HookWidget {
   final ValueNotifier<Set<int>> selectedFields;
@@ -10,9 +11,9 @@ class ReferenceForm extends HookWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.all(12),
+        padding: const EdgeInsets.all(8),
         child: ListView(
-          padding: const EdgeInsets.only(top: 16),
+          padding: const EdgeInsets.only(top: 14),
           children: [
             // Name
             selectedFields.value.contains(1)
@@ -41,7 +42,7 @@ class ReferenceForm extends HookWidget {
                 ? TextFormField(
                     decoration: const InputDecoration(
                       icon: Icon(Icons.person),
-                      hintText: 'What do people call you?',
+                      hintText: '0412-1234567',
                       labelText: 'Télefono *',
                       border: OutlineInputBorder(),
                     ),
@@ -60,11 +61,20 @@ class ReferenceForm extends HookWidget {
                 ? SizedBox(height: 24)
                 : SizedBox.shrink(),
 
+            //Bank
+            selectedFields.value.contains(3)
+                ? BankAutocompleteForm()
+                : SizedBox.shrink(),
+
+            selectedFields.value.contains(3)
+                ? SizedBox(height: 24)
+                : SizedBox.shrink(),
+
             //Reference
             TextFormField(
               decoration: const InputDecoration(
                 icon: Icon(Icons.person),
-                hintText: 'What do people call you?',
+                hintText: '2294',
                 labelText: 'Referencia *',
                 border: OutlineInputBorder(),
               ),
@@ -98,6 +108,9 @@ class ReferenceForm extends HookWidget {
                     : null;
               },
             ),
+            SizedBox(height: 30),
+
+            FilledButton(onPressed: () {}, child: Text('Guardar')),
           ],
         ),
       ),

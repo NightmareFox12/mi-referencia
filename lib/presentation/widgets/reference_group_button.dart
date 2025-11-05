@@ -34,6 +34,11 @@ class ReferenceGroupButton extends StatelessWidget {
             icon: Icon(Icons.phone),
             label: Text('Telefono'),
           ),
+          ButtonSegment(
+            value: 3,
+            icon: Icon(Icons.account_balance),
+            label: Text('Banco'),
+          ),
         ],
         onSelectionChanged: (newSelection) => handleChange(newSelection),
         selected: selectedFields.value,

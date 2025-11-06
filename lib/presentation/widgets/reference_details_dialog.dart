@@ -30,6 +30,7 @@ Future<void> showReferenceDetailsDialog(BuildContext context, int referenceID) {
                   ),
                 ),
 
+
                 Expanded(
                   child: OutlinedButton.icon(
                     label: Text('Editar'),

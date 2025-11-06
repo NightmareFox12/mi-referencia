@@ -12,7 +12,6 @@ Future<void> showReferenceDetailsDialog(BuildContext context, int referenceID) {
             child: ListBody(
               children: <Widget>[
                 Text('Nose que poner aqui'),
-                SizedBox(height: 10),
 
                 SizedBox(height: 12),
               ],

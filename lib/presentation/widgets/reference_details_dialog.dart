@@ -15,7 +15,7 @@ Future<void> showReferenceDetailsDialog(BuildContext context, int referenceID) {
 
                 SizedBox(height: 12),
               ],
-            ),
+              ),
           ),
           actions: <Widget>[
             Row(
@@ -29,7 +29,6 @@ Future<void> showReferenceDetailsDialog(BuildContext context, int referenceID) {
                     },
                   ),
                 ),
-
 
                 Expanded(
                   child: OutlinedButton.icon(

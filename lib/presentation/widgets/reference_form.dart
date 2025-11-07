@@ -41,7 +41,7 @@ class ReferenceForm extends HookWidget {
             selectedFields.value.contains(2)
                 ? TextFormField(
                     decoration: const InputDecoration(
-                      icon: Icon(Icons.person),
+                      icon: Icon(Icons.phone),
                       hintText: '0412-1234567',
                       labelText: 'Télefono *',
                       border: OutlineInputBorder(),

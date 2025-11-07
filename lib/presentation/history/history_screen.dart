@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mi_referencia/data/database/database.dart';
 import 'package:mi_referencia/domain/reference_provider.dart';
-import 'package:intl/intl.dart';
 import 'package:mi_referencia/presentation/widgets/reference_details_dialog.dart';
+import 'package:mi_referencia/utils/format_amount.dart';
 
 class HistoryScreen extends HookConsumerWidget {
   const HistoryScreen({super.key});
@@ -48,7 +48,7 @@ class HistoryScreen extends HookConsumerWidget {
                         //   textAlign: TextAlign.center,
                         // ),
                         subtitle: Text(
-                          'Monto: ${data[index].amount}Bs.F',
+                          'Monto: ${formatAmount(data[index].amount)} Bs.F',
                           textAlign: TextAlign.center,
                         ),
                         trailing: Tooltip(
@@ -96,9 +96,7 @@ class HistoryScreen extends HookConsumerWidget {
 
                 totalAmountReferenceAsync.when(
                   data: (data) {
-                    final formatter = NumberFormat('#,##0.0', 'es_VE');
-                    final formatted = formatter.format(data);
-                    return Text('$formatted Bs.F');
+                    return Text('${formatAmount(data)} Bs.F');
                   },
                   error: (error, stackTrace) => Text(error.toString()),
                   loading: () => CircularProgressIndicator(),

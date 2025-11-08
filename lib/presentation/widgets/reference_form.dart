@@ -62,11 +62,13 @@ class ReferenceForm extends HookWidget {
     }
 
     String? errorReferenceMsg() {
+      final msg = "La referencia no es válida.";
+
       if (reference.value.isEmpty) return null;
       final referenceCheck = int.tryParse(reference.value);
-      if (referenceCheck == null) return 'La referencia no es válida.';
+      if (referenceCheck == null) return msg;
       if (referenceCheck > 9999 || referenceCheck < 1000)
-        return 'La referencia no es válida.';
+        return msg;
       else
         return null;
     }

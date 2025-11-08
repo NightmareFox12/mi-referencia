@@ -18,7 +18,7 @@ class ReferenceForm extends HookWidget {
     final amount = useState<String>('');
 
     //input formatters
-    final phoneFormatter = TextInputFormatter.withFunction((
+    final TextInputFormatter phoneFormatter = TextInputFormatter.withFunction((
       oldValue,
       newValue,
     ) {

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 class BankAutocompleteForm extends StatelessWidget {
   const BankAutocompleteForm({super.key});
 
-  // Lista de bancos (debería estar fuera del build en un widget Stateful o Service)
   static const List<String> _bankOptions = <String>[
     '0102 - Banco de Venezuela',
     'Banco Provincial',

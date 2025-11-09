@@ -11,12 +11,7 @@ class ReferenceForm extends HookWidget {
   const ReferenceForm(ValueNotifier<Set<int>> this.selectedFields, {super.key});
 
   //consts
-  static const List<String> PLACEHOLDER_TEXT = [
-    'Pollo',
-    'Verduras',
-    'Carne',
-    'Copia',
-  ];
+  static const List<String> PLACEHOLDER_TEXT = ['Verduras', 'Copia', 'Granos'];
 
   static final String randomNotePlaceholder =
       PLACEHOLDER_TEXT[Random().nextInt(PLACEHOLDER_TEXT.length)];
@@ -24,7 +19,6 @@ class ReferenceForm extends HookWidget {
   //controllers
   static final noteController = TextEditingController();
   static final phoneController = TextEditingController();
-  static final bankController = TextEditingController();
   static final referenceController = TextEditingController();
   static final amountController = TextEditingController();
 
@@ -115,7 +109,6 @@ class ReferenceForm extends HookWidget {
 
       noteController.clear();
       phoneController.clear();
-      bankController.clear();
       referenceController.clear();
       amountController.clear();
     }
@@ -131,7 +124,7 @@ class ReferenceForm extends HookWidget {
       child: Padding(
         padding: const EdgeInsets.all(8),
         child: ListView(
-          padding: const EdgeInsets.only(top: 14),
+          padding: const EdgeInsets.only(top: 14, left: 4, right: 4),
           children: [
             // Note
             selectedFields.value.contains(1)
@@ -163,6 +156,7 @@ class ReferenceForm extends HookWidget {
             selectedFields.value.contains(2)
                 ? TextFormField(
                     keyboardType: TextInputType.phone,
+                    controller: phoneController,
                     forceErrorText: errorPhoneMsg(),
                     inputFormatters: [
                       phoneFormatter,
@@ -200,6 +194,7 @@ class ReferenceForm extends HookWidget {
 
             //Reference
             TextFormField(
+              controller: referenceController,
               keyboardType: TextInputType.numberWithOptions(
                 decimal: false,
                 signed: false,
@@ -219,6 +214,7 @@ class ReferenceForm extends HookWidget {
 
             //Amount
             TextFormField(
+              controller: amountController,
               decoration: const InputDecoration(
                 icon: Icon(Icons.attach_money),
                 hintText: 'What do people call you?',

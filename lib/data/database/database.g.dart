@@ -37,6 +37,28 @@ class $ReferenceItemTable extends ReferenceItem
     type: DriftSqlType.string,
     requiredDuringInsert: false,
   );
+  static const VerificationMeta _phoneMeta = const VerificationMeta('phone');
+  @override
+  late final GeneratedColumn<String> phone = GeneratedColumn<String>(
+    'phone',
+    aliasedName,
+    true,
+    additionalChecks: GeneratedColumn.checkTextLength(
+      minTextLength: 12,
+      maxTextLength: 12,
+    ),
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _bankMeta = const VerificationMeta('bank');
+  @override
+  late final GeneratedColumn<String> bank = GeneratedColumn<String>(
+    'bank',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
   static const VerificationMeta _referenceMeta = const VerificationMeta(
     'reference',
   );
@@ -72,6 +94,8 @@ class $ReferenceItemTable extends ReferenceItem
   List<GeneratedColumn> get $columns => [
     referenceID,
     note,
+    phone,
+    bank,
     reference,
     amount,
     date,
@@ -101,6 +125,18 @@ class $ReferenceItemTable extends ReferenceItem
       context.handle(
         _noteMeta,
         note.isAcceptableOrUnknown(data['note']!, _noteMeta),
+      );
+    }
+    if (data.containsKey('phone')) {
+      context.handle(
+        _phoneMeta,
+        phone.isAcceptableOrUnknown(data['phone']!, _phoneMeta),
+      );
+    }
+    if (data.containsKey('bank')) {
+      context.handle(
+        _bankMeta,
+        bank.isAcceptableOrUnknown(data['bank']!, _bankMeta),
       );
     }
     if (data.containsKey('reference')) {
@@ -142,6 +178,14 @@ class $ReferenceItemTable extends ReferenceItem
         DriftSqlType.string,
         data['${effectivePrefix}note'],
       ),
+      phone: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}phone'],
+      ),
+      bank: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}bank'],
+      ),
       reference: attachedDatabase.typeMapping.read(
         DriftSqlType.int,
         data['${effectivePrefix}reference'],
@@ -166,12 +210,16 @@ class $ReferenceItemTable extends ReferenceItem
 class Reference extends DataClass implements Insertable<Reference> {
   final int referenceID;
   final String? note;
+  final String? phone;
+  final String? bank;
   final int reference;
   final double amount;
   final DateTime date;
   const Reference({
     required this.referenceID,
     this.note,
+    this.phone,
+    this.bank,
     required this.reference,
     required this.amount,
     required this.date,
@@ -183,6 +231,12 @@ class Reference extends DataClass implements Insertable<Reference> {
     if (!nullToAbsent || note != null) {
       map['note'] = Variable<String>(note);
     }
+    if (!nullToAbsent || phone != null) {
+      map['phone'] = Variable<String>(phone);
+    }
+    if (!nullToAbsent || bank != null) {
+      map['bank'] = Variable<String>(bank);
+    }
     map['reference'] = Variable<int>(reference);
     map['amount'] = Variable<double>(amount);
     map['date'] = Variable<DateTime>(date);
@@ -193,6 +247,10 @@ class Reference extends DataClass implements Insertable<Reference> {
     return ReferenceItemCompanion(
       referenceID: Value(referenceID),
       note: note == null && nullToAbsent ? const Value.absent() : Value(note),
+      phone: phone == null && nullToAbsent
+          ? const Value.absent()
+          : Value(phone),
+      bank: bank == null && nullToAbsent ? const Value.absent() : Value(bank),
       reference: Value(reference),
       amount: Value(amount),
       date: Value(date),
@@ -207,6 +265,8 @@ class Reference extends DataClass implements Insertable<Reference> {
     return Reference(
       referenceID: serializer.fromJson<int>(json['referenceID']),
       note: serializer.fromJson<String?>(json['note']),
+      phone: serializer.fromJson<String?>(json['phone']),
+      bank: serializer.fromJson<String?>(json['bank']),
       reference: serializer.fromJson<int>(json['reference']),
       amount: serializer.fromJson<double>(json['amount']),
       date: serializer.fromJson<DateTime>(json['date']),
@@ -218,6 +278,8 @@ class Reference extends DataClass implements Insertable<Reference> {
     return <String, dynamic>{
       'referenceID': serializer.toJson<int>(referenceID),
       'note': serializer.toJson<String?>(note),
+      'phone': serializer.toJson<String?>(phone),
+      'bank': serializer.toJson<String?>(bank),
       'reference': serializer.toJson<int>(reference),
       'amount': serializer.toJson<double>(amount),
       'date': serializer.toJson<DateTime>(date),
@@ -227,12 +289,16 @@ class Reference extends DataClass implements Insertable<Reference> {
   Reference copyWith({
     int? referenceID,
     Value<String?> note = const Value.absent(),
+    Value<String?> phone = const Value.absent(),
+    Value<String?> bank = const Value.absent(),
     int? reference,
     double? amount,
     DateTime? date,
   }) => Reference(
     referenceID: referenceID ?? this.referenceID,
     note: note.present ? note.value : this.note,
+    phone: phone.present ? phone.value : this.phone,
+    bank: bank.present ? bank.value : this.bank,
     reference: reference ?? this.reference,
     amount: amount ?? this.amount,
     date: date ?? this.date,
@@ -243,6 +309,8 @@ class Reference extends DataClass implements Insertable<Reference> {
           ? data.referenceID.value
           : this.referenceID,
       note: data.note.present ? data.note.value : this.note,
+      phone: data.phone.present ? data.phone.value : this.phone,
+      bank: data.bank.present ? data.bank.value : this.bank,
       reference: data.reference.present ? data.reference.value : this.reference,
       amount: data.amount.present ? data.amount.value : this.amount,
       date: data.date.present ? data.date.value : this.date,
@@ -254,6 +322,8 @@ class Reference extends DataClass implements Insertable<Reference> {
     return (StringBuffer('Reference(')
           ..write('referenceID: $referenceID, ')
           ..write('note: $note, ')
+          ..write('phone: $phone, ')
+          ..write('bank: $bank, ')
           ..write('reference: $reference, ')
           ..write('amount: $amount, ')
           ..write('date: $date')
@@ -262,13 +332,16 @@ class Reference extends DataClass implements Insertable<Reference> {
   }
 
   @override
-  int get hashCode => Object.hash(referenceID, note, reference, amount, date);
+  int get hashCode =>
+      Object.hash(referenceID, note, phone, bank, reference, amount, date);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is Reference &&
           other.referenceID == this.referenceID &&
           other.note == this.note &&
+          other.phone == this.phone &&
+          other.bank == this.bank &&
           other.reference == this.reference &&
           other.amount == this.amount &&
           other.date == this.date);
@@ -277,12 +350,16 @@ class Reference extends DataClass implements Insertable<Reference> {
 class ReferenceItemCompanion extends UpdateCompanion<Reference> {
   final Value<int> referenceID;
   final Value<String?> note;
+  final Value<String?> phone;
+  final Value<String?> bank;
   final Value<int> reference;
   final Value<double> amount;
   final Value<DateTime> date;
   const ReferenceItemCompanion({
     this.referenceID = const Value.absent(),
     this.note = const Value.absent(),
+    this.phone = const Value.absent(),
+    this.bank = const Value.absent(),
     this.reference = const Value.absent(),
     this.amount = const Value.absent(),
     this.date = const Value.absent(),
@@ -290,6 +367,8 @@ class ReferenceItemCompanion extends UpdateCompanion<Reference> {
   ReferenceItemCompanion.insert({
     this.referenceID = const Value.absent(),
     this.note = const Value.absent(),
+    this.phone = const Value.absent(),
+    this.bank = const Value.absent(),
     required int reference,
     required double amount,
     this.date = const Value.absent(),
@@ -298,6 +377,8 @@ class ReferenceItemCompanion extends UpdateCompanion<Reference> {
   static Insertable<Reference> custom({
     Expression<int>? referenceID,
     Expression<String>? note,
+    Expression<String>? phone,
+    Expression<String>? bank,
     Expression<int>? reference,
     Expression<double>? amount,
     Expression<DateTime>? date,
@@ -305,6 +386,8 @@ class ReferenceItemCompanion extends UpdateCompanion<Reference> {
     return RawValuesInsertable({
       if (referenceID != null) 'reference_i_d': referenceID,
       if (note != null) 'note': note,
+      if (phone != null) 'phone': phone,
+      if (bank != null) 'bank': bank,
       if (reference != null) 'reference': reference,
       if (amount != null) 'amount': amount,
       if (date != null) 'date': date,
@@ -314,6 +397,8 @@ class ReferenceItemCompanion extends UpdateCompanion<Reference> {
   ReferenceItemCompanion copyWith({
     Value<int>? referenceID,
     Value<String?>? note,
+    Value<String?>? phone,
+    Value<String?>? bank,
     Value<int>? reference,
     Value<double>? amount,
     Value<DateTime>? date,
@@ -321,6 +406,8 @@ class ReferenceItemCompanion extends UpdateCompanion<Reference> {
     return ReferenceItemCompanion(
       referenceID: referenceID ?? this.referenceID,
       note: note ?? this.note,
+      phone: phone ?? this.phone,
+      bank: bank ?? this.bank,
       reference: reference ?? this.reference,
       amount: amount ?? this.amount,
       date: date ?? this.date,
@@ -335,6 +422,12 @@ class ReferenceItemCompanion extends UpdateCompanion<Reference> {
     }
     if (note.present) {
       map['note'] = Variable<String>(note.value);
+    }
+    if (phone.present) {
+      map['phone'] = Variable<String>(phone.value);
+    }
+    if (bank.present) {
+      map['bank'] = Variable<String>(bank.value);
     }
     if (reference.present) {
       map['reference'] = Variable<int>(reference.value);
@@ -353,6 +446,8 @@ class ReferenceItemCompanion extends UpdateCompanion<Reference> {
     return (StringBuffer('ReferenceItemCompanion(')
           ..write('referenceID: $referenceID, ')
           ..write('note: $note, ')
+          ..write('phone: $phone, ')
+          ..write('bank: $bank, ')
           ..write('reference: $reference, ')
           ..write('amount: $amount, ')
           ..write('date: $date')
@@ -376,6 +471,8 @@ typedef $$ReferenceItemTableCreateCompanionBuilder =
     ReferenceItemCompanion Function({
       Value<int> referenceID,
       Value<String?> note,
+      Value<String?> phone,
+      Value<String?> bank,
       required int reference,
       required double amount,
       Value<DateTime> date,
@@ -384,6 +481,8 @@ typedef $$ReferenceItemTableUpdateCompanionBuilder =
     ReferenceItemCompanion Function({
       Value<int> referenceID,
       Value<String?> note,
+      Value<String?> phone,
+      Value<String?> bank,
       Value<int> reference,
       Value<double> amount,
       Value<DateTime> date,
@@ -405,6 +504,16 @@ class $$ReferenceItemTableFilterComposer
 
   ColumnFilters<String> get note => $composableBuilder(
     column: $table.note,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get phone => $composableBuilder(
+    column: $table.phone,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get bank => $composableBuilder(
+    column: $table.bank,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -443,6 +552,16 @@ class $$ReferenceItemTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<String> get phone => $composableBuilder(
+    column: $table.phone,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get bank => $composableBuilder(
+    column: $table.bank,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<int> get reference => $composableBuilder(
     column: $table.reference,
     builder: (column) => ColumnOrderings(column),
@@ -475,6 +594,12 @@ class $$ReferenceItemTableAnnotationComposer
 
   GeneratedColumn<String> get note =>
       $composableBuilder(column: $table.note, builder: (column) => column);
+
+  GeneratedColumn<String> get phone =>
+      $composableBuilder(column: $table.phone, builder: (column) => column);
+
+  GeneratedColumn<String> get bank =>
+      $composableBuilder(column: $table.bank, builder: (column) => column);
 
   GeneratedColumn<int> get reference =>
       $composableBuilder(column: $table.reference, builder: (column) => column);
@@ -519,12 +644,16 @@ class $$ReferenceItemTableTableManager
               ({
                 Value<int> referenceID = const Value.absent(),
                 Value<String?> note = const Value.absent(),
+                Value<String?> phone = const Value.absent(),
+                Value<String?> bank = const Value.absent(),
                 Value<int> reference = const Value.absent(),
                 Value<double> amount = const Value.absent(),
                 Value<DateTime> date = const Value.absent(),
               }) => ReferenceItemCompanion(
                 referenceID: referenceID,
                 note: note,
+                phone: phone,
+                bank: bank,
                 reference: reference,
                 amount: amount,
                 date: date,
@@ -533,12 +662,16 @@ class $$ReferenceItemTableTableManager
               ({
                 Value<int> referenceID = const Value.absent(),
                 Value<String?> note = const Value.absent(),
+                Value<String?> phone = const Value.absent(),
+                Value<String?> bank = const Value.absent(),
                 required int reference,
                 required double amount,
                 Value<DateTime> date = const Value.absent(),
               }) => ReferenceItemCompanion.insert(
                 referenceID: referenceID,
                 note: note,
+                phone: phone,
+                bank: bank,
                 reference: reference,
                 amount: amount,
                 date: date,

@@ -88,10 +88,6 @@ class ReferenceForm extends HookWidget {
     }
 
     //functions
-    handleSubmitReference() async {
-      print("cheevere");
-    }
-
     bool isEmptyFields() {
       return note.value.isEmpty &&
           phone.value.isEmpty &&
@@ -113,11 +109,27 @@ class ReferenceForm extends HookWidget {
       amountController.clear();
     }
 
-    enableButton() {
-      if (errorReferenceMsg() == null && reference.value.isNotEmpty)
-        return true;
-      else
-        return false;
+    bool enableButton() {
+      //Required
+      if (errorReferenceMsg() != null || reference.value.isEmpty) return false;
+      if (amount.value.isEmpty) return false;
+
+      //Optional
+      if (selectedFields.value.contains(1)) {
+        if (errorNoteMsg() != null || note.value.length < 2) return false;
+      }
+
+      if (selectedFields.value.contains(2)) {
+        if (errorPhoneMsg() != null || phone.value.length < 12) return false;
+      }
+
+      if (selectedFields.value.contains(3) && bank.value.isEmpty) return false;
+
+      return true;
+    }
+
+    handleSubmitReference() async {
+      print("cheevere");
     }
 
     return Expanded(
@@ -133,6 +145,8 @@ class ReferenceForm extends HookWidget {
                     autofocus: true,
                     forceErrorText: errorNoteMsg(),
                     controller: noteController,
+                    minLines: 1,
+                    maxLines: 4,
                     decoration: InputDecoration(
                       icon: Icon(Icons.notes_outlined),
                       hintText: 'Ej. $randomNotePlaceholder',
@@ -187,7 +201,6 @@ class ReferenceForm extends HookWidget {
             selectedFields.value.contains(3)
                 ? BankAutocompleteForm()
                 : SizedBox.shrink(),
-
             selectedFields.value.contains(3)
                 ? SizedBox(height: 24)
                 : SizedBox.shrink(),
@@ -210,7 +223,7 @@ class ReferenceForm extends HookWidget {
               onChanged: (value) => reference.value = value,
               maxLength: 4,
             ),
-            SizedBox(height: 24),
+            SizedBox(height: 10),
 
             //Amount
             TextFormField(
@@ -221,24 +234,20 @@ class ReferenceForm extends HookWidget {
                 labelText: 'Monto *',
                 border: OutlineInputBorder(),
               ),
-              onSaved: (String? value) {
-                // This optional block of code can be used to run
-                // code when the user saves the form.
-              },
-              validator: (String? value) {
-                return (value != null && value.contains('@'))
-                    ? 'Do not use the @ char.'
-                    : null;
-              },
+              onChanged: (value) => amount.value = value,
             ),
             SizedBox(height: 30),
 
             Row(
               spacing: 5,
               children: [
-                IconButton.filled(
-                  onPressed: isEmptyFields() ? null : () => clearForm(),
-                  icon: Icon(Icons.delete),
+                Tooltip(
+                  message: 'Limpiar todos los campos',
+                  verticalOffset: -55.0,
+                  child: IconButton.filled(
+                    onPressed: isEmptyFields() ? null : () => clearForm(),
+                    icon: Icon(Icons.delete),
+                  ),
                 ),
                 Expanded(
                   child: FilledButton(

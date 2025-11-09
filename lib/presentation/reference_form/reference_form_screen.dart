@@ -27,7 +27,11 @@ class ReferenceFormScreen extends HookWidget {
       home: Scaffold(
         appBar: AppBar(
           title: Text('Crear Referencia'),
-          leading: BackButton(onPressed: () => Navigator.pop(context)),
+          leading: IconButton(
+            tooltip: 'Volver',
+            onPressed: () => Navigator.pop(context),
+            icon: Icon(Icons.arrow_back),
+          ),
         ),
         body: Column(
           children: [

@@ -129,9 +129,31 @@ class ReferenceForm extends HookWidget {
     }
 
     handleSubmitReference() async {
-      print("cheevere");
+      final dataToSubmit = {
+        'reference': reference.value,
+        'amount': amount.value,
+      };
+
+      if (selectedFields.value.contains(1)) {
+        dataToSubmit['note'] = note.value;
+      }
+
+      if (selectedFields.value.contains(2)) {
+        dataToSubmit['phone'] = phone.value.replaceAll('-', '');
+      }
+
+      if (selectedFields.value.contains(3)) {
+        dataToSubmit['bank'] = bank.value;
+      }
+
+      print('✅ Datos listos para subir:');
+      print(dataToSubmit);
+
+      // Ejemplo: await ApiService.uploadReference(dataToSubmit);
+      clearForm();
     }
 
+    // ... (resto del build method)
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(8),
@@ -250,18 +272,12 @@ class ReferenceForm extends HookWidget {
                   ),
                 ),
                 Expanded(
-                  child: FilledButton(
+                  child: FilledButton.icon(
                     onPressed: enableButton()
                         ? () => handleSubmitReference()
                         : null,
-                    child: Row(
-                      spacing: 8,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.checklist_outlined),
-                        Text('Guardar Referencia'),
-                      ],
-                    ),
+                    icon: Icon(Icons.checklist_outlined),
+                    label: Text('Guardar Referencia'),
                   ),
                 ),
               ],

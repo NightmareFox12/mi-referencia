@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -7,6 +9,24 @@ class ReferenceForm extends HookWidget {
   final ValueNotifier<Set<int>> selectedFields;
 
   const ReferenceForm(ValueNotifier<Set<int>> this.selectedFields, {super.key});
+
+  //consts
+  static const List<String> PLACEHOLDER_TEXT = [
+    'Pollo',
+    'Verduras',
+    'Carne',
+    'Copia',
+  ];
+
+  static final String randomNotePlaceholder =
+      PLACEHOLDER_TEXT[Random().nextInt(PLACEHOLDER_TEXT.length)];
+
+  //controllers
+  static final noteController = TextEditingController();
+  static final phoneController = TextEditingController();
+  static final bankController = TextEditingController();
+  static final referenceController = TextEditingController();
+  static final amountController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +60,7 @@ class ReferenceForm extends HookWidget {
       );
     });
 
+    //error msg
     String? errorNoteMsg() {
       final value = note.value;
 
@@ -72,8 +93,31 @@ class ReferenceForm extends HookWidget {
         return null;
     }
 
+    //functions
     handleSubmitReference() async {
       print("cheevere");
+    }
+
+    bool isEmptyFields() {
+      return note.value.isEmpty &&
+          phone.value.isEmpty &&
+          bank.value.isEmpty &&
+          reference.value.isEmpty &&
+          amount.value.isEmpty;
+    }
+
+    void clearForm() {
+      note.value = '';
+      phone.value = '';
+      bank.value = '';
+      reference.value = '';
+      amount.value = '';
+
+      noteController.clear();
+      phoneController.clear();
+      bankController.clear();
+      referenceController.clear();
+      amountController.clear();
     }
 
     enableButton() {
@@ -95,9 +139,10 @@ class ReferenceForm extends HookWidget {
                     keyboardType: TextInputType.name,
                     autofocus: true,
                     forceErrorText: errorNoteMsg(),
-                    decoration: const InputDecoration(
+                    controller: noteController,
+                    decoration: InputDecoration(
                       icon: Icon(Icons.notes_outlined),
-                      hintText: 'What do people call you?',
+                      hintText: 'Ej. $randomNotePlaceholder',
                       labelText: 'Nota *',
                       border: OutlineInputBorder(),
                     ),
@@ -163,7 +208,7 @@ class ReferenceForm extends HookWidget {
               inputFormatters: [FilteringTextInputFormatter.digitsOnly],
               decoration: const InputDecoration(
                 icon: Icon(Icons.pin),
-                hintText: '2294',
+                hintText: 'Ej. 2294',
                 labelText: 'Referencia *',
                 border: OutlineInputBorder(),
               ),
@@ -192,9 +237,29 @@ class ReferenceForm extends HookWidget {
             ),
             SizedBox(height: 30),
 
-            FilledButton(
-              onPressed: enableButton() ? () => handleSubmitReference() : null,
-              child: Text('Crear'),
+            Row(
+              spacing: 5,
+              children: [
+                IconButton.filled(
+                  onPressed: isEmptyFields() ? null : () => clearForm(),
+                  icon: Icon(Icons.delete),
+                ),
+                Expanded(
+                  child: FilledButton(
+                    onPressed: enableButton()
+                        ? () => handleSubmitReference()
+                        : null,
+                    child: Row(
+                      spacing: 8,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.checklist_outlined),
+                        Text('Guardar Referencia'),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
             ),
           ],
         ),

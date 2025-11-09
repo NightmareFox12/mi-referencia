@@ -26,8 +26,8 @@ class ReferenceGroupButton extends StatelessWidget {
         segments: [
           ButtonSegment(
             value: 1,
-            icon: Icon(Icons.person),
-            label: Text('Nombre'),
+            icon: Icon(Icons.notes_sharp),
+            label: Text('Nota'),
           ),
           ButtonSegment(
             value: 2,

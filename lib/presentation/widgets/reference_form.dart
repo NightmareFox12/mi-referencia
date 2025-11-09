@@ -11,7 +11,7 @@ class ReferenceForm extends HookWidget {
   @override
   Widget build(BuildContext context) {
     //states
-    final name = useState<String>('');
+    final note = useState<String>('');
     final phone = useState<String>('');
     final bank = useState<String>('');
     final reference = useState<String>('');
@@ -40,19 +40,18 @@ class ReferenceForm extends HookWidget {
       );
     });
 
-    String? errorNameMsg() {
-      final value = name.value;
+    String? errorNoteMsg() {
+      final value = note.value;
 
       if (value.isEmpty) return null;
-      if (value.length < 2) return 'El nombre es muy corto.';
-      if (value.length > 24) return 'El nombre es muy largo.';
+      if (value.length < 2) return 'La nota es muy corta.';
+      if (value.length > 50) return 'La nota es muy largo.';
 
-      if (RegExp(r'[0-9]').hasMatch(value))
-        return 'El nombre no debe contener números.';
+      // if (RegExp(r'[0-9]').hasMatch(value))
+      // return 'El nombre no debe contener números.';
 
-      if (RegExp(r'[!@#\$%^&*(),.?":{}|<>_\-+=/\\\[\]]').hasMatch(value)) {
-        return 'El nombre no debe contener caracteres especiales.';
-      }
+      // if (RegExp(r'[!@#\$%^&*(),.?":{}|<>_\-+=/\\\[\]]').hasMatch(value))
+      // return 'El nombre no debe contener caracteres especiales.';
 
       return null;
     }
@@ -90,24 +89,19 @@ class ReferenceForm extends HookWidget {
         child: ListView(
           padding: const EdgeInsets.only(top: 14),
           children: [
-            // Name
+            // Note
             selectedFields.value.contains(1)
                 ? TextFormField(
                     keyboardType: TextInputType.name,
                     autofocus: true,
-                    forceErrorText: errorNameMsg(),
+                    forceErrorText: errorNoteMsg(),
                     decoration: const InputDecoration(
-                      icon: Icon(Icons.person),
+                      icon: Icon(Icons.notes_outlined),
                       hintText: 'What do people call you?',
-                      labelText: 'Nombre *',
+                      labelText: 'Nota *',
                       border: OutlineInputBorder(),
                     ),
-                    onChanged: (String value) => name.value = value,
-                    validator: (String? value) {
-                      return (value != null && value.contains('@'))
-                          ? 'Do not use the @ char.'
-                          : null;
-                    },
+                    onChanged: (String value) => note.value = value,
                     buildCounter:
                         (
                           context, {
@@ -115,7 +109,7 @@ class ReferenceForm extends HookWidget {
                           required isFocused,
                           required maxLength,
                         }) => null,
-                    maxLength: 24,
+                    maxLength: 50,
                   )
                 : SizedBox.shrink(),
             SizedBox(height: 24),

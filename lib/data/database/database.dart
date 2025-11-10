@@ -5,7 +5,7 @@ import 'package:path_provider/path_provider.dart';
 
 part 'database.g.dart';
 
-@DriftDatabase(tables: [ReferenceItem])
+@DriftDatabase(tables: [ReferenceItem, BankItem])
 class AppDatabase extends _$AppDatabase {
   AppDatabase([QueryExecutor? executor]) : super(executor ?? _openConnection());
 

@@ -23,11 +23,15 @@ class $BankItemTable extends BankItem with TableInfo<$BankItemTable, Bank> {
   );
   static const VerificationMeta _codeMeta = const VerificationMeta('code');
   @override
-  late final GeneratedColumn<int> code = GeneratedColumn<int>(
+  late final GeneratedColumn<String> code = GeneratedColumn<String>(
     'code',
     aliasedName,
     false,
-    type: DriftSqlType.int,
+    additionalChecks: GeneratedColumn.checkTextLength(
+      minTextLength: 4,
+      maxTextLength: 4,
+    ),
+    type: DriftSqlType.string,
     requiredDuringInsert: true,
   );
   static const VerificationMeta _nameMeta = const VerificationMeta('name');
@@ -93,7 +97,7 @@ class $BankItemTable extends BankItem with TableInfo<$BankItemTable, Bank> {
         data['${effectivePrefix}bank_i_d'],
       )!,
       code: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
+        DriftSqlType.string,
         data['${effectivePrefix}code'],
       )!,
       name: attachedDatabase.typeMapping.read(
@@ -111,14 +115,14 @@ class $BankItemTable extends BankItem with TableInfo<$BankItemTable, Bank> {
 
 class Bank extends DataClass implements Insertable<Bank> {
   final int bankID;
-  final int code;
+  final String code;
   final String name;
   const Bank({required this.bankID, required this.code, required this.name});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     map['bank_i_d'] = Variable<int>(bankID);
-    map['code'] = Variable<int>(code);
+    map['code'] = Variable<String>(code);
     map['name'] = Variable<String>(name);
     return map;
   }
@@ -138,7 +142,7 @@ class Bank extends DataClass implements Insertable<Bank> {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return Bank(
       bankID: serializer.fromJson<int>(json['bankID']),
-      code: serializer.fromJson<int>(json['code']),
+      code: serializer.fromJson<String>(json['code']),
       name: serializer.fromJson<String>(json['name']),
     );
   }
@@ -147,12 +151,12 @@ class Bank extends DataClass implements Insertable<Bank> {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'bankID': serializer.toJson<int>(bankID),
-      'code': serializer.toJson<int>(code),
+      'code': serializer.toJson<String>(code),
       'name': serializer.toJson<String>(name),
     };
   }
 
-  Bank copyWith({int? bankID, int? code, String? name}) => Bank(
+  Bank copyWith({int? bankID, String? code, String? name}) => Bank(
     bankID: bankID ?? this.bankID,
     code: code ?? this.code,
     name: name ?? this.name,
@@ -188,7 +192,7 @@ class Bank extends DataClass implements Insertable<Bank> {
 
 class BankItemCompanion extends UpdateCompanion<Bank> {
   final Value<int> bankID;
-  final Value<int> code;
+  final Value<String> code;
   final Value<String> name;
   const BankItemCompanion({
     this.bankID = const Value.absent(),
@@ -197,13 +201,13 @@ class BankItemCompanion extends UpdateCompanion<Bank> {
   });
   BankItemCompanion.insert({
     this.bankID = const Value.absent(),
-    required int code,
+    required String code,
     required String name,
   }) : code = Value(code),
        name = Value(name);
   static Insertable<Bank> custom({
     Expression<int>? bankID,
-    Expression<int>? code,
+    Expression<String>? code,
     Expression<String>? name,
   }) {
     return RawValuesInsertable({
@@ -215,7 +219,7 @@ class BankItemCompanion extends UpdateCompanion<Bank> {
 
   BankItemCompanion copyWith({
     Value<int>? bankID,
-    Value<int>? code,
+    Value<String>? code,
     Value<String>? name,
   }) {
     return BankItemCompanion(
@@ -232,7 +236,7 @@ class BankItemCompanion extends UpdateCompanion<Bank> {
       map['bank_i_d'] = Variable<int>(bankID.value);
     }
     if (code.present) {
-      map['code'] = Variable<int>(code.value);
+      map['code'] = Variable<String>(code.value);
     }
     if (name.present) {
       map['name'] = Variable<String>(name.value);
@@ -724,13 +728,13 @@ abstract class _$AppDatabase extends GeneratedDatabase {
 typedef $$BankItemTableCreateCompanionBuilder =
     BankItemCompanion Function({
       Value<int> bankID,
-      required int code,
+      required String code,
       required String name,
     });
 typedef $$BankItemTableUpdateCompanionBuilder =
     BankItemCompanion Function({
       Value<int> bankID,
-      Value<int> code,
+      Value<String> code,
       Value<String> name,
     });
 
@@ -774,7 +778,7 @@ class $$BankItemTableFilterComposer
     builder: (column) => ColumnFilters(column),
   );
 
-  ColumnFilters<int> get code => $composableBuilder(
+  ColumnFilters<String> get code => $composableBuilder(
     column: $table.code,
     builder: (column) => ColumnFilters(column),
   );
@@ -824,7 +828,7 @@ class $$BankItemTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
-  ColumnOrderings<int> get code => $composableBuilder(
+  ColumnOrderings<String> get code => $composableBuilder(
     column: $table.code,
     builder: (column) => ColumnOrderings(column),
   );
@@ -847,7 +851,7 @@ class $$BankItemTableAnnotationComposer
   GeneratedColumn<int> get bankID =>
       $composableBuilder(column: $table.bankID, builder: (column) => column);
 
-  GeneratedColumn<int> get code =>
+  GeneratedColumn<String> get code =>
       $composableBuilder(column: $table.code, builder: (column) => column);
 
   GeneratedColumn<String> get name =>
@@ -908,13 +912,13 @@ class $$BankItemTableTableManager
           updateCompanionCallback:
               ({
                 Value<int> bankID = const Value.absent(),
-                Value<int> code = const Value.absent(),
+                Value<String> code = const Value.absent(),
                 Value<String> name = const Value.absent(),
               }) => BankItemCompanion(bankID: bankID, code: code, name: name),
           createCompanionCallback:
               ({
                 Value<int> bankID = const Value.absent(),
-                required int code,
+                required String code,
                 required String name,
               }) => BankItemCompanion.insert(
                 bankID: bankID,

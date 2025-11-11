@@ -23,7 +23,7 @@ class ReferenceProvider extends AsyncNotifier<List<Reference>> {
   Future<void> addReference(Reference reference) async {
     final dataSource = ref.read(referenceDataSourceProvider);
     await dataSource.setReference(reference);
-    ref.invalidateSelf(); // Recargar la lista
+    ref.invalidateSelf();
   }
 
   Future<void> addFastReference(int reference, double amount) async {

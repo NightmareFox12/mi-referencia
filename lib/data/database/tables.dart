@@ -15,6 +15,6 @@ class ReferenceItem extends Table {
 @DataClassName('Bank')
 class BankItem extends Table {
   IntColumn get bankID => integer().autoIncrement()();
-  IntColumn get code => integer()();
+  TextColumn get code => text().withLength(min: 4, max: 4)();
   TextColumn get name => text().withLength(min: 2, max: 50)();
 }

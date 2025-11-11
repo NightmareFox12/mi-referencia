@@ -23,7 +23,7 @@ class BankProvider extends AsyncNotifier<List<Bank>> {
   Future<void> addBank(int code, String name) async {
     final dataSource = ref.read(bankDataSourceProvider);
     await dataSource.setBank(BankItemCompanion.insert(code: code, name: name));
-    ref.invalidateSelf(); // Recargar la lista
+    ref.invalidateSelf();
   }
 }
 

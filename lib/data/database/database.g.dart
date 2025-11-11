@@ -3,6 +3,254 @@
 part of 'database.dart';
 
 // ignore_for_file: type=lint
+class $BankItemTable extends BankItem with TableInfo<$BankItemTable, Bank> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $BankItemTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _bankIDMeta = const VerificationMeta('bankID');
+  @override
+  late final GeneratedColumn<int> bankID = GeneratedColumn<int>(
+    'bank_i_d',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _codeMeta = const VerificationMeta('code');
+  @override
+  late final GeneratedColumn<int> code = GeneratedColumn<int>(
+    'code',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+    'name',
+    aliasedName,
+    false,
+    additionalChecks: GeneratedColumn.checkTextLength(
+      minTextLength: 2,
+      maxTextLength: 50,
+    ),
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [bankID, code, name];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'bank_item';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<Bank> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('bank_i_d')) {
+      context.handle(
+        _bankIDMeta,
+        bankID.isAcceptableOrUnknown(data['bank_i_d']!, _bankIDMeta),
+      );
+    }
+    if (data.containsKey('code')) {
+      context.handle(
+        _codeMeta,
+        code.isAcceptableOrUnknown(data['code']!, _codeMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_codeMeta);
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+        _nameMeta,
+        name.isAcceptableOrUnknown(data['name']!, _nameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_nameMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {bankID};
+  @override
+  Bank map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return Bank(
+      bankID: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}bank_i_d'],
+      )!,
+      code: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}code'],
+      )!,
+      name: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}name'],
+      )!,
+    );
+  }
+
+  @override
+  $BankItemTable createAlias(String alias) {
+    return $BankItemTable(attachedDatabase, alias);
+  }
+}
+
+class Bank extends DataClass implements Insertable<Bank> {
+  final int bankID;
+  final int code;
+  final String name;
+  const Bank({required this.bankID, required this.code, required this.name});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['bank_i_d'] = Variable<int>(bankID);
+    map['code'] = Variable<int>(code);
+    map['name'] = Variable<String>(name);
+    return map;
+  }
+
+  BankItemCompanion toCompanion(bool nullToAbsent) {
+    return BankItemCompanion(
+      bankID: Value(bankID),
+      code: Value(code),
+      name: Value(name),
+    );
+  }
+
+  factory Bank.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return Bank(
+      bankID: serializer.fromJson<int>(json['bankID']),
+      code: serializer.fromJson<int>(json['code']),
+      name: serializer.fromJson<String>(json['name']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'bankID': serializer.toJson<int>(bankID),
+      'code': serializer.toJson<int>(code),
+      'name': serializer.toJson<String>(name),
+    };
+  }
+
+  Bank copyWith({int? bankID, int? code, String? name}) => Bank(
+    bankID: bankID ?? this.bankID,
+    code: code ?? this.code,
+    name: name ?? this.name,
+  );
+  Bank copyWithCompanion(BankItemCompanion data) {
+    return Bank(
+      bankID: data.bankID.present ? data.bankID.value : this.bankID,
+      code: data.code.present ? data.code.value : this.code,
+      name: data.name.present ? data.name.value : this.name,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('Bank(')
+          ..write('bankID: $bankID, ')
+          ..write('code: $code, ')
+          ..write('name: $name')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(bankID, code, name);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is Bank &&
+          other.bankID == this.bankID &&
+          other.code == this.code &&
+          other.name == this.name);
+}
+
+class BankItemCompanion extends UpdateCompanion<Bank> {
+  final Value<int> bankID;
+  final Value<int> code;
+  final Value<String> name;
+  const BankItemCompanion({
+    this.bankID = const Value.absent(),
+    this.code = const Value.absent(),
+    this.name = const Value.absent(),
+  });
+  BankItemCompanion.insert({
+    this.bankID = const Value.absent(),
+    required int code,
+    required String name,
+  }) : code = Value(code),
+       name = Value(name);
+  static Insertable<Bank> custom({
+    Expression<int>? bankID,
+    Expression<int>? code,
+    Expression<String>? name,
+  }) {
+    return RawValuesInsertable({
+      if (bankID != null) 'bank_i_d': bankID,
+      if (code != null) 'code': code,
+      if (name != null) 'name': name,
+    });
+  }
+
+  BankItemCompanion copyWith({
+    Value<int>? bankID,
+    Value<int>? code,
+    Value<String>? name,
+  }) {
+    return BankItemCompanion(
+      bankID: bankID ?? this.bankID,
+      code: code ?? this.code,
+      name: name ?? this.name,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (bankID.present) {
+      map['bank_i_d'] = Variable<int>(bankID.value);
+    }
+    if (code.present) {
+      map['code'] = Variable<int>(code.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('BankItemCompanion(')
+          ..write('bankID: $bankID, ')
+          ..write('code: $code, ')
+          ..write('name: $name')
+          ..write(')'))
+        .toString();
+  }
+}
+
 class $ReferenceItemTable extends ReferenceItem
     with TableInfo<$ReferenceItemTable, Reference> {
   @override
@@ -32,6 +280,9 @@ class $ReferenceItemTable extends ReferenceItem
     true,
     type: DriftSqlType.int,
     requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES bank_item (bank_i_d)',
+    ),
   );
   static const VerificationMeta _noteMeta = const VerificationMeta('note');
   @override
@@ -458,266 +709,271 @@ class ReferenceItemCompanion extends UpdateCompanion<Reference> {
   }
 }
 
-class $BankItemTable extends BankItem with TableInfo<$BankItemTable, Bank> {
-  @override
-  final GeneratedDatabase attachedDatabase;
-  final String? _alias;
-  $BankItemTable(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _bankIDMeta = const VerificationMeta('bankID');
-  @override
-  late final GeneratedColumn<int> bankID = GeneratedColumn<int>(
-    'bank_i_d',
-    aliasedName,
-    false,
-    hasAutoIncrement: true,
-    type: DriftSqlType.int,
-    requiredDuringInsert: false,
-    defaultConstraints: GeneratedColumn.constraintIsAlways(
-      'PRIMARY KEY AUTOINCREMENT',
-    ),
-  );
-  static const VerificationMeta _codeMeta = const VerificationMeta('code');
-  @override
-  late final GeneratedColumn<int> code = GeneratedColumn<int>(
-    'code',
-    aliasedName,
-    false,
-    type: DriftSqlType.int,
-    requiredDuringInsert: true,
-  );
-  static const VerificationMeta _nameMeta = const VerificationMeta('name');
-  @override
-  late final GeneratedColumn<String> name = GeneratedColumn<String>(
-    'name',
-    aliasedName,
-    false,
-    additionalChecks: GeneratedColumn.checkTextLength(
-      minTextLength: 2,
-      maxTextLength: 50,
-    ),
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
-  );
-  @override
-  List<GeneratedColumn> get $columns => [bankID, code, name];
-  @override
-  String get aliasedName => _alias ?? actualTableName;
-  @override
-  String get actualTableName => $name;
-  static const String $name = 'bank_item';
-  @override
-  VerificationContext validateIntegrity(
-    Insertable<Bank> instance, {
-    bool isInserting = false,
-  }) {
-    final context = VerificationContext();
-    final data = instance.toColumns(true);
-    if (data.containsKey('bank_i_d')) {
-      context.handle(
-        _bankIDMeta,
-        bankID.isAcceptableOrUnknown(data['bank_i_d']!, _bankIDMeta),
-      );
-    }
-    if (data.containsKey('code')) {
-      context.handle(
-        _codeMeta,
-        code.isAcceptableOrUnknown(data['code']!, _codeMeta),
-      );
-    } else if (isInserting) {
-      context.missing(_codeMeta);
-    }
-    if (data.containsKey('name')) {
-      context.handle(
-        _nameMeta,
-        name.isAcceptableOrUnknown(data['name']!, _nameMeta),
-      );
-    } else if (isInserting) {
-      context.missing(_nameMeta);
-    }
-    return context;
-  }
-
-  @override
-  Set<GeneratedColumn> get $primaryKey => {bankID};
-  @override
-  Bank map(Map<String, dynamic> data, {String? tablePrefix}) {
-    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return Bank(
-      bankID: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}bank_i_d'],
-      )!,
-      code: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}code'],
-      )!,
-      name: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}name'],
-      )!,
-    );
-  }
-
-  @override
-  $BankItemTable createAlias(String alias) {
-    return $BankItemTable(attachedDatabase, alias);
-  }
-}
-
-class Bank extends DataClass implements Insertable<Bank> {
-  final int bankID;
-  final int code;
-  final String name;
-  const Bank({required this.bankID, required this.code, required this.name});
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    map['bank_i_d'] = Variable<int>(bankID);
-    map['code'] = Variable<int>(code);
-    map['name'] = Variable<String>(name);
-    return map;
-  }
-
-  BankItemCompanion toCompanion(bool nullToAbsent) {
-    return BankItemCompanion(
-      bankID: Value(bankID),
-      code: Value(code),
-      name: Value(name),
-    );
-  }
-
-  factory Bank.fromJson(
-    Map<String, dynamic> json, {
-    ValueSerializer? serializer,
-  }) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return Bank(
-      bankID: serializer.fromJson<int>(json['bankID']),
-      code: serializer.fromJson<int>(json['code']),
-      name: serializer.fromJson<String>(json['name']),
-    );
-  }
-  @override
-  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return <String, dynamic>{
-      'bankID': serializer.toJson<int>(bankID),
-      'code': serializer.toJson<int>(code),
-      'name': serializer.toJson<String>(name),
-    };
-  }
-
-  Bank copyWith({int? bankID, int? code, String? name}) => Bank(
-    bankID: bankID ?? this.bankID,
-    code: code ?? this.code,
-    name: name ?? this.name,
-  );
-  Bank copyWithCompanion(BankItemCompanion data) {
-    return Bank(
-      bankID: data.bankID.present ? data.bankID.value : this.bankID,
-      code: data.code.present ? data.code.value : this.code,
-      name: data.name.present ? data.name.value : this.name,
-    );
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('Bank(')
-          ..write('bankID: $bankID, ')
-          ..write('code: $code, ')
-          ..write('name: $name')
-          ..write(')'))
-        .toString();
-  }
-
-  @override
-  int get hashCode => Object.hash(bankID, code, name);
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      (other is Bank &&
-          other.bankID == this.bankID &&
-          other.code == this.code &&
-          other.name == this.name);
-}
-
-class BankItemCompanion extends UpdateCompanion<Bank> {
-  final Value<int> bankID;
-  final Value<int> code;
-  final Value<String> name;
-  const BankItemCompanion({
-    this.bankID = const Value.absent(),
-    this.code = const Value.absent(),
-    this.name = const Value.absent(),
-  });
-  BankItemCompanion.insert({
-    this.bankID = const Value.absent(),
-    required int code,
-    required String name,
-  }) : code = Value(code),
-       name = Value(name);
-  static Insertable<Bank> custom({
-    Expression<int>? bankID,
-    Expression<int>? code,
-    Expression<String>? name,
-  }) {
-    return RawValuesInsertable({
-      if (bankID != null) 'bank_i_d': bankID,
-      if (code != null) 'code': code,
-      if (name != null) 'name': name,
-    });
-  }
-
-  BankItemCompanion copyWith({
-    Value<int>? bankID,
-    Value<int>? code,
-    Value<String>? name,
-  }) {
-    return BankItemCompanion(
-      bankID: bankID ?? this.bankID,
-      code: code ?? this.code,
-      name: name ?? this.name,
-    );
-  }
-
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    if (bankID.present) {
-      map['bank_i_d'] = Variable<int>(bankID.value);
-    }
-    if (code.present) {
-      map['code'] = Variable<int>(code.value);
-    }
-    if (name.present) {
-      map['name'] = Variable<String>(name.value);
-    }
-    return map;
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('BankItemCompanion(')
-          ..write('bankID: $bankID, ')
-          ..write('code: $code, ')
-          ..write('name: $name')
-          ..write(')'))
-        .toString();
-  }
-}
-
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
-  late final $ReferenceItemTable referenceItem = $ReferenceItemTable(this);
   late final $BankItemTable bankItem = $BankItemTable(this);
+  late final $ReferenceItemTable referenceItem = $ReferenceItemTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
-  List<DatabaseSchemaEntity> get allSchemaEntities => [referenceItem, bankItem];
+  List<DatabaseSchemaEntity> get allSchemaEntities => [bankItem, referenceItem];
 }
 
+typedef $$BankItemTableCreateCompanionBuilder =
+    BankItemCompanion Function({
+      Value<int> bankID,
+      required int code,
+      required String name,
+    });
+typedef $$BankItemTableUpdateCompanionBuilder =
+    BankItemCompanion Function({
+      Value<int> bankID,
+      Value<int> code,
+      Value<String> name,
+    });
+
+final class $$BankItemTableReferences
+    extends BaseReferences<_$AppDatabase, $BankItemTable, Bank> {
+  $$BankItemTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static MultiTypedResultKey<$ReferenceItemTable, List<Reference>>
+  _referenceItemRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.referenceItem,
+    aliasName: $_aliasNameGenerator(
+      db.bankItem.bankID,
+      db.referenceItem.bankID,
+    ),
+  );
+
+  $$ReferenceItemTableProcessedTableManager get referenceItemRefs {
+    final manager = $$ReferenceItemTableTableManager(
+      $_db,
+      $_db.referenceItem,
+    ).filter((f) => f.bankID.bankID.sqlEquals($_itemColumn<int>('bank_i_d')!));
+
+    final cache = $_typedResult.readTableOrNull(_referenceItemRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+}
+
+class $$BankItemTableFilterComposer
+    extends Composer<_$AppDatabase, $BankItemTable> {
+  $$BankItemTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get bankID => $composableBuilder(
+    column: $table.bankID,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get code => $composableBuilder(
+    column: $table.code,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  Expression<bool> referenceItemRefs(
+    Expression<bool> Function($$ReferenceItemTableFilterComposer f) f,
+  ) {
+    final $$ReferenceItemTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.bankID,
+      referencedTable: $db.referenceItem,
+      getReferencedColumn: (t) => t.bankID,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ReferenceItemTableFilterComposer(
+            $db: $db,
+            $table: $db.referenceItem,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+}
+
+class $$BankItemTableOrderingComposer
+    extends Composer<_$AppDatabase, $BankItemTable> {
+  $$BankItemTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get bankID => $composableBuilder(
+    column: $table.bankID,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get code => $composableBuilder(
+    column: $table.code,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$BankItemTableAnnotationComposer
+    extends Composer<_$AppDatabase, $BankItemTable> {
+  $$BankItemTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get bankID =>
+      $composableBuilder(column: $table.bankID, builder: (column) => column);
+
+  GeneratedColumn<int> get code =>
+      $composableBuilder(column: $table.code, builder: (column) => column);
+
+  GeneratedColumn<String> get name =>
+      $composableBuilder(column: $table.name, builder: (column) => column);
+
+  Expression<T> referenceItemRefs<T extends Object>(
+    Expression<T> Function($$ReferenceItemTableAnnotationComposer a) f,
+  ) {
+    final $$ReferenceItemTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.bankID,
+      referencedTable: $db.referenceItem,
+      getReferencedColumn: (t) => t.bankID,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ReferenceItemTableAnnotationComposer(
+            $db: $db,
+            $table: $db.referenceItem,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+}
+
+class $$BankItemTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $BankItemTable,
+          Bank,
+          $$BankItemTableFilterComposer,
+          $$BankItemTableOrderingComposer,
+          $$BankItemTableAnnotationComposer,
+          $$BankItemTableCreateCompanionBuilder,
+          $$BankItemTableUpdateCompanionBuilder,
+          (Bank, $$BankItemTableReferences),
+          Bank,
+          PrefetchHooks Function({bool referenceItemRefs})
+        > {
+  $$BankItemTableTableManager(_$AppDatabase db, $BankItemTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$BankItemTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$BankItemTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$BankItemTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> bankID = const Value.absent(),
+                Value<int> code = const Value.absent(),
+                Value<String> name = const Value.absent(),
+              }) => BankItemCompanion(bankID: bankID, code: code, name: name),
+          createCompanionCallback:
+              ({
+                Value<int> bankID = const Value.absent(),
+                required int code,
+                required String name,
+              }) => BankItemCompanion.insert(
+                bankID: bankID,
+                code: code,
+                name: name,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$BankItemTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({referenceItemRefs = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [
+                if (referenceItemRefs) db.referenceItem,
+              ],
+              addJoins: null,
+              getPrefetchedDataCallback: (items) async {
+                return [
+                  if (referenceItemRefs)
+                    await $_getPrefetchedData<Bank, $BankItemTable, Reference>(
+                      currentTable: table,
+                      referencedTable: $$BankItemTableReferences
+                          ._referenceItemRefsTable(db),
+                      managerFromTypedResult: (p0) => $$BankItemTableReferences(
+                        db,
+                        table,
+                        p0,
+                      ).referenceItemRefs,
+                      referencedItemsForCurrentItem: (item, referencedItems) =>
+                          referencedItems.where((e) => e.bankID == item.bankID),
+                      typedResults: items,
+                    ),
+                ];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$BankItemTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $BankItemTable,
+      Bank,
+      $$BankItemTableFilterComposer,
+      $$BankItemTableOrderingComposer,
+      $$BankItemTableAnnotationComposer,
+      $$BankItemTableCreateCompanionBuilder,
+      $$BankItemTableUpdateCompanionBuilder,
+      (Bank, $$BankItemTableReferences),
+      Bank,
+      PrefetchHooks Function({bool referenceItemRefs})
+    >;
 typedef $$ReferenceItemTableCreateCompanionBuilder =
     ReferenceItemCompanion Function({
       Value<int> referenceID,
@@ -739,6 +995,34 @@ typedef $$ReferenceItemTableUpdateCompanionBuilder =
       Value<DateTime> date,
     });
 
+final class $$ReferenceItemTableReferences
+    extends BaseReferences<_$AppDatabase, $ReferenceItemTable, Reference> {
+  $$ReferenceItemTableReferences(
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
+
+  static $BankItemTable _bankIDTable(_$AppDatabase db) =>
+      db.bankItem.createAlias(
+        $_aliasNameGenerator(db.referenceItem.bankID, db.bankItem.bankID),
+      );
+
+  $$BankItemTableProcessedTableManager? get bankID {
+    final $_column = $_itemColumn<int>('bank_i_d');
+    if ($_column == null) return null;
+    final manager = $$BankItemTableTableManager(
+      $_db,
+      $_db.bankItem,
+    ).filter((f) => f.bankID.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_bankIDTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
 class $$ReferenceItemTableFilterComposer
     extends Composer<_$AppDatabase, $ReferenceItemTable> {
   $$ReferenceItemTableFilterComposer({
@@ -750,11 +1034,6 @@ class $$ReferenceItemTableFilterComposer
   });
   ColumnFilters<int> get referenceID => $composableBuilder(
     column: $table.referenceID,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<int> get bankID => $composableBuilder(
-    column: $table.bankID,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -782,6 +1061,29 @@ class $$ReferenceItemTableFilterComposer
     column: $table.date,
     builder: (column) => ColumnFilters(column),
   );
+
+  $$BankItemTableFilterComposer get bankID {
+    final $$BankItemTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.bankID,
+      referencedTable: $db.bankItem,
+      getReferencedColumn: (t) => t.bankID,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$BankItemTableFilterComposer(
+            $db: $db,
+            $table: $db.bankItem,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
 }
 
 class $$ReferenceItemTableOrderingComposer
@@ -795,11 +1097,6 @@ class $$ReferenceItemTableOrderingComposer
   });
   ColumnOrderings<int> get referenceID => $composableBuilder(
     column: $table.referenceID,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<int> get bankID => $composableBuilder(
-    column: $table.bankID,
     builder: (column) => ColumnOrderings(column),
   );
 
@@ -827,6 +1124,29 @@ class $$ReferenceItemTableOrderingComposer
     column: $table.date,
     builder: (column) => ColumnOrderings(column),
   );
+
+  $$BankItemTableOrderingComposer get bankID {
+    final $$BankItemTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.bankID,
+      referencedTable: $db.bankItem,
+      getReferencedColumn: (t) => t.bankID,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$BankItemTableOrderingComposer(
+            $db: $db,
+            $table: $db.bankItem,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
 }
 
 class $$ReferenceItemTableAnnotationComposer
@@ -843,9 +1163,6 @@ class $$ReferenceItemTableAnnotationComposer
     builder: (column) => column,
   );
 
-  GeneratedColumn<int> get bankID =>
-      $composableBuilder(column: $table.bankID, builder: (column) => column);
-
   GeneratedColumn<String> get note =>
       $composableBuilder(column: $table.note, builder: (column) => column);
 
@@ -860,6 +1177,29 @@ class $$ReferenceItemTableAnnotationComposer
 
   GeneratedColumn<DateTime> get date =>
       $composableBuilder(column: $table.date, builder: (column) => column);
+
+  $$BankItemTableAnnotationComposer get bankID {
+    final $$BankItemTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.bankID,
+      referencedTable: $db.bankItem,
+      getReferencedColumn: (t) => t.bankID,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$BankItemTableAnnotationComposer(
+            $db: $db,
+            $table: $db.bankItem,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
 }
 
 class $$ReferenceItemTableTableManager
@@ -873,12 +1213,9 @@ class $$ReferenceItemTableTableManager
           $$ReferenceItemTableAnnotationComposer,
           $$ReferenceItemTableCreateCompanionBuilder,
           $$ReferenceItemTableUpdateCompanionBuilder,
-          (
-            Reference,
-            BaseReferences<_$AppDatabase, $ReferenceItemTable, Reference>,
-          ),
+          (Reference, $$ReferenceItemTableReferences),
           Reference,
-          PrefetchHooks Function()
+          PrefetchHooks Function({bool bankID})
         > {
   $$ReferenceItemTableTableManager(_$AppDatabase db, $ReferenceItemTable table)
     : super(
@@ -928,9 +1265,54 @@ class $$ReferenceItemTableTableManager
                 date: date,
               ),
           withReferenceMapper: (p0) => p0
-              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$ReferenceItemTableReferences(db, table, e),
+                ),
+              )
               .toList(),
-          prefetchHooksCallback: null,
+          prefetchHooksCallback: ({bankID = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (bankID) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.bankID,
+                                referencedTable: $$ReferenceItemTableReferences
+                                    ._bankIDTable(db),
+                                referencedColumn: $$ReferenceItemTableReferences
+                                    ._bankIDTable(db)
+                                    .bankID,
+                              )
+                              as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
         ),
       );
 }
@@ -945,165 +1327,16 @@ typedef $$ReferenceItemTableProcessedTableManager =
       $$ReferenceItemTableAnnotationComposer,
       $$ReferenceItemTableCreateCompanionBuilder,
       $$ReferenceItemTableUpdateCompanionBuilder,
-      (
-        Reference,
-        BaseReferences<_$AppDatabase, $ReferenceItemTable, Reference>,
-      ),
+      (Reference, $$ReferenceItemTableReferences),
       Reference,
-      PrefetchHooks Function()
-    >;
-typedef $$BankItemTableCreateCompanionBuilder =
-    BankItemCompanion Function({
-      Value<int> bankID,
-      required int code,
-      required String name,
-    });
-typedef $$BankItemTableUpdateCompanionBuilder =
-    BankItemCompanion Function({
-      Value<int> bankID,
-      Value<int> code,
-      Value<String> name,
-    });
-
-class $$BankItemTableFilterComposer
-    extends Composer<_$AppDatabase, $BankItemTable> {
-  $$BankItemTableFilterComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  ColumnFilters<int> get bankID => $composableBuilder(
-    column: $table.bankID,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<int> get code => $composableBuilder(
-    column: $table.code,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<String> get name => $composableBuilder(
-    column: $table.name,
-    builder: (column) => ColumnFilters(column),
-  );
-}
-
-class $$BankItemTableOrderingComposer
-    extends Composer<_$AppDatabase, $BankItemTable> {
-  $$BankItemTableOrderingComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  ColumnOrderings<int> get bankID => $composableBuilder(
-    column: $table.bankID,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<int> get code => $composableBuilder(
-    column: $table.code,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<String> get name => $composableBuilder(
-    column: $table.name,
-    builder: (column) => ColumnOrderings(column),
-  );
-}
-
-class $$BankItemTableAnnotationComposer
-    extends Composer<_$AppDatabase, $BankItemTable> {
-  $$BankItemTableAnnotationComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  GeneratedColumn<int> get bankID =>
-      $composableBuilder(column: $table.bankID, builder: (column) => column);
-
-  GeneratedColumn<int> get code =>
-      $composableBuilder(column: $table.code, builder: (column) => column);
-
-  GeneratedColumn<String> get name =>
-      $composableBuilder(column: $table.name, builder: (column) => column);
-}
-
-class $$BankItemTableTableManager
-    extends
-        RootTableManager<
-          _$AppDatabase,
-          $BankItemTable,
-          Bank,
-          $$BankItemTableFilterComposer,
-          $$BankItemTableOrderingComposer,
-          $$BankItemTableAnnotationComposer,
-          $$BankItemTableCreateCompanionBuilder,
-          $$BankItemTableUpdateCompanionBuilder,
-          (Bank, BaseReferences<_$AppDatabase, $BankItemTable, Bank>),
-          Bank,
-          PrefetchHooks Function()
-        > {
-  $$BankItemTableTableManager(_$AppDatabase db, $BankItemTable table)
-    : super(
-        TableManagerState(
-          db: db,
-          table: table,
-          createFilteringComposer: () =>
-              $$BankItemTableFilterComposer($db: db, $table: table),
-          createOrderingComposer: () =>
-              $$BankItemTableOrderingComposer($db: db, $table: table),
-          createComputedFieldComposer: () =>
-              $$BankItemTableAnnotationComposer($db: db, $table: table),
-          updateCompanionCallback:
-              ({
-                Value<int> bankID = const Value.absent(),
-                Value<int> code = const Value.absent(),
-                Value<String> name = const Value.absent(),
-              }) => BankItemCompanion(bankID: bankID, code: code, name: name),
-          createCompanionCallback:
-              ({
-                Value<int> bankID = const Value.absent(),
-                required int code,
-                required String name,
-              }) => BankItemCompanion.insert(
-                bankID: bankID,
-                code: code,
-                name: name,
-              ),
-          withReferenceMapper: (p0) => p0
-              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
-              .toList(),
-          prefetchHooksCallback: null,
-        ),
-      );
-}
-
-typedef $$BankItemTableProcessedTableManager =
-    ProcessedTableManager<
-      _$AppDatabase,
-      $BankItemTable,
-      Bank,
-      $$BankItemTableFilterComposer,
-      $$BankItemTableOrderingComposer,
-      $$BankItemTableAnnotationComposer,
-      $$BankItemTableCreateCompanionBuilder,
-      $$BankItemTableUpdateCompanionBuilder,
-      (Bank, BaseReferences<_$AppDatabase, $BankItemTable, Bank>),
-      Bank,
-      PrefetchHooks Function()
+      PrefetchHooks Function({bool bankID})
     >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
   $AppDatabaseManager(this._db);
-  $$ReferenceItemTableTableManager get referenceItem =>
-      $$ReferenceItemTableTableManager(_db, _db.referenceItem);
   $$BankItemTableTableManager get bankItem =>
       $$BankItemTableTableManager(_db, _db.bankItem);
+  $$ReferenceItemTableTableManager get referenceItem =>
+      $$ReferenceItemTableTableManager(_db, _db.referenceItem);
 }

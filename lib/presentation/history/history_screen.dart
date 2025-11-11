@@ -24,7 +24,7 @@ class HistoryScreen extends HookConsumerWidget {
           child: Column(
             children: [
               FilledButton(
-                onPressed: () {
+                onPressed: () async{
                   ref
                       .read(bankProvider.notifier)
                       .addBank(0102, 'Banco de Venezuela');

@@ -1,3 +1,4 @@
+import 'package:drift/drift.dart';
 import 'package:mi_referencia/data/database/database.dart';
 
 class BankDataSource {

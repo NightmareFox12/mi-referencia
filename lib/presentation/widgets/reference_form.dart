@@ -134,19 +134,13 @@ class ReferenceForm extends HookWidget {
         'amount': amount.value,
       };
 
-      if (selectedFields.value.contains(1)) {
-        dataToSubmit['note'] = note.value;
-      }
+      if (selectedFields.value.contains(1)) dataToSubmit['note'] = note.value;
 
-      if (selectedFields.value.contains(2)) {
+      if (selectedFields.value.contains(2))
         dataToSubmit['phone'] = phone.value.replaceAll('-', '');
-      }
 
-      if (selectedFields.value.contains(3)) {
-        dataToSubmit['bank'] = bank.value;
-      }
+      if (selectedFields.value.contains(3)) dataToSubmit['bank'] = bank.value;
 
-      print('✅ Datos listos para subir:');
       print(dataToSubmit);
 
       // Ejemplo: await ApiService.uploadReference(dataToSubmit);

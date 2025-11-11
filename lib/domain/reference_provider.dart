@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mi_referencia/data/database/database.dart';
-import 'package:mi_referencia/data/datasources/data_source.dart';
+import 'package:mi_referencia/data/datasources/reference_data_source.dart';
 
 final databaseProvider = Provider<AppDatabase>((ref) {
   final db = AppDatabase();

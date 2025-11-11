@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mi_referencia/data/database/database.dart';
+import 'package:mi_referencia/domain/bank_provider.dart';
 import 'package:mi_referencia/domain/reference_provider.dart';
 import 'package:mi_referencia/presentation/widgets/reference_details_dialog.dart';
 import 'package:mi_referencia/utils/format_amount.dart';
@@ -19,6 +20,21 @@ class HistoryScreen extends HookConsumerWidget {
 
     return Column(
       children: [
+        Expanded(
+          child: Column(
+            children: [
+              FilledButton(
+                onPressed: () {
+                  ref
+                      .read(bankProvider.notifier)
+                      .addBank(0102, 'Banco de Venezuela');
+                },
+                child: Text('MEMORY'),
+              ),
+            ],
+          ),
+        ),
+
         Expanded(
           flex: 5,
           child: referencesAsync.when(

@@ -1,36 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:mi_referencia/data/database/database.dart';
+import 'package:mi_referencia/domain/bank_provider.dart';
 
-class BankAutocompleteForm extends StatelessWidget {
+class BankAutocompleteForm extends HookConsumerWidget {
   const BankAutocompleteForm({super.key});
 
-  static const List<String> _bankOptions = <String>[
-    '0102 - Banco de Venezuela',
-    'Banco Provincial',
-    'Banco Mercantil',
-    'Banco Banesco',
-    'Banco Occidental de Descuento (BOD)',
-    'Banco Nacional de Crédito',
-  ];
-
   @override
-  Widget build(BuildContext context) {
-    return Autocomplete<String>(
-      // 1. Opciones que se muestran
+  Widget build(BuildContext context, WidgetRef ref) {
+    final bankList = ref.watch(bankProvider).value ?? [];
+
+    final selectedBankId = useState<int?>(null);
+
+    return Autocomplete<Bank>(
+      displayStringForOption: (Bank option) =>
+          '${option.code} - ${option.name}',
+
       optionsBuilder: (TextEditingValue textEditingValue) {
-        if (textEditingValue.text == '') {
-          // Si el campo está vacío, no mostrar ninguna sugerencia
-          return const Iterable<String>.empty();
+        if (textEditingValue.text.isEmpty) {
+          return const Iterable<Bank>.empty();
         }
-        // De lo contrario, devuelve las opciones que contengan el texto escrito
-        return _bankOptions.where((String option) {
-          // Usamos toLowerCase() para que la búsqueda no distinga mayúsculas/minúsculas
-          return option.toLowerCase().contains(
-            textEditingValue.text.toLowerCase(),
-          );
+        return bankList.where((Bank bank) {
+          final bankDisplay = '${bank.code} - ${bank.name}'.toLowerCase();
+          return bankDisplay.contains(textEditingValue.text.toLowerCase());
         });
       },
 
-      // 2. Cómo construir el campo de texto (Tu TextFormField)
       fieldViewBuilder:
           (
             BuildContext context,
@@ -44,7 +40,6 @@ class BankAutocompleteForm extends StatelessWidget {
               onFieldSubmitted: (String value) {
                 onFieldSubmitted();
               },
-              // Decoración y validadores que tenías
               decoration: const InputDecoration(
                 icon: Icon(Icons.account_balance),
                 labelText: 'Banco *',
@@ -52,39 +47,42 @@ class BankAutocompleteForm extends StatelessWidget {
                 border: OutlineInputBorder(),
               ),
               validator: (String? value) {
-                // Tu lógica de validación
-                return (value != null && value.length < 5)
-                    ? 'El nombre es muy corto.'
-                    : null;
+                if (value == null || value.isEmpty) {
+                  return 'Selecciona un banco.';
+                }
+                if (selectedBankId.value == null) {
+                  final isValidName = bankList.any(
+                    (bank) => '${bank.code} - ${bank.name}' == value,
+                  );
+                  if (!isValidName) {
+                    return 'El banco no es válido o no ha sido seleccionado.';
+                  }
+                }
+                return null;
               },
             );
           },
 
-      // 3. Cómo construir cada sugerencia en la lista desplegable
       optionsViewBuilder:
           (
             BuildContext context,
-            AutocompleteOnSelected<String> onSelected,
-            Iterable<String> options,
+            AutocompleteOnSelected<Bank> onSelected,
+            Iterable<Bank> options,
           ) {
             return Align(
               alignment: Alignment.topLeft,
               child: Material(
                 elevation: 4.0,
                 child: SizedBox(
-                  height: 200.0, // Altura máxima para el menú desplegable
+                  height: 200.0,
                   child: ListView.builder(
                     padding: EdgeInsets.zero,
                     itemCount: options.length,
                     itemBuilder: (BuildContext context, int index) {
-                      final String option = options.elementAt(index);
+                      final Bank option = options.elementAt(index);
                       return ListTile(
-                        title: Text(option),
-                        onTap: () {
-                          onSelected(
-                            option,
-                          ); // Esto selecciona la opción y la pone en el campo
-                        },
+                        title: Text('${option.code} - ${option.name}'),
+                        onTap: () => onSelected(option),
                       );
                     },
                   ),
@@ -93,11 +91,7 @@ class BankAutocompleteForm extends StatelessWidget {
             );
           },
 
-      // 4. Qué hacer cuando se selecciona una opción
-      onSelected: (String selection) {
-        print('Banco seleccionado: $selection');
-        // Aquí puedes guardar el valor en tu formulario o variable
-      },
+      onSelected: (Bank selection) => selectedBankId.value = selection.bankID,
     );
   }
 }

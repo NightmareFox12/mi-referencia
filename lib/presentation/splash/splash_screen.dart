@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:mi_referencia/data/init/init_loader.dart';
 import 'package:mi_referencia/presentation/home/home_screen.dart';
 
 class SplashScreen extends HookWidget {
@@ -37,6 +38,9 @@ class SplashScreen extends HookWidget {
       body: SafeArea(
         child: Stack(
           children: [
+            //LOAD INITIAL DATA
+            InitLoader(),
+
             Stack(
               children: [
                 Stack(

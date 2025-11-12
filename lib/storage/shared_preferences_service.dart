@@ -13,9 +13,19 @@ class SharedPreferencesService {
     await prefs.setStringList('fields', res);
   }
 
+  setInitalData(bool initialData) async {
+    final prefs = await _getInstance();
+    await prefs.setBool('initialData', initialData);
+  }
+
   //getters
   Future<List<String>> getSelectedFields() async {
     final prefs = await _getInstance();
     return prefs.getStringList('fields') ?? ['1'];
+  }
+
+  Future<bool> getInitalData() async {
+    final prefs = await _getInstance();
+    return prefs.getBool('initialData') ?? false;
   }
 }

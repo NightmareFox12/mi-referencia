@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mi_referencia/data/database/database.dart';
 import 'package:mi_referencia/domain/bank_provider.dart';
 
+//TODO: exponer hacia el form el id del banco selccionado para poder eliminarlo y guardarlo en la bd usando otra lectura
 class BankAutocompleteForm extends HookConsumerWidget {
   const BankAutocompleteForm({super.key});
 
@@ -11,7 +12,20 @@ class BankAutocompleteForm extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final bankList = ref.watch(bankProvider).value ?? [];
 
+    //states
     final selectedBankId = useState<int?>(null);
+    final msgError = useState<String?>(null);
+
+    //functions
+    String? showError(String currentText) {
+      if (currentText.isEmpty) return null;
+      final isValidName = bankList.any(
+        (bank) => '${bank.code} - ${bank.name}' == currentText,
+      );
+      if (!isValidName)
+        return 'El banco no es válido o no ha sido seleccionado.';
+      return null;
+    }
 
     return Autocomplete<Bank>(
       displayStringForOption: (Bank option) =>
@@ -22,8 +36,8 @@ class BankAutocompleteForm extends HookConsumerWidget {
           return const Iterable<Bank>.empty();
         }
         return bankList.where((Bank bank) {
-          final bankDisplay = '${bank.code} - ${bank.name}'.toLowerCase();
-          return bankDisplay.contains(textEditingValue.text.toLowerCase());
+          final bankDisplay = '${bank.code} - ${bank.name}'.toUpperCase();
+          return bankDisplay.contains(textEditingValue.text.toUpperCase());
         });
       },
 
@@ -34,32 +48,20 @@ class BankAutocompleteForm extends HookConsumerWidget {
             FocusNode focusNode,
             VoidCallback onFieldSubmitted,
           ) {
+            textEditingController.addListener(
+              () => msgError.value = showError(textEditingController.text),
+            );
+
             return TextFormField(
               controller: textEditingController,
               focusNode: focusNode,
-              onFieldSubmitted: (String value) {
-                onFieldSubmitted();
-              },
+              forceErrorText: msgError.value,
               decoration: const InputDecoration(
                 icon: Icon(Icons.account_balance),
                 labelText: 'Banco *',
                 hintText: 'Escribe el nombre del banco',
                 border: OutlineInputBorder(),
               ),
-              validator: (String? value) {
-                if (value == null || value.isEmpty) {
-                  return 'Selecciona un banco.';
-                }
-                if (selectedBankId.value == null) {
-                  final isValidName = bankList.any(
-                    (bank) => '${bank.code} - ${bank.name}' == value,
-                  );
-                  if (!isValidName) {
-                    return 'El banco no es válido o no ha sido seleccionado.';
-                  }
-                }
-                return null;
-              },
             );
           },
 
@@ -91,7 +93,10 @@ class BankAutocompleteForm extends HookConsumerWidget {
             );
           },
 
-      onSelected: (Bank selection) => selectedBankId.value = selection.bankID,
+      onSelected: (Bank selection) {
+        selectedBankId.value = selection.bankID;
+        msgError.value = null;
+      },
     );
   }
 }

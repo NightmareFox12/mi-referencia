@@ -4,16 +4,15 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mi_referencia/data/database/database.dart';
 import 'package:mi_referencia/domain/bank_provider.dart';
 
-//TODO: exponer hacia el form el id del banco selccionado para poder eliminarlo y guardarlo en la bd usando otra lectura
 class BankAutocompleteForm extends HookConsumerWidget {
-  const BankAutocompleteForm({super.key});
+  final ValueNotifier<int?> bankID;
+  const BankAutocompleteForm({super.key, required this.bankID});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final bankList = ref.watch(bankProvider).value ?? [];
 
     //states
-    final selectedBankId = useState<int?>(null);
     final msgError = useState<String?>(null);
 
     //functions
@@ -26,6 +25,10 @@ class BankAutocompleteForm extends HookConsumerWidget {
         return 'El banco no es válido o no ha sido seleccionado.';
       return null;
     }
+
+    useEffect(() {
+      return null;
+    }, [bankID.value]);
 
     return Autocomplete<Bank>(
       displayStringForOption: (Bank option) =>
@@ -94,7 +97,7 @@ class BankAutocompleteForm extends HookConsumerWidget {
           },
 
       onSelected: (Bank selection) {
-        selectedBankId.value = selection.bankID;
+        bankID.value = selection.bankID;
         msgError.value = null;
       },
     );

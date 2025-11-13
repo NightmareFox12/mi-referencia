@@ -27,7 +27,7 @@ class ReferenceForm extends HookWidget {
     //states
     final note = useState<String>('');
     final phone = useState<String>('');
-    final bank = useState<String>('');
+    final bankID = useState<int?>(null);
     final reference = useState<String>('');
     final amount = useState<String>('');
 
@@ -91,7 +91,7 @@ class ReferenceForm extends HookWidget {
     bool isEmptyFields() {
       return note.value.isEmpty &&
           phone.value.isEmpty &&
-          bank.value.isEmpty &&
+          bankID.value == null &&
           reference.value.isEmpty &&
           amount.value.isEmpty;
     }
@@ -99,7 +99,6 @@ class ReferenceForm extends HookWidget {
     void clearForm() {
       note.value = '';
       phone.value = '';
-      bank.value = '';
       reference.value = '';
       amount.value = '';
 
@@ -123,7 +122,7 @@ class ReferenceForm extends HookWidget {
         if (errorPhoneMsg() != null || phone.value.length < 12) return false;
       }
 
-      if (selectedFields.value.contains(3) && bank.value.isEmpty) return false;
+      if (selectedFields.value.contains(3) && bankID.value == null) return false;
 
       return true;
     }
@@ -139,7 +138,8 @@ class ReferenceForm extends HookWidget {
       if (selectedFields.value.contains(2))
         dataToSubmit['phone'] = phone.value.replaceAll('-', '');
 
-      if (selectedFields.value.contains(3)) dataToSubmit['bank'] = bank.value;
+      if (selectedFields.value.contains(3))
+        dataToSubmit['bank'] = bankID.value.toString();
 
       print(dataToSubmit);
 
@@ -215,7 +215,7 @@ class ReferenceForm extends HookWidget {
 
             //Bank
             selectedFields.value.contains(3)
-                ? BankAutocompleteForm()
+                ? BankAutocompleteForm(bankID: bankID)
                 : SizedBox.shrink(),
             selectedFields.value.contains(3)
                 ? SizedBox(height: 24)

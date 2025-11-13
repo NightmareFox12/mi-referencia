@@ -3,7 +3,9 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:intl/intl.dart';
 import 'package:mi_referencia/presentation/widgets/bank_autocomplete_form.dart';
+import 'package:mi_referencia/utils/format_amount.dart';
 
 class ReferenceForm extends HookWidget {
   final ValueNotifier<Set<int>> selectedFields;
@@ -54,6 +56,33 @@ class ReferenceForm extends HookWidget {
       );
     });
 
+    // Este es el formateador que puedes usar en tu TextField
+    final TextInputFormatter amountFormatter = TextInputFormatter.withFunction((
+      oldValue,
+      newValue,
+    ) {
+      String cleanText = newValue.text.replaceAll(RegExp(r'[^\d]'), '');
+
+      if (cleanText.isEmpty) {
+        return const TextEditingValue(
+          text: '',
+          selection: TextSelection.collapsed(offset: 0),
+        );
+      }
+
+      double? parsedAmount = double.tryParse(cleanText);
+
+      if (parsedAmount == null) return oldValue;
+
+      String formatted = formatAmount(parsedAmount);
+      int offset = formatted.length;
+
+      return TextEditingValue(
+        text: formatted,
+        selection: TextSelection.collapsed(offset: offset),
+      );
+    });
+
     //error msg
     String? errorNoteMsg() {
       final value = note.value;
@@ -73,6 +102,12 @@ class ReferenceForm extends HookWidget {
 
     String? errorPhoneMsg() {
       if (phone.value.isEmpty) return null;
+      if (phone.value.length != 12) return 'El teléfono es inválido.';
+
+      if (RegExp(r'[a-zA-Z]').hasMatch(phone.value))
+        return 'El teléfono es inválido.';
+
+      return null;
     }
 
     String? errorReferenceMsg() {
@@ -122,7 +157,8 @@ class ReferenceForm extends HookWidget {
         if (errorPhoneMsg() != null || phone.value.length < 12) return false;
       }
 
-      if (selectedFields.value.contains(3) && bankID.value == null) return false;
+      if (selectedFields.value.contains(3) && bankID.value == null)
+        return false;
 
       return true;
     }
@@ -188,10 +224,7 @@ class ReferenceForm extends HookWidget {
                     keyboardType: TextInputType.phone,
                     controller: phoneController,
                     forceErrorText: errorPhoneMsg(),
-                    inputFormatters: [
-                      phoneFormatter,
-                      // FilteringTextInputFormatter.digitsOnly,
-                    ],
+                    inputFormatters: [phoneFormatter],
                     decoration: const InputDecoration(
                       icon: Icon(Icons.phone),
                       hintText: '0412-1234567',
@@ -244,11 +277,17 @@ class ReferenceForm extends HookWidget {
             //Amount
             TextFormField(
               controller: amountController,
+              keyboardType: TextInputType.numberWithOptions(
+                decimal: true,
+                signed: false,
+              ),
+              inputFormatters: [amountFormatter],
               decoration: const InputDecoration(
                 icon: Icon(Icons.attach_money),
-                hintText: 'What do people call you?',
+                hintText: 'Ej. 100,00',
                 labelText: 'Monto *',
                 border: OutlineInputBorder(),
+                suffixText: 'Bs.F',
               ),
               onChanged: (value) => amount.value = value,
             ),

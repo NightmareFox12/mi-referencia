@@ -3,12 +3,14 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:mi_referencia/domain/reference_provider.dart';
 import 'package:mi_referencia/presentation/widgets/bank_autocomplete_form.dart';
 import 'package:mi_referencia/presentation/widgets/reference_group_button.dart';
 import 'package:mi_referencia/storage/shared_preferences_service.dart';
 import 'package:mi_referencia/utils/format_amount.dart';
 
-class ReferenceFormScreen extends HookWidget {
+class ReferenceFormScreen extends HookConsumerWidget {
   const ReferenceFormScreen({super.key});
 
   //consts
@@ -24,7 +26,7 @@ class ReferenceFormScreen extends HookWidget {
   static final amountController = TextEditingController();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     //states
     final selectedFields = useState<Set<int>>({1});
     final note = useState<String>('');
@@ -169,22 +171,17 @@ class ReferenceFormScreen extends HookWidget {
     }
 
     Future<void> handleSubmitReference() async {
-      final dataToSubmit = {
-        'reference': reference.value,
-        'amount': amount.value,
-      };
+      final selectedField = selectedFields.value;
 
-      if (selectedFields.value.contains(1)) dataToSubmit['note'] = note.value;
-
-      if (selectedFields.value.contains(2))
-        dataToSubmit['phone'] = phone.value.replaceAll('-', '');
-
-      if (selectedFields.value.contains(3))
-        dataToSubmit['bankID'] = bankID.value.toString();
-
-      print(dataToSubmit);
-
-      // Ejemplo: await ApiService.uploadReference(dataToSubmit);
+      ref
+          .read(referenceProvider.notifier)
+          .addReference(
+            selectedField.contains(1) ? note.value : null,
+            selectedField.contains(2) ? phone.value : null,
+            selectedField.contains(3) ? bankID.value : null,
+            int.parse(reference.value),
+            parseAmount(amount.value),
+          );
       clearForm();
     }
 

@@ -1,3 +1,4 @@
+import 'package:drift/drift.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mi_referencia/data/database/database.dart';
 import 'package:mi_referencia/data/datasources/reference_data_source.dart';
@@ -20,15 +21,29 @@ class ReferenceProvider extends AsyncNotifier<List<Reference>> {
     return await dataSource.getAllReferences();
   }
 
-  Future<void> addReference(Reference reference) async {
-    final dataSource = ref.read(referenceDataSourceProvider);
-    await dataSource.setReference(reference);
-    ref.invalidateSelf();
-  }
+  // Future<void> addReference(Reference reference) async {
+  //   final dataSource = ref.read(referenceDataSourceProvider);
+  //   await dataSource.setReference(reference);
+  //   ref.invalidateSelf();
+  // }
 
-  Future<void> addFastReference(int reference, double amount) async {
+  Future<void> addReference(
+    String? note,
+    String? phone,
+    int? bankID,
+    int reference,
+    double amount,
+  ) async {
     final dataSource = ref.read(referenceDataSourceProvider);
-    await dataSource.setFastReference(reference, amount);
+    await dataSource.setReference(
+      ReferenceItemCompanion.insert(
+        note: Value(note),
+        phone: Value(phone),
+        bankID: Value(bankID),
+        reference: reference,
+        amount: amount,
+      ),
+    );
     ref.invalidateSelf();
   }
 

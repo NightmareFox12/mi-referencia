@@ -95,7 +95,13 @@ class FabFastReference extends HookConsumerWidget {
                 onPressed: () {
                   ref
                       .read(referenceProvider.notifier)
-                      .addFastReference(reference.value, amount.value);
+                      .addReference(
+                        null,
+                        null,
+                        null,
+                        reference.value,
+                        amount.value,
+                      );
                   Navigator.of(context).pop();
                 },
               ),

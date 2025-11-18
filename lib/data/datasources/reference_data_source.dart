@@ -11,16 +11,12 @@ class ReferenceDataSource {
     return db.select(db.referenceItem).get();
   }
 
-  Future<int> setReference(Reference reference) async {
-    return db.into(db.referenceItem).insert(reference);
-  }
+  // Future<int> setReference(Reference reference) async {
+  //   return db.into(db.referenceItem).insert(reference);
+  // }
 
-  Future<int> setFastReference(int reference, double amount) async {
-    return db
-        .into(db.referenceItem)
-        .insert(
-          ReferenceItemCompanion.insert(reference: reference, amount: amount),
-        );
+  Future<int> setReference(ReferenceItemCompanion data) async {
+    return db.into(db.referenceItem).insert(data);
   }
 
   deleteAll() async {

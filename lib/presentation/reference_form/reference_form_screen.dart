@@ -60,7 +60,12 @@ class ReferenceFormScreen extends HookWidget {
       oldValue,
       newValue,
     ) {
+      const int maxDigits = 10;
+      const double maxValue = 999999999.0;
+
       String cleanText = newValue.text.replaceAll(RegExp(r'[^\d]'), '');
+
+      if (cleanText.length > maxDigits) return oldValue;
 
       if (cleanText.isEmpty) {
         return const TextEditingValue(
@@ -70,7 +75,9 @@ class ReferenceFormScreen extends HookWidget {
       }
 
       double? parsedAmount = double.tryParse(cleanText);
+
       if (parsedAmount == null) return oldValue;
+      if (parsedAmount > maxValue) return oldValue;
 
       String formatted = formatAmount(parsedAmount);
       int offset = formatted.length;
@@ -112,12 +119,12 @@ class ReferenceFormScreen extends HookWidget {
       final msg = "La referencia no es válida.";
 
       if (reference.value.isEmpty) return null;
-      final referenceCheck = int.tryParse(reference.value);
-      if (referenceCheck == null) return msg;
-      if (referenceCheck > 9999 || referenceCheck < 1000)
-        return msg;
-      else
+
+      final regExp = RegExp(r'^\d{4}$');
+      if (regExp.hasMatch(reference.value))
         return null;
+      else
+        return msg;
     }
 
     //functions

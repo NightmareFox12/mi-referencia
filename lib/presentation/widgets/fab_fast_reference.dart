@@ -1,19 +1,68 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mi_referencia/data/database/database.dart';
 import 'package:mi_referencia/domain/reference_provider.dart';
+import 'package:mi_referencia/utils/format_amount.dart';
 
 class FabFastReference extends HookConsumerWidget {
   Future<void> showFastReferenceDialog(
     BuildContext context,
     WidgetRef ref,
-    ValueNotifier<int> reference,
-    ValueNotifier<double> amount,
-    ValueNotifier<String?> referenceErr,
-    ValueNotifier<String?> amountErr,
+    ValueNotifier<String> reference,
+    ValueNotifier<String> amount,
     AsyncValue<List<Reference>> referencesAsync,
   ) async {
+    //controllers
+    final referenceController = TextEditingController();
+    final amountController = TextEditingController();
+
+    //error msg
+    String? errorReferenceMsg() {
+      final msg = "La referencia no es válida.";
+
+      if (reference.value.isEmpty) return null;
+
+      final regExp = RegExp(r'^\d{4}$');
+      if (regExp.hasMatch(reference.value))
+        return null;
+      else
+        return msg;
+    }
+
+    final TextInputFormatter amountFormatter = TextInputFormatter.withFunction((
+      oldValue,
+      newValue,
+    ) {
+      const int maxDigits = 10;
+      const double maxValue = 999999999.0;
+
+      String cleanText = newValue.text.replaceAll(RegExp(r'[^\d]'), '');
+
+      if (cleanText.length > maxDigits) return oldValue;
+
+      if (cleanText.isEmpty) {
+        return const TextEditingValue(
+          text: '',
+          selection: TextSelection.collapsed(offset: 0),
+        );
+      }
+
+      double? parsedAmount = double.tryParse(cleanText);
+
+      if (parsedAmount == null) return oldValue;
+      if (parsedAmount > maxValue) return oldValue;
+
+      String formatted = formatAmount(parsedAmount);
+      int offset = formatted.length;
+
+      return TextEditingValue(
+        text: formatted,
+        selection: TextSelection.collapsed(offset: offset),
+      );
+    });
+
     return showDialog<void>(
       context: context,
       barrierDismissible: false,
@@ -27,55 +76,40 @@ class FabFastReference extends HookConsumerWidget {
                   // Text('Nose que poner aqui'),
                   // SizedBox(height: 10),
                   TextFormField(
-                    keyboardType: TextInputType.number,
-                    autofocus: true,
-                    forceErrorText: referenceErr.value,
+                    controller: referenceController,
+                    keyboardType: TextInputType.numberWithOptions(
+                      decimal: false,
+                      signed: false,
+                    ),
+                    forceErrorText: errorReferenceMsg(),
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                     decoration: const InputDecoration(
-                      // icon: Icon(Icons.person),
-                      hintText: 'Ej: 2534',
+                      // icon: Icon(Icons.pin),
+                      hintText: 'Ej. 2294',
                       labelText: 'Referencia *',
                       border: OutlineInputBorder(),
                     ),
-                    onChanged: (value) {
-                      final parsedNumber = int.tryParse(value);
-                      if (parsedNumber != null) {
-                        reference.value = parsedNumber;
-
-                        if (value.isNotEmpty && value.length < 4) {
-                          referenceErr.value = 'La referencia no es válida.';
-                        } else
-                          referenceErr.value = null;
-                      } else {
-                        if (value.isNotEmpty)
-                          referenceErr.value = 'La referencia no es válida.';
-                      }
-
-                      setState(() => {});
-                    },
+                    onChanged: (value) => reference.value = value,
+                    maxLength: 4,
                   ),
-                  SizedBox(height: 12),
+
+                  SizedBox(height: 6),
 
                   TextFormField(
-                    keyboardType: TextInputType.number,
-                    forceErrorText: amountErr.value,
-                    decoration: const InputDecoration(
-                      hintText: 'Ej: 100',
-                      labelText: 'Monto (Bs.F) *',
-                      suffixText: 'Bs.F',
-                      border: OutlineInputBorder(),
+                    controller: amountController,
+                    keyboardType: TextInputType.numberWithOptions(
+                      decimal: true,
+                      signed: false,
                     ),
-                    onChanged: (value) {
-                      final parsedNumber = double.tryParse(value);
-                      if (parsedNumber != null) {
-                        amount.value = parsedNumber;
-                        amountErr.value = null;
-                      } else {
-                        if (value.isNotEmpty)
-                          amountErr.value = 'El monto no es válido.';
-                      }
-
-                      setState(() => {});
-                    },
+                    inputFormatters: [amountFormatter],
+                    decoration: const InputDecoration(
+                      // icon: Icon(Icons.attach_money),
+                      hintText: 'Ej. 100,00',
+                      labelText: 'Monto *',
+                      border: OutlineInputBorder(),
+                      suffixText: 'Bs.F',
+                    ),
+                    onChanged: (value) => amount.value = value,
                   ),
                 ],
               ),
@@ -99,8 +133,8 @@ class FabFastReference extends HookConsumerWidget {
                         null,
                         null,
                         null,
-                        reference.value,
-                        amount.value,
+                        int.parse(reference.value),
+                        parseAmount(amount.value),
                       );
                   Navigator.of(context).pop();
                 },
@@ -117,10 +151,8 @@ class FabFastReference extends HookConsumerWidget {
     final referencesAsync = ref.watch(referenceProvider);
 
     //states
-    final reference = useState<int>(0);
-    final amount = useState<double>(0);
-    final referenceErr = useState<String?>(null);
-    final amountErr = useState<String?>(null);
+    final reference = useState<String>('');
+    final amount = useState<String>('');
 
     return FloatingActionButton(
       heroTag: 'fab1',
@@ -129,8 +161,6 @@ class FabFastReference extends HookConsumerWidget {
         ref,
         reference,
         amount,
-        referenceErr,
-        amountErr,
         referencesAsync,
       ),
       tooltip: 'Referencia Rápida',

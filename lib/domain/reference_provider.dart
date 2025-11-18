@@ -21,12 +21,6 @@ class ReferenceProvider extends AsyncNotifier<List<Reference>> {
     return await dataSource.getAllReferences();
   }
 
-  // Future<void> addReference(Reference reference) async {
-  //   final dataSource = ref.read(referenceDataSourceProvider);
-  //   await dataSource.setReference(reference);
-  //   ref.invalidateSelf();
-  // }
-
   Future<void> addReference(
     String? note,
     String? phone,

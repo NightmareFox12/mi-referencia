@@ -11,10 +11,6 @@ class ReferenceDataSource {
     return db.select(db.referenceItem).get();
   }
 
-  // Future<int> setReference(Reference reference) async {
-  //   return db.into(db.referenceItem).insert(reference);
-  // }
-
   Future<int> setReference(ReferenceItemCompanion data) async {
     return db.into(db.referenceItem).insert(data);
   }

@@ -48,10 +48,7 @@ class HistoryScreen extends HookConsumerWidget {
                           style: TextStyle(fontWeight: FontWeight.bold),
                           textAlign: TextAlign.center,
                         ),
-                        // subtitle: Text(
-                        //   '#${data[index].referenceID}',
-                        //   textAlign: TextAlign.center,
-                        // ),
+
                         subtitle: Text(
                           'Monto: ${formatAmount(data[index].amount)} Bs.F',
                           textAlign: TextAlign.center,

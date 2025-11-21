@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:mi_referencia/presentation/history/history_screen.dart';
+import 'package:mi_referencia/presentation/widgets/animate_pie.dart';
 import 'package:mi_referencia/presentation/widgets/bottom_bar_widget.dart';
 import 'package:mi_referencia/presentation/widgets/fab_menu.dart';
-import 'package:fl_chart/fl_chart.dart';
 
 class HomeScreen extends HookWidget {
   const HomeScreen({super.key});
@@ -21,44 +20,7 @@ class HomeScreen extends HookWidget {
         alignment: Alignment.bottomRight,
         children: [
           if (currentScreen.value == 0)
-            Stack(
-              children: [
-                // 1. El Gráfico (Tu Círculo)
-                Align(
-                  alignment: Alignment.center,
-                  child: SizedBox(
-                    width: 250,
-                    height: 250,
-                    child: PieChart(
-                      PieChartData(
-                        sections: [
-                          PieChartSectionData(
-                            color: Colors.red,
-                            value: 100,
-                            radius: 12,
-                            showTitle: false,
-                          ),
-                        ],
-                      ),
-                      duration: Duration(milliseconds: 150),
-                      curve: Curves.linear,
-                    ),
-                  ),
-                ),
-
-                Align(
-                  alignment: Alignment.center,
-                  child: Text(
-                    '100%',
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                    ),
-                  ),
-                ),
-              ],
-            )
+            AnimatePie()
           else
             Center(
               child: Column(
@@ -76,20 +38,3 @@ class HomeScreen extends HookWidget {
     );
   }
 }
-
-// ElevatedButton(
-//   child: const Text('Show Snackbar'),
-//   onPressed: () {
-//     ScaffoldMessenger.of(context).showSnackBar(
-//       SnackBar(
-//         content: const Text('Awesome Snackbar!'),
-//         action: SnackBarAction(
-//           label: 'Action',
-//           onPressed: () {
-//             // Code to execute.
-//           },
-//         ),
-//       ),
-//     );
-//   },
-// ),

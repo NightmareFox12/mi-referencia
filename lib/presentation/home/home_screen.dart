@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:mi_referencia/presentation/history/history_screen.dart';
 import 'package:mi_referencia/presentation/widgets/animate_pie.dart';
 import 'package:mi_referencia/presentation/widgets/bottom_bar_widget.dart';
 import 'package:mi_referencia/presentation/widgets/fab_menu.dart';
@@ -19,19 +20,20 @@ class HomeScreen extends HookWidget {
       body: Stack(
         alignment: Alignment.bottomRight,
         children: [
-          if (currentScreen.value == 0)
-            AnimatePie()
-          else
-            Center(
-              child: Column(
-                children: [
-                  IconButton.filled(
-                    onPressed: () {},
-                    icon: Icon(Icons.agriculture_rounded),
+          currentScreen.value == 0
+              ? AnimatePie(currentScreen: currentScreen)
+              : (currentScreen.value == 1)
+              ? HistoryScreen()
+              : Center(
+                  child: Column(
+                    children: [
+                      IconButton.filled(
+                        onPressed: () {},
+                        icon: Icon(Icons.agriculture_rounded),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            ),
+                ),
           FabMenu(currentScreen: currentScreen.value),
         ],
       ),

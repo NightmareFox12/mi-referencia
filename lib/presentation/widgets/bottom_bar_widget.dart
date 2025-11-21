@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class BottomBarWidget extends StatelessWidget {
-  final currentScreen;
+  final ValueNotifier<int> currentScreen;
 
-  BottomBarWidget({super.key, required ValueNotifier<int> this.currentScreen});
+  BottomBarWidget({super.key, required this.currentScreen});
 
   @override
   Widget build(BuildContext context) {
@@ -14,10 +14,7 @@ class BottomBarWidget extends StatelessWidget {
       },
       items: [
         BottomNavigationBarItem(label: 'Inicio', icon: Icon(Icons.home)),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.ac_unit_sharp),
-          label: 'Graficas',
-        ),
+        BottomNavigationBarItem(icon: Icon(Icons.list), label: 'Historial'),
       ],
     );
   }

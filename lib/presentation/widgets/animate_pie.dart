@@ -7,7 +7,9 @@ import 'package:mi_referencia/utils/format_amount.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class AnimatePie extends HookConsumerWidget {
-  const AnimatePie({super.key});
+  final ValueNotifier<int> currentScreen;
+
+  const AnimatePie({super.key, required this.currentScreen});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -75,6 +77,17 @@ class AnimatePie extends HookConsumerWidget {
                 ),
               ),
             ],
+          ),
+        ),
+
+        Align(
+          alignment: Alignment.center,
+          child: Padding(
+            padding: const EdgeInsets.only(top: 100),
+            child: TextButton(
+              onPressed: () => currentScreen.value = 1,
+              child: Text('Ver Referencias'),
+            ),
           ),
         ),
       ],

@@ -30,3 +30,10 @@ class BankProvider extends AsyncNotifier<List<Bank>> {
 final bankProvider = AsyncNotifierProvider<BankProvider, List<Bank>>(
   BankProvider.new,
 );
+
+//QUERYS (no real-time)
+final bankInfoProvider = FutureProvider.family<Bank, int>((ref, bankID) async {
+  final dataSource = ref.watch(bankDataSourceProvider);
+
+  return await dataSource.getBankInfo(bankID);
+});

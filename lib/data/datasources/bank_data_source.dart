@@ -13,4 +13,10 @@ class BankDataSource {
   Future<int> setBank(BankItemCompanion bank) async {
     return db.into(db.bankItem).insert(bank);
   }
+
+  Future<Bank> getBankInfo(int bankID) async {
+    final query = db.select(db.bankItem);
+    query.where((bank) => bank.bankID.equals(bankID));
+    return await query.getSingle();
+  }
 }

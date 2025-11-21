@@ -69,12 +69,10 @@ class FabFastReference extends HookConsumerWidget {
       builder: (BuildContext context) {
         return StatefulBuilder(
           builder: (context, setState) => AlertDialog(
-            title: Text('Referencia'),
+            title: Text('Guardar Referencia'),
             content: SingleChildScrollView(
               child: ListBody(
                 children: <Widget>[
-                  // Text('Nose que poner aqui'),
-                  // SizedBox(height: 10),
                   TextFormField(
                     controller: referenceController,
                     keyboardType: TextInputType.numberWithOptions(

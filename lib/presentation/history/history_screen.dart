@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mi_referencia/data/database/database.dart';
+import 'package:mi_referencia/domain/bank_provider.dart';
 import 'package:mi_referencia/domain/reference_provider.dart';
 import 'package:mi_referencia/presentation/widgets/reference_details_dialog.dart';
 import 'package:mi_referencia/utils/format_amount.dart';
@@ -19,6 +20,10 @@ class HistoryScreen extends HookConsumerWidget {
 
     return Column(
       children: [
+        Text(
+          'Historial del ${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}',
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
+        ),
         Expanded(
           flex: 5,
           child: referencesAsync.when(
@@ -55,10 +60,21 @@ class HistoryScreen extends HookConsumerWidget {
                           message: 'Ver detalles',
                           waitDuration: Duration(milliseconds: 500),
                           child: IconButton.filled(
-                            onPressed: () => showReferenceDetailsDialog(
-                              context,
-                              data[index].referenceID,
-                            ),
+                            onPressed: () {
+                              Bank? bankInfo;
+                              if (data[index].bankID != null) {
+                                bankInfo = ref
+                                    .watch(
+                                      bankInfoProvider(data[index].bankID!),
+                                    )
+                                    .value;
+                              }
+                              showReferenceDetailsDialog(
+                                context,
+                                data[index],
+                                bankInfo,
+                              );
+                            },
                             icon: Icon(Icons.remove_red_eye),
                           ),
                         ),
@@ -96,7 +112,6 @@ class HistoryScreen extends HookConsumerWidget {
                 //       ref.read(referenceProvider.notifier).deleteAll(),
                 //   child: Text('eliminar todo'),
                 // ),
-
                 totalAmountReferenceAsync.when(
                   data: (data) {
                     return Text('${formatAmount(data)} Bs.F');

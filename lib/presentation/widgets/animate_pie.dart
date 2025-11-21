@@ -4,6 +4,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mi_referencia/domain/reference_provider.dart';
 import 'package:mi_referencia/utils/format_amount.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class AnimatePie extends HookConsumerWidget {
   const AnimatePie({super.key});
@@ -16,13 +17,12 @@ class AnimatePie extends HookConsumerWidget {
       duration: const Duration(seconds: 4),
     );
 
-    final ColorTween colorTween = ColorTween(
+    final Animation<Color?> animationColor = ColorTween(
       begin: Colors.red,
       end: Colors.blue,
-    );
+    ).animate(controller);
 
-    final Color animatedColor = colorTween.evaluate(controller)!;
-
+    final Color animatedColor = useAnimation(animationColor)!;
     useEffect(() {
       controller.repeat(reverse: true);
       return controller.dispose;
@@ -61,19 +61,18 @@ class AnimatePie extends HookConsumerWidget {
                 'Monto Total de Hoy',
                 style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
               ),
-              totalAmountReferenceAsync.when(
-                data: (data) {
-                  return Text(
-                    '${formatAmount(data)} Bs.F',
-                    style: const TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                    ),
-                  );
-                },
-                error: (error, stackTrace) => Text(error.toString()),
-                loading: () => CircularProgressIndicator(),
+
+              Skeletonizer(
+                enabled: totalAmountReferenceAsync.isLoading,
+                enableSwitchAnimation: true,
+                child: Text(
+                  '${formatAmount(totalAmountReferenceAsync.value ?? 0.0)} Bs.F',
+                  style: const TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                ),
               ),
             ],
           ),

@@ -69,13 +69,14 @@ class LastReferences extends HookConsumerWidget {
                         child: ListView.builder(
                           itemCount: data.length,
                           itemBuilder: (context, index) => ListTile(
+                            horizontalTitleGap: 0,
+                            minTileHeight: 6,
                             leading: Text('#${index + 1}'),
                             title: Text(
                               'Referencia: ${data[index].reference}',
                               style: TextStyle(fontWeight: FontWeight.bold),
                               textAlign: TextAlign.center,
                             ),
-
                             subtitle: Text(
                               'Monto: ${formatAmount(data[index].amount)} Bs.F',
                               textAlign: TextAlign.center,

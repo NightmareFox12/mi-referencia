@@ -10,7 +10,7 @@ class TotalAmountLabel extends HookConsumerWidget {
     final totalAmountReferenceAsync = ref.watch(totalAmountProvider);
 
     return Padding(
-      padding: const EdgeInsets.all(4),
+      padding: const EdgeInsets.only(top: 8, bottom: 4),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [

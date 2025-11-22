@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:mi_referencia/presentation/configuration/configuration_screen.dart';
 import 'package:mi_referencia/presentation/history/history_screen.dart';
 import 'package:mi_referencia/presentation/widgets/bottom_bar_widget.dart';
 import 'package:mi_referencia/presentation/widgets/fab_menu.dart';
@@ -33,16 +34,7 @@ class HomeScreen extends HookConsumerWidget {
                 )
               : (currentScreen.value == 1)
               ? HistoryScreen()
-              : Center(
-                  child: Column(
-                    children: [
-                      IconButton.filled(
-                        onPressed: () {},
-                        icon: Icon(Icons.agriculture_rounded),
-                      ),
-                    ],
-                  ),
-                ),
+              : ConfigurationScreen(),
 
           FabMenu(currentScreen: currentScreen.value),
         ],

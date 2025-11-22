@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:mi_referencia/data/database/database.dart';
+import 'package:mi_referencia/domain/reference_provider.dart';
 import 'package:mi_referencia/presentation/theme/custom_style.dart';
 
 Future<void> showDeleteAllDialog(BuildContext context, WidgetRef ref) async {
@@ -7,6 +9,10 @@ Future<void> showDeleteAllDialog(BuildContext context, WidgetRef ref) async {
     context: context,
     barrierDismissible: false,
     builder: (BuildContext context) {
+      final AsyncValue<List<Reference>> referenceAsync = ref.watch(
+        referenceProvider,
+      );
+
       return AlertDialog(
         title: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -44,16 +50,17 @@ Future<void> showDeleteAllDialog(BuildContext context, WidgetRef ref) async {
         actions: <Widget>[
           OutlinedButton(
             child: Text('Cancelar'),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
+            onPressed: () => Navigator.of(context).pop(),
           ),
 
           FilledButton.icon(
             style: dangerButton(context),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
+            onPressed: (referenceAsync.value == null)
+                ? null
+                : () {
+                    ref.read(referenceProvider.notifier).deleteAll();
+                    Navigator.of(context).pop();
+                  },
             icon: Icon(Icons.delete),
             label: Text('Eliminar'),
           ),

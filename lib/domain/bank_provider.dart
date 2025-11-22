@@ -20,6 +20,7 @@ class BankProvider extends AsyncNotifier<List<Bank>> {
     return await dataSource.getAllBanks();
   }
 
+  //CRUD
   Future<void> addBank(String code, String name) async {
     final dataSource = ref.read(bankDataSourceProvider);
     await dataSource.setBank(BankItemCompanion.insert(code: code, name: name));

@@ -5,7 +5,12 @@ ButtonStyle dangerButton(BuildContext context) {
 
   if (brightness == Brightness.light) {
     return ButtonStyle(
-      backgroundColor: WidgetStatePropertyAll(Colors.red),
+      backgroundColor: WidgetStateColor.resolveWith((states) {
+        if (states.contains(WidgetState.disabled)) {
+          return Colors.grey;
+        }
+        return Colors.red;
+      }),
       foregroundColor: WidgetStatePropertyAll(Colors.white),
     );
   } else {

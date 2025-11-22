@@ -8,6 +8,7 @@ const Color _platinum = Color(0xFFf4f4f5);
 abstract class AppTheme {
   static ThemeData lightTheme() {
     return ThemeData(
+      brightness: Brightness.light,
       primaryColor: _sapphireSky,
       secondaryHeaderColor: _sapphireSky,
       scaffoldBackgroundColor: _platinum,
@@ -43,6 +44,7 @@ abstract class AppTheme {
 
   static ThemeData darkTheme() {
     return ThemeData(
+      brightness: Brightness.dark,
       primaryColor: Colors.blue,
       secondaryHeaderColor: Colors.black,
       scaffoldBackgroundColor: Colors.black,

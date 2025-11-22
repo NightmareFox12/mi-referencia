@@ -55,7 +55,8 @@ Future<void> showDeleteAllDialog(BuildContext context, WidgetRef ref) async {
 
           FilledButton.icon(
             style: dangerButton(context),
-            onPressed: (referenceAsync.value == null)
+            onPressed:
+                (referenceAsync.value == null || referenceAsync.value!.isEmpty)
                 ? null
                 : () {
                     ref.read(referenceProvider.notifier).deleteAll();

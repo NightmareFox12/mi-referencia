@@ -1,11 +1,10 @@
 import 'package:fl_chart/fl_chart.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mi_referencia/utils/format_amount.dart';
 
 class LastWeekLineChart extends HookConsumerWidget {
-  final List<String> weekDays = [
+  static final List<String> weekDays = [
     "Lun",
     "Mar",
     "Mie",
@@ -62,7 +61,8 @@ class LastWeekLineChart extends HookConsumerWidget {
                 lineBarsData: [
                   LineChartBarData(
                     isCurved: true,
-
+                    barWidth: 4,
+                    gradient: LinearGradient(colors: [Colors.blue, Colors.red]),
                     spots: [
                       const FlSpot(0, 0),
                       const FlSpot(1, 500),

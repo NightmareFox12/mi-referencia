@@ -67,3 +67,11 @@ final totalAmountProvider = FutureProvider<double>((ref) async {
 
   return await dataSource.getAmountTotalReference();
 });
+
+final lastReferencesProvider = FutureProvider<List<Reference>>((ref) async {
+  final dataSource = ref.watch(referenceDataSourceProvider);
+
+  ref.watch(referenceProvider);
+
+  return await dataSource.getLastReferences();
+});

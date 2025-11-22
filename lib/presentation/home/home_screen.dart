@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:mi_referencia/domain/reference_provider.dart';
 import 'package:mi_referencia/presentation/history/history_screen.dart';
 import 'package:mi_referencia/presentation/widgets/bottom_bar_widget.dart';
 import 'package:mi_referencia/presentation/widgets/fab_menu.dart';
+import 'package:mi_referencia/presentation/widgets/last_references.dart';
 import 'package:mi_referencia/presentation/widgets/last_week_line_chart.dart';
 import 'package:mi_referencia/presentation/widgets/total_amount_label.dart';
 
@@ -26,8 +28,8 @@ class HomeScreen extends HookConsumerWidget {
               ? Column(
                   children: [
                     TotalAmountLabel(),
-                    // AnimatePie(currentScreen: currentScreen),
                     LastWeekLineChart(),
+                    LastReferences(),
                   ],
                 )
               : (currentScreen.value == 1)

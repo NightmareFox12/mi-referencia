@@ -43,4 +43,15 @@ class ReferenceDataSource {
     final result = await query.getSingleOrNull();
     return result?.read(maxExpression) ?? 0.0;
   }
+
+  // LAST REFERENCES
+  Future<List<Reference>> getLastReferences() async {
+    final query = db.select(db.referenceItem)
+      ..orderBy([
+        (t) => OrderingTerm(expression: t.date, mode: OrderingMode.desc),
+      ])
+      ..limit(5);
+
+    return query.get();
+  }
 }

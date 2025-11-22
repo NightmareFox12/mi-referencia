@@ -12,11 +12,18 @@ class BottomBarWidget extends StatelessWidget {
       onTap: (value) {
         currentScreen.value = value;
       },
-      //TODO: Agregar vbanco
-      // config donde ira modo oscuro y eliminar datos
+      //TODO: config donde ira modo oscuro y eliminar datos
       items: [
         BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Inicio'),
         BottomNavigationBarItem(icon: Icon(Icons.list), label: 'Historial'),
+        // BottomNavigationBarItem(
+        //   icon: Icon(Icons.account_balance),
+        //   label: 'Banco',
+        // ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.settings),
+          label: 'Configuración',
+        ),
       ],
     );
   }

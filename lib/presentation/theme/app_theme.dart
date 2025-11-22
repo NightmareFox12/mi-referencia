@@ -39,6 +39,39 @@ abstract class AppTheme {
           backgroundColor: WidgetStatePropertyAll(_sapphireSky),
         ),
       ),
+      filledButtonTheme: FilledButtonThemeData(
+        style: ButtonStyle(
+          foregroundColor: WidgetStatePropertyAll(Colors.white),
+          backgroundColor: WidgetStateColor.resolveWith(
+            (states) => states.contains(WidgetState.disabled)
+                ? Colors.grey
+                : _sapphireSky,
+          ),
+        ),
+      ),
+      outlinedButtonTheme: OutlinedButtonThemeData(
+        style: ButtonStyle(
+          foregroundColor: WidgetStatePropertyAll(Colors.black),
+        ),
+      ),
+      inputDecorationTheme: InputDecorationTheme(
+        labelStyle: TextStyle(color: Colors.black),
+        hintStyle: TextStyle(color: Colors.black),
+        activeIndicatorBorder: BorderSide(color: _sapphireSky),
+        border: OutlineInputBorder(borderSide: BorderSide(color: _sapphireSky)),
+        errorBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.red),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: _sapphireSky),
+        ),
+        disabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.grey),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.red),
+        ),
+      ),
     );
   }
 

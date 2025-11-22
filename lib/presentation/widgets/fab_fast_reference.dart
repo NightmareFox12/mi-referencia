@@ -85,7 +85,6 @@ class FabFastReference extends HookConsumerWidget {
                       // icon: Icon(Icons.pin),
                       hintText: 'Ej. 2294',
                       labelText: 'Referencia *',
-                      border: OutlineInputBorder(),
                     ),
                     onChanged: (value) => reference.value = value,
                     maxLength: 4,
@@ -124,18 +123,20 @@ class FabFastReference extends HookConsumerWidget {
               FilledButton.icon(
                 label: Text('Guardar'),
                 icon: Icon(Icons.check),
-                onPressed: () {
-                  ref
-                      .read(referenceProvider.notifier)
-                      .addReference(
-                        null,
-                        null,
-                        null,
-                        int.parse(reference.value),
-                        parseAmount(amount.value),
-                      );
-                  Navigator.of(context).pop();
-                },
+                onPressed: (reference.value.isEmpty || amount.value.isEmpty)
+                    ? null
+                    : () {
+                        ref
+                            .read(referenceProvider.notifier)
+                            .addReference(
+                              null,
+                              null,
+                              null,
+                              int.parse(reference.value),
+                              parseAmount(amount.value),
+                            );
+                        Navigator.of(context).pop();
+                      },
               ),
             ],
           ),

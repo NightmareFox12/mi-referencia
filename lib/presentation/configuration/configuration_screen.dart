@@ -1,21 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:mi_referencia/presentation/about_screen/about_screen.dart';
+import 'package:mi_referencia/presentation/widgets/delete_all_dialog.dart';
 
-class ConfigurationScreen extends HookWidget {
+class ConfigurationScreen extends HookConsumerWidget {
   const ConfigurationScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Column(
       children: [
-        ListTile(
-          leading: Icon(Icons.monochrome_photos),
-          title: Text('Modo oscuro'),
-          trailing: Switch(value: true, onChanged: (value) {}),
+        GestureDetector(
+          onTap: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => const AboutScreen()),
+            );
+          },
+          child: ListTile(
+            leading: Icon(Icons.info),
+            title: Text('Información de la App'),
+            trailing: Icon(Icons.keyboard_arrow_right),
+          ),
         ),
         GestureDetector(
           onTap: () {
-            print("object");
+            showDeleteAllDialog(context, ref);
           },
           child: ListTile(
             leading: Icon(Icons.delete),

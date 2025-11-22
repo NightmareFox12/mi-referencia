@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:mi_referencia/domain/reference_provider.dart';
 import 'package:mi_referencia/presentation/history/history_screen.dart';
 import 'package:mi_referencia/presentation/widgets/bottom_bar_widget.dart';
 import 'package:mi_referencia/presentation/widgets/fab_menu.dart';
@@ -29,7 +28,7 @@ class HomeScreen extends HookConsumerWidget {
                   children: [
                     TotalAmountLabel(),
                     LastWeekLineChart(),
-                    LastReferences(),
+                    LastReferences(currentScreen: currentScreen),
                   ],
                 )
               : (currentScreen.value == 1)

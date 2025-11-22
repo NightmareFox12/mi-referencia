@@ -87,9 +87,6 @@ class HistoryScreen extends HookConsumerWidget {
           ),
         ),
 
-        //TODO: cuando abro el teclado este niño se estripa bottom overflowed by 26 pixels. La solucion que se me ocurre es ocultarlo ya que con modal abierto no importa, la segunda opcion es buscar que siga el size de la screen y evitar eso al abir el teclado
-
-        //TODO: agregar todos los bancos
         Expanded(
           flex: 1,
           child: Padding(

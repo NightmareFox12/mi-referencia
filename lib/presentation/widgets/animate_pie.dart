@@ -84,9 +84,10 @@ class AnimatePie extends HookConsumerWidget {
           alignment: Alignment.center,
           child: Padding(
             padding: const EdgeInsets.only(top: 100),
-            child: TextButton(
+            child: TextButton.icon(
               onPressed: () => currentScreen.value = 1,
-              child: Text('Ver Referencias'),
+              icon: Icon(Icons.remove_red_eye),
+              label: Text('Ver Referencias'),
             ),
           ),
         ),

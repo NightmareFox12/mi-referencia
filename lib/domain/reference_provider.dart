@@ -67,23 +67,3 @@ final totalAmountProvider = FutureProvider<double>((ref) async {
 
   return await dataSource.getAmountTotalReference();
 });
-
-
-// class AmountTotalNotifier extends AsyncNotifier<double> {
-//   @override
-//   Future<double> build() async {
-//     final db = AppDatabase();
-//     return await ReferenceDataSource(db).getAmountTotalReference();
-//   }
-
-//   Future<void> refresh() async {
-//     state = const AsyncValue.loading();
-//     final db = AppDatabase();
-//     final total = await ReferenceDataSource(db).getAmountTotalReference();
-//     state = AsyncValue.data(total);
-//   }
-// }
-
-// final amountTotalProvider = AsyncNotifierProvider<AmountTotalNotifier, double>(
-//   AmountTotalNotifier.new,
-// );

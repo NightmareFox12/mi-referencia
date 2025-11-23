@@ -75,3 +75,11 @@ final lastReferencesProvider = FutureProvider<List<Reference>>((ref) async {
 
   return await dataSource.getLastReferences();
 });
+
+final lastReferencesWeekProvider = FutureProvider<List<Reference>>((ref) async {
+  final dataSource = ref.watch(referenceDataSourceProvider);
+
+  ref.watch(referenceProvider);
+
+  return await dataSource.getLastWeekReferences();
+});

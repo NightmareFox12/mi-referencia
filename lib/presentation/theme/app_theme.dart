@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
+const Color _aliceBlue = Color(0XffEBF4FF);
 const Color _sapphireSky = Color(0xFF006ce4);
 const Color _lavenderBlue = Color(0xFFd5deff);
 const Color _platinum = Color(0xFFf4f4f5);
@@ -24,8 +25,8 @@ abstract class AppTheme {
       ),
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
         backgroundColor: _sapphireSky,
-        selectedItemColor: Colors.white,
-        unselectedItemColor: Colors.white,
+        selectedItemColor: _aliceBlue,
+        unselectedItemColor: _aliceBlue,
       ),
       textTheme: TextTheme(bodyLarge: TextStyle(color: Colors.white)),
       iconTheme: IconThemeData(color: Colors.white),

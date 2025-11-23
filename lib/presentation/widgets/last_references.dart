@@ -61,7 +61,10 @@ class LastReferences extends HookConsumerWidget {
                       child: ListView.builder(
                         itemCount: lastReferencesAsync.value!.length,
                         itemBuilder: (context, index) => Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 4),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 4,
+                            vertical: 0,
+                          ),
                           child: Card.filled(
                             child: ListTile(
                               horizontalTitleGap: 0,

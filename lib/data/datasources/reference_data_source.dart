@@ -54,4 +54,15 @@ class ReferenceDataSource {
 
     return query.get();
   }
+
+  // LAST WEEK REFERENCES
+  Future<List<Reference>> getLastWeekReferences() async {
+    final query = db.select(db.referenceItem)
+      ..orderBy([
+        (t) => OrderingTerm(expression: t.date, mode: OrderingMode.desc),
+      ])
+      ..limit(7);
+
+    return query.get();
+  }
 }

@@ -57,12 +57,51 @@ class ReferenceDataSource {
 
   // LAST WEEK REFERENCES
   Future<List<Reference>> getLastWeekReferences() async {
+    final now = DateTime.now();
+    final lastWeekStart = DateTime(
+      now.year,
+      now.month,
+      now.day,
+    ).subtract(const Duration(days: 7));
+
     final query = db.select(db.referenceItem)
+      ..where((t) => t.date.isBiggerThan(Variable(lastWeekStart)))
       ..orderBy([
         (t) => OrderingTerm(expression: t.date, mode: OrderingMode.desc),
       ])
       ..limit(7);
 
-    return query.get();
+    final references = await query.get();
+
+    final Map<int, double> amountsByDay = {};
+
+    for (final ref in references) {
+      final day = ref.date.weekday;
+      amountsByDay.update(
+        day,
+        (existingAmount) => existingAmount + ref.amount,
+        ifAbsent: () => ref.amount,
+      );
+    }
+
+    final List<Reference> orderedReferences = [];
+
+    for (int dayIndex = 1; dayIndex <= 7; dayIndex++) {
+      final amount = amountsByDay[dayIndex] ?? 0.0;
+
+      orderedReferences.add(
+        Reference(
+          referenceID: -1,
+          amount: amount.roundToDouble(),
+          bankID: null,
+          note: null,
+          phone: null,
+          reference: 0,
+          date: now,
+        ),
+      );
+    }
+
+    return orderedReferences;
   }
 }

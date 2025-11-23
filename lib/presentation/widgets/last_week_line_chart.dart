@@ -30,7 +30,6 @@ class LastWeekLineChart extends HookConsumerWidget {
             padding: const EdgeInsets.all(16),
             child: lastWeek.when(
               data: (references) {
-                // Map the references to chart spots
                 final spots = references.asMap().entries.map((entry) {
                   final index = entry.key;
                   final reference = entry.value;
@@ -38,10 +37,17 @@ class LastWeekLineChart extends HookConsumerWidget {
                   return FlSpot(index.toDouble(), roundedAmount);
                 }).toList();
 
-                // If there's no data, show a message
-                if (spots.isEmpty) {
-                  return const Center(child: Text('No hay datos para mostrar'));
-                }
+                print(spots);
+                if (spots.isEmpty)
+                  return const Center(
+                    child: Text(
+                      'No hay datos para mostrar',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  );
 
                 return LineChart(
                   LineChartData(
@@ -87,7 +93,6 @@ class LastWeekLineChart extends HookConsumerWidget {
                     ),
                     lineBarsData: [
                       LineChartBarData(
-                        isCurved: true,
                         barWidth: 4,
                         gradient: const LinearGradient(
                           colors: [Colors.blue, Colors.green],

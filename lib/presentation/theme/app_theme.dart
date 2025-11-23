@@ -89,6 +89,24 @@ abstract class AppTheme {
       ),
       textTheme: TextTheme(bodyLarge: TextStyle(color: Colors.white)),
       iconTheme: IconThemeData(color: Colors.white),
+      inputDecorationTheme: InputDecorationTheme(
+        labelStyle: TextStyle(color: Colors.white),
+        hintStyle: TextStyle(color: Colors.white),
+        activeIndicatorBorder: BorderSide(color: Colors.white),
+        border: OutlineInputBorder(borderSide: BorderSide(color: Colors.white)),
+        errorBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.red),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.white),
+        ),
+        disabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.grey),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.red),
+        ),
+      ),
       extensions: const [SkeletonizerConfigData()],
     );
   }

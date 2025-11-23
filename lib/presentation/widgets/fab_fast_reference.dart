@@ -10,14 +10,12 @@ class FabFastReference extends HookConsumerWidget {
   Future<void> showFastReferenceDialog(
     BuildContext context,
     WidgetRef ref,
+    TextEditingController referenceController,
+    TextEditingController amountController,
     ValueNotifier<String> reference,
     ValueNotifier<String> amount,
     AsyncValue<List<Reference>> referencesAsync,
   ) async {
-    //controllers
-    final referenceController = TextEditingController();
-    final amountController = TextEditingController();
-
     //error msg
     String? errorReferenceMsg() {
       final msg = "La referencia no es válida.";
@@ -86,7 +84,10 @@ class FabFastReference extends HookConsumerWidget {
                       hintText: 'Ej. 2294',
                       labelText: 'Referencia *',
                     ),
-                    onChanged: (value) => reference.value = value,
+                    onChanged: (value) {
+                      reference.value = value;
+                      setState(() {});
+                    },
                     maxLength: 4,
                   ),
 
@@ -127,7 +128,9 @@ class FabFastReference extends HookConsumerWidget {
               FilledButton.icon(
                 label: Text('Guardar'),
                 icon: Icon(Icons.check),
-                onPressed: (reference.value.isEmpty || amount.value.isEmpty)
+                onPressed:
+                    (reference.value.isEmpty || errorReferenceMsg() != null) ||
+                        (amount.value.isEmpty || parseAmount(amount.value) == 0)
                     ? null
                     : () {
                         ref
@@ -139,6 +142,9 @@ class FabFastReference extends HookConsumerWidget {
                               int.parse(reference.value),
                               parseAmount(amount.value),
                             );
+                        reference.value = '';
+                        amount.value = '';
+                        setState(() {});
                         Navigator.of(context).pop();
                       },
               ),
@@ -153,15 +159,27 @@ class FabFastReference extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final referencesAsync = ref.watch(referenceProvider);
 
+    //controllers
+    final referenceController = TextEditingController();
+    final amountController = TextEditingController();
+
     //states
     final reference = useState<String>('');
     final amount = useState<String>('');
+
+    useEffect(() {
+      print('reference: ${reference.value}');
+      print('amount: ${amount.value}');
+      return null;
+    }, [reference.value, amount.value]);
 
     return FloatingActionButton(
       heroTag: 'fab1',
       onPressed: () => showFastReferenceDialog(
         context,
         ref,
+        referenceController,
+        amountController,
         reference,
         amount,
         referencesAsync,

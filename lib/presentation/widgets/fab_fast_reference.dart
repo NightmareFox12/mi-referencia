@@ -106,7 +106,10 @@ class FabFastReference extends HookConsumerWidget {
                       border: OutlineInputBorder(),
                       suffixText: 'Bs.F',
                     ),
-                    onChanged: (value) => amount.value = value,
+                    onChanged: (value) {
+                      amount.value = value;
+                      setState(() {});
+                    },
                   ),
                 ],
               ),
@@ -117,15 +120,14 @@ class FabFastReference extends HookConsumerWidget {
                 icon: Icon(Icons.close),
                 onPressed: () {
                   Navigator.of(context).pop();
+                  setState(() {});
                 },
               ),
 
               FilledButton.icon(
                 label: Text('Guardar'),
                 icon: Icon(Icons.check),
-                onPressed:
-                    (referenceController.text.isEmpty ||
-                        amountController.text.isEmpty)
+                onPressed: (reference.value.isEmpty || amount.value.isEmpty)
                     ? null
                     : () {
                         ref

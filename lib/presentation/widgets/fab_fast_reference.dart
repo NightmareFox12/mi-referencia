@@ -123,7 +123,9 @@ class FabFastReference extends HookConsumerWidget {
               FilledButton.icon(
                 label: Text('Guardar'),
                 icon: Icon(Icons.check),
-                onPressed: (reference.value.isEmpty || amount.value.isEmpty)
+                onPressed:
+                    (referenceController.text.isEmpty ||
+                        amountController.text.isEmpty)
                     ? null
                     : () {
                         ref

@@ -62,8 +62,8 @@ final referenceProvider =
 final totalAmountProvider = FutureProvider<double>((ref) async {
   final dataSource = ref.watch(referenceDataSourceProvider);
 
-  // Escuchar cambios en las referencias para actualizar automáticamente
   ref.watch(referenceProvider);
+  await Future.delayed(const Duration(seconds: 10));
 
   return await dataSource.getAmountTotalReference();
 });
@@ -72,6 +72,7 @@ final lastReferencesProvider = FutureProvider<List<Reference>>((ref) async {
   final dataSource = ref.watch(referenceDataSourceProvider);
 
   ref.watch(referenceProvider);
+  await Future.delayed(const Duration(seconds: 10));
 
   return await dataSource.getLastReferences();
 });

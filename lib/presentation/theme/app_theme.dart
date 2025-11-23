@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 const Color _sapphireSky = Color(0xFF006ce4);
 const Color _lavenderBlue = Color(0xFFd5deff);
@@ -72,6 +73,7 @@ abstract class AppTheme {
           borderSide: BorderSide(color: Colors.red),
         ),
       ),
+      extensions: const [SkeletonizerConfigData()],
     );
   }
 
@@ -87,6 +89,7 @@ abstract class AppTheme {
       ),
       textTheme: TextTheme(bodyLarge: TextStyle(color: Colors.white)),
       iconTheme: IconThemeData(color: Colors.white),
+      extensions: const [SkeletonizerConfigData()],
     );
   }
 }

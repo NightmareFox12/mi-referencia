@@ -7,6 +7,7 @@ const Color _sapphireSky = Color(0xFF006ce4);
 const Color _lavenderBlue = Color(0xFFd5deff);
 const Color _platinum = Color(0xFFf4f4f5);
 
+//TODO: buscar en la docs del input como cambiarle el color del value Text a negro
 abstract class AppTheme {
   static ThemeData lightTheme() {
     return ThemeData(
@@ -59,6 +60,9 @@ abstract class AppTheme {
       inputDecorationTheme: InputDecorationTheme(
         labelStyle: TextStyle(color: Colors.black),
         hintStyle: TextStyle(color: Colors.black),
+        prefixIconColor: Colors.black,
+        suffixIconColor: Colors.black,
+        filled: true,
         activeIndicatorBorder: BorderSide(color: _sapphireSky),
         border: OutlineInputBorder(borderSide: BorderSide(color: _sapphireSky)),
         errorBorder: OutlineInputBorder(
@@ -73,6 +77,11 @@ abstract class AppTheme {
         focusedErrorBorder: OutlineInputBorder(
           borderSide: BorderSide(color: Colors.red),
         ),
+      ),
+      textSelectionTheme: TextSelectionThemeData(
+        cursorColor: Colors.black,
+        selectionColor: Colors.black,
+        selectionHandleColor: Colors.black,
       ),
       extensions: const [SkeletonizerConfigData()],
     );

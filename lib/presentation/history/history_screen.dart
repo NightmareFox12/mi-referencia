@@ -86,37 +86,6 @@ class HistoryScreen extends HookConsumerWidget {
             error: (error, stackTrace) => Text(error.toString()),
           ),
         ),
-
-        Expanded(
-          flex: 1,
-          child: Padding(
-            padding: const EdgeInsets.all(4),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Monto total',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                ),
-
-                //TODO: llamar este button en otro component separado con HookConsumerWidget para evitar re-construir todo
-                // OutlinedButton(
-                //   onPressed: () =>
-                //       ref.read(referenceProvider.notifier).deleteAll(),
-                //   child: Text('eliminar todo'),
-                // ),
-                totalAmountReferenceAsync.when(
-                  data: (data) {
-                    return Text('${formatAmount(data)} Bs.F');
-                  },
-                  error: (error, stackTrace) => Text(error.toString()),
-                  loading: () => CircularProgressIndicator(),
-                ),
-              ],
-            ),
-          ),
-        ),
       ],
     );
   }

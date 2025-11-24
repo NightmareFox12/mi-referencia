@@ -7,7 +7,6 @@ const Color _sapphireSky = Color(0xFF006ce4);
 const Color _lavenderBlue = Color(0xFFd5deff);
 const Color _platinum = Color(0xFFf4f4f5);
 
-//TODO: buscar en la docs del input como cambiarle el color del value Text a negro
 abstract class AppTheme {
   static ThemeData lightTheme() {
     return ThemeData(
@@ -29,7 +28,6 @@ abstract class AppTheme {
         selectedItemColor: _aliceBlue,
         unselectedItemColor: _aliceBlue,
       ),
-      textTheme: TextTheme(bodyLarge: TextStyle(color: Colors.white)),
       iconTheme: IconThemeData(color: Colors.white),
       cardTheme: CardThemeData(color: _lavenderBlue),
       floatingActionButtonTheme: FloatingActionButtonThemeData(
@@ -82,6 +80,23 @@ abstract class AppTheme {
         cursorColor: Colors.black,
         selectionColor: Colors.black,
         selectionHandleColor: Colors.black,
+      ),
+      textTheme: TextTheme(
+        titleMedium: TextStyle(color: Colors.black),
+        bodyLarge: TextStyle(color: Colors.black),
+        bodyMedium: TextStyle(color: Colors.black),
+        bodySmall: TextStyle(color: Colors.black),
+        displayLarge: TextStyle(color: Colors.black),
+        displayMedium: TextStyle(color: Colors.black),
+        displaySmall: TextStyle(color: Colors.black),
+        headlineLarge: TextStyle(color: Colors.black),
+        headlineMedium: TextStyle(color: Colors.black),
+        headlineSmall: TextStyle(color: Colors.black),
+        titleLarge: TextStyle(color: Colors.black),
+        titleSmall: TextStyle(color: Colors.black),
+        labelLarge: TextStyle(color: Colors.black),
+        labelMedium: TextStyle(color: Colors.black),
+        labelSmall: TextStyle(color: Colors.black),
       ),
       extensions: const [SkeletonizerConfigData()],
     );

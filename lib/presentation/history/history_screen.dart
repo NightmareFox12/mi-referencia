@@ -16,8 +16,6 @@ class HistoryScreen extends HookConsumerWidget {
       referenceProvider,
     );
 
-    final totalAmountReferenceAsync = ref.watch(totalAmountProvider);
-
     return Column(
       children: [
         Text(

@@ -60,7 +60,6 @@ abstract class AppTheme {
         hintStyle: TextStyle(color: Colors.black),
         prefixIconColor: Colors.black,
         suffixIconColor: Colors.black,
-        filled: true,
         activeIndicatorBorder: BorderSide(color: _sapphireSky),
         border: OutlineInputBorder(borderSide: BorderSide(color: _sapphireSky)),
         errorBorder: OutlineInputBorder(

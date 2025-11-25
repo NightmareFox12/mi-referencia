@@ -23,7 +23,7 @@ class LastWeekLineChart extends HookConsumerWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 4),
       child: SizedBox(
-        width: double.maxFinite,
+        width: .maxFinite,
         height: 250,
         child: Card.filled(
           child: Padding(
@@ -36,8 +36,6 @@ class LastWeekLineChart extends HookConsumerWidget {
                   final roundedAmount = reference.amount.roundToDouble();
                   return FlSpot(index.toDouble(), roundedAmount);
                 }).toList();
-
-                print(spots);
                 if (spots.isEmpty)
                   return const Center(
                     child: Text(

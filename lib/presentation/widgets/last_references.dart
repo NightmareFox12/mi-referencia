@@ -20,10 +20,10 @@ class LastReferences extends HookConsumerWidget {
       child: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.only(top: 4),
+            padding: const .only(top: 4),
             child: Text(
               "Últimas referencias",
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+              style: TextStyle(fontWeight: .bold, fontSize: 18),
             ),
           ),
           Expanded(
@@ -35,12 +35,9 @@ class LastReferences extends HookConsumerWidget {
                       child: ListView.builder(
                         itemCount: 5,
                         itemBuilder: (context, index) => Padding(
-                          padding: const EdgeInsets.symmetric(
-                            vertical: 4,
-                            horizontal: 8,
-                          ),
+                          padding: const .symmetric(vertical: 4, horizontal: 8),
                           child: SizedBox(
-                            width: double.maxFinite,
+                            width: .maxFinite,
                             height: 50,
                             child: Skeleton.replace(child: Card.filled()),
                           ),
@@ -51,20 +48,14 @@ class LastReferences extends HookConsumerWidget {
                   ? Center(
                       child: Text(
                         'Aún no hay referencias',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
-                        ),
+                        style: TextStyle(fontWeight: .bold, fontSize: 20),
                       ),
                     )
                   : Expanded(
                       child: ListView.builder(
                         itemCount: lastReferencesAsync.value!.length,
                         itemBuilder: (context, index) => Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 4,
-                            vertical: 0,
-                          ),
+                          padding: const .symmetric(horizontal: 4, vertical: 0),
                           child: Card.filled(
                             child: ListTile(
                               horizontalTitleGap: 0,
@@ -72,12 +63,12 @@ class LastReferences extends HookConsumerWidget {
                               leading: Text('#${index + 1}'),
                               title: Text(
                                 'Referencia: ${lastReferencesAsync.value![index].reference}',
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                                textAlign: TextAlign.center,
+                                style: TextStyle(fontWeight: .bold),
+                                textAlign: .center,
                               ),
                               subtitle: Text(
                                 'Monto: ${formatAmount(lastReferencesAsync.value![index].amount)} Bs.F',
-                                textAlign: TextAlign.center,
+                                textAlign: .center,
                               ),
                             ),
                           ),

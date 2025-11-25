@@ -22,7 +22,7 @@ class HomeScreen extends HookConsumerWidget {
       bottomNavigationBar: BottomBarWidget(currentScreen: currentScreen),
 
       body: Stack(
-        alignment: Alignment.bottomRight,
+        alignment: .bottomRight,
         children: [
           currentScreen.value == 0
               ? Column(

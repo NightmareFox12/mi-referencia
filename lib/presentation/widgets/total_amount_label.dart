@@ -10,13 +10,13 @@ class TotalAmountLabel extends HookConsumerWidget {
     final totalAmountReferenceAsync = ref.watch(totalAmountProvider);
 
     return Padding(
-      padding: const EdgeInsets.only(top: 8, bottom: 4),
+      padding: const .only(top: 8, bottom: 4),
       child: Column(
-        mainAxisSize: MainAxisSize.min,
+        mainAxisSize: .min,
         children: [
           Text(
             'Monto Total de Hoy',
-            style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 15, fontWeight: .bold),
           ),
 
           Skeletonizer(
@@ -26,7 +26,7 @@ class TotalAmountLabel extends HookConsumerWidget {
               '${formatAmount(totalAmountReferenceAsync.value ?? 0.0)} Bs.F',
               style: const TextStyle(
                 fontSize: 24,
-                fontWeight: FontWeight.bold,
+                fontWeight: .bold,
                 color: Colors.black,
               ),
             ),

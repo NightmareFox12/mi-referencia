@@ -1,6 +1,6 @@
 name: mi_referencia
 description: 'A new Flutter project.'
-publish_to: 'none'
+publish_to: 'NightmareFox12'
 version: 0.1.0
 
 environment:
@@ -21,7 +21,7 @@ dependencies:
 
 dependency_overrides:
   analyzer_buffer: ^0.1.11
-  test_api: ^0.7.7
+  test_api: ^0.7.8
 
 dev_dependencies:
   flutter_test:

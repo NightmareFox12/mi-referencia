@@ -18,10 +18,10 @@ class HistoryScreen extends HookConsumerWidget {
 
     return Column(
       children: [
-        Text(
-          'Historial del ${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}',
-          style: TextStyle(fontWeight: .bold, fontSize: 17),
-        ),
+        // Text(
+        //   'Historial del ${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}',
+        //   style: TextStyle(fontWeight: .bold, fontSize: 17),
+        // ),
         Expanded(
           flex: 5,
           child: referencesAsync.when(

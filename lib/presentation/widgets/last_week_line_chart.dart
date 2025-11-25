@@ -21,13 +21,13 @@ class LastWeekLineChart extends HookConsumerWidget {
     final lastWeek = ref.watch(lastReferencesWeekProvider);
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 4),
+      padding: const .symmetric(horizontal: 4),
       child: SizedBox(
         width: .maxFinite,
         height: 250,
         child: Card.filled(
           child: Padding(
-            padding: const EdgeInsets.all(16),
+            padding: const .all(16),
             child: lastWeek.when(
               data: (references) {
                 final spots = references.asMap().entries.map((entry) {
@@ -78,7 +78,7 @@ class LastWeekLineChart extends HookConsumerWidget {
                               (spot) => LineTooltipItem(
                                 "${formatAmount(spot.y)} Bs.F",
                                 const TextStyle(
-                                  fontWeight: FontWeight.bold,
+                                  fontWeight: .bold,
                                   color: Colors.white,
                                 ),
                               ),

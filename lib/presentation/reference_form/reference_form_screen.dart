@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mi_referencia/domain/reference_provider.dart';
+import 'package:mi_referencia/presentation/theme/custom_style.dart';
 import 'package:mi_referencia/presentation/widgets/bank_autocomplete_form.dart';
 import 'package:mi_referencia/presentation/widgets/reference_group_button.dart';
 import 'package:mi_referencia/storage/shared_preferences_service.dart';
@@ -193,18 +194,16 @@ class ReferenceFormScreen extends HookConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Crear Referencia'),
+        title: const Text('Crear Referencia'),
         leading: IconButton(
           tooltip: 'Volver',
           onPressed: () => Navigator.pop(context),
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
         ),
       ),
       body: Column(
         children: [
           ReferenceGroupButton(selectedFields),
-
-          // ReferenceForm(selectedFields),
           Expanded(
             child: Padding(
               padding: const EdgeInsets.all(8),
@@ -221,7 +220,7 @@ class ReferenceFormScreen extends HookConsumerWidget {
                           minLines: 1,
                           maxLines: 4,
                           decoration: InputDecoration(
-                            icon: Icon(Icons.notes_outlined),
+                            icon: const Icon(Icons.notes_outlined),
                             hintText: 'Ej. $randomNotePlaceholder',
                             labelText: 'Nota *',
                           ),
@@ -246,7 +245,7 @@ class ReferenceFormScreen extends HookConsumerWidget {
                           forceErrorText: errorPhoneMsg(),
                           inputFormatters: [phoneFormatter],
                           decoration: const InputDecoration(
-                            icon: Icon(Icons.phone),
+                            icon: const Icon(Icons.phone),
                             hintText: '0412-1234567',
                             labelText: 'Télefono *',
                           ),
@@ -276,14 +275,14 @@ class ReferenceFormScreen extends HookConsumerWidget {
                   //Reference
                   TextFormField(
                     controller: referenceController,
-                    keyboardType: TextInputType.numberWithOptions(
+                    keyboardType: .numberWithOptions(
                       decimal: false,
                       signed: false,
                     ),
                     forceErrorText: errorReferenceMsg(),
                     inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                     decoration: const InputDecoration(
-                      icon: Icon(Icons.pin),
+                      icon: const Icon(Icons.pin),
                       hintText: 'Ej. 2294',
                       labelText: 'Referencia *',
                     ),
@@ -295,13 +294,13 @@ class ReferenceFormScreen extends HookConsumerWidget {
                   //Amount
                   TextFormField(
                     controller: amountController,
-                    keyboardType: TextInputType.numberWithOptions(
+                    keyboardType: .numberWithOptions(
                       decimal: true,
                       signed: false,
                     ),
                     inputFormatters: [amountFormatter],
                     decoration: const InputDecoration(
-                      icon: Icon(Icons.attach_money),
+                      icon: const Icon(Icons.attach_money),
                       hintText: 'Ej. 100,00',
                       labelText: 'Monto *',
                       suffixText: 'Bs.F',
@@ -318,7 +317,8 @@ class ReferenceFormScreen extends HookConsumerWidget {
                         verticalOffset: -55.0,
                         child: IconButton.filled(
                           onPressed: isEmptyFields() ? null : () => clearForm(),
-                          icon: Icon(Icons.delete),
+                          style: dangerButton(context),
+                          icon: const Icon(Icons.delete),
                         ),
                       ),
                       Expanded(
@@ -326,8 +326,8 @@ class ReferenceFormScreen extends HookConsumerWidget {
                           onPressed: enableButton()
                               ? () => handleSubmitReference()
                               : null,
-                          icon: Icon(Icons.checklist_outlined),
-                          label: Text('Guardar Referencia'),
+                          icon: const Icon(Icons.done),
+                          label: const Text('Guardar Referencia'),
                         ),
                       ),
                     ],

@@ -63,7 +63,6 @@ class BankAutocompleteForm extends HookConsumerWidget {
                 icon: Icon(Icons.account_balance),
                 labelText: 'Banco *',
                 hintText: 'Escribe el nombre del banco',
-                border: OutlineInputBorder(),
               ),
             );
           },
@@ -75,13 +74,13 @@ class BankAutocompleteForm extends HookConsumerWidget {
             Iterable<Bank> options,
           ) {
             return Align(
-              alignment: Alignment.topLeft,
+              alignment: .topLeft,
               child: Material(
                 elevation: 4.0,
                 child: SizedBox(
                   height: 200.0,
                   child: ListView.builder(
-                    padding: EdgeInsets.zero,
+                    padding: .zero,
                     itemCount: options.length,
                     itemBuilder: (BuildContext context, int index) {
                       final Bank option = options.elementAt(index);

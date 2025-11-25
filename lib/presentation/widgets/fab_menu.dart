@@ -16,7 +16,7 @@ class FabMenu extends HookWidget {
       bottom: 16,
       right: 16,
       child: Column(
-        mainAxisSize: MainAxisSize.min,
+        mainAxisSize: .min,
         children: [
           IgnorePointer(
             ignoring: currentScreen != 0,
@@ -32,7 +32,7 @@ class FabMenu extends HookWidget {
                     builder: (context) => ReferenceFormScreen(),
                   ),
                 ),
-                child: Icon(Icons.assignment_add),
+                child: const Icon(Icons.assignment_add),
               ),
             ),
           ),

@@ -24,11 +24,7 @@ class TotalAmountLabel extends HookConsumerWidget {
             enableSwitchAnimation: true,
             child: Text(
               '${formatAmount(totalAmountReferenceAsync.value ?? 0.0)} Bs.F',
-              style: const TextStyle(
-                fontSize: 24,
-                fontWeight: .bold,
-                color: Colors.black,
-              ),
+              style: const TextStyle(fontSize: 24, fontWeight: .bold),
             ),
           ),
         ],

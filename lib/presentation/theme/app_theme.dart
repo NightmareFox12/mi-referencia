@@ -7,6 +7,11 @@ const Color _sapphireSky = Color(0xFF006ce4);
 const Color _lavenderBlue = Color(0xFFd5deff);
 const Color _platinum = Color(0xFFf4f4f5);
 
+// === NIGHT COLORS ===
+const Color _imperialBlue = Color(0xFF00275B);
+const Color _prussianBlue = Color(0xFF00163A);
+const Color _oxfordNavy = Color(0xFF002C66);
+
 abstract class AppTheme {
   static ThemeData lightTheme() {
     return ThemeData(
@@ -113,31 +118,98 @@ abstract class AppTheme {
   static ThemeData darkTheme() {
     return ThemeData(
       brightness: Brightness.dark,
-      primaryColor: Colors.blue,
-      secondaryHeaderColor: Colors.black,
-      scaffoldBackgroundColor: Colors.black,
-      appBarTheme: AppBarTheme(backgroundColor: Colors.black),
-      bottomNavigationBarTheme: BottomNavigationBarThemeData(
-        backgroundColor: Colors.black,
+      primaryColor: _imperialBlue,
+      secondaryHeaderColor: _imperialBlue,
+      appBarTheme: AppBarTheme(
+        backgroundColor: _oxfordNavy,
+        titleTextStyle: TextStyle(color: Colors.white, fontSize: 22),
+        elevation: 0,
+        systemOverlayStyle: SystemUiOverlayStyle(
+          statusBarColor: Colors.white,
+          statusBarIconBrightness: Brightness.dark,
+        ),
       ),
-      textTheme: TextTheme(bodyLarge: TextStyle(color: Colors.white)),
+      bottomNavigationBarTheme: BottomNavigationBarThemeData(
+        backgroundColor: _oxfordNavy,
+        selectedItemColor: _aliceBlue,
+        unselectedItemColor: _aliceBlue,
+      ),
       iconTheme: IconThemeData(color: Colors.white),
+      cardTheme: CardThemeData(color: _prussianBlue),
+      floatingActionButtonTheme: FloatingActionButtonThemeData(
+        backgroundColor: _imperialBlue,
+        foregroundColor: Colors.white,
+      ),
+      iconButtonTheme: IconButtonThemeData(
+        style: ButtonStyle(
+          foregroundColor: WidgetStatePropertyAll(Colors.white),
+          backgroundColor: WidgetStatePropertyAll(_imperialBlue),
+        ),
+      ),
+      filledButtonTheme: FilledButtonThemeData(
+        style: ButtonStyle(
+          foregroundColor: WidgetStatePropertyAll(Colors.white),
+          backgroundColor: WidgetStateColor.resolveWith(
+            (states) => states.contains(WidgetState.disabled)
+                ? Colors.grey
+                : _imperialBlue,
+          ),
+        ),
+      ),
+      outlinedButtonTheme: OutlinedButtonThemeData(
+        style: ButtonStyle(
+          foregroundColor: WidgetStatePropertyAll(Colors.white),
+        ),
+      ),
       inputDecorationTheme: InputDecorationTheme(
         labelStyle: TextStyle(color: Colors.white),
         hintStyle: TextStyle(color: Colors.white),
-        activeIndicatorBorder: BorderSide(color: Colors.white),
-        border: OutlineInputBorder(borderSide: BorderSide(color: Colors.white)),
+        prefixIconColor: Colors.white,
+        suffixIconColor: Colors.white,
+        activeIndicatorBorder: BorderSide(color: _sapphireSky),
+        border: OutlineInputBorder(borderSide: BorderSide(color: _sapphireSky)),
         errorBorder: OutlineInputBorder(
           borderSide: BorderSide(color: Colors.red),
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.white),
+          borderSide: BorderSide(color: _sapphireSky),
         ),
         disabledBorder: OutlineInputBorder(
           borderSide: BorderSide(color: Colors.grey),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderSide: BorderSide(color: Colors.red),
+        ),
+      ),
+      textSelectionTheme: TextSelectionThemeData(
+        cursorColor: Colors.white,
+        selectionColor: Colors.white,
+        selectionHandleColor: Colors.white,
+      ),
+      textTheme: TextTheme(
+        titleMedium: TextStyle(color: Colors.white),
+        bodyLarge: TextStyle(color: Colors.white),
+        bodyMedium: TextStyle(color: Colors.white),
+        bodySmall: TextStyle(color: Colors.white),
+        displayLarge: TextStyle(color: Colors.white),
+        displayMedium: TextStyle(color: Colors.white),
+        displaySmall: TextStyle(color: Colors.white),
+        headlineLarge: TextStyle(color: Colors.white),
+        headlineMedium: TextStyle(color: Colors.white),
+        headlineSmall: TextStyle(color: Colors.white),
+        titleLarge: TextStyle(color: Colors.white),
+        titleSmall: TextStyle(color: Colors.white),
+        labelLarge: TextStyle(color: Colors.white),
+        labelMedium: TextStyle(color: Colors.white),
+        labelSmall: TextStyle(color: Colors.white),
+      ),
+      segmentedButtonTheme: SegmentedButtonThemeData(
+        style: ButtonStyle(
+          backgroundColor: WidgetStateColor.resolveWith(
+            (states) => states.contains(WidgetState.selected)
+                ? _aliceBlue
+                : Colors.white,
+          ),
         ),
       ),
       extensions: const [SkeletonizerConfigData()],

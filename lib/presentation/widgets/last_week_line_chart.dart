@@ -40,10 +40,7 @@ class LastWeekLineChart extends HookConsumerWidget {
                   return const Center(
                     child: Text(
                       'No hay datos para mostrar',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      style: TextStyle(fontSize: 18, fontWeight: .bold),
                     ),
                   );
 

@@ -80,7 +80,6 @@ class FabFastReference extends HookConsumerWidget {
                     forceErrorText: errorReferenceMsg(),
                     inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                     decoration: const InputDecoration(
-                      // icon: Icon(Icons.pin),
                       hintText: 'Ej. 2294',
                       labelText: 'Referencia *',
                     ),
@@ -104,7 +103,6 @@ class FabFastReference extends HookConsumerWidget {
                       // icon: Icon(Icons.attach_money),
                       hintText: 'Ej. 100,00',
                       labelText: 'Monto *',
-                      border: OutlineInputBorder(),
                       suffixText: 'Bs.F',
                     ),
                     onChanged: (value) {

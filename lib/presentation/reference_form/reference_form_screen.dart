@@ -98,12 +98,6 @@ class ReferenceFormScreen extends HookConsumerWidget {
       if (value.length < 2) return 'La nota es muy corta.';
       if (value.length > 50) return 'La nota es muy largo.';
 
-      // if (RegExp(r'[0-9]').hasMatch(value))
-      // return 'El nombre no debe contener números.';
-
-      // if (RegExp(r'[!@#\$%^&*(),.?":{}|<>_\-+=/\\\[\]]').hasMatch(value))
-      // return 'El nombre no debe contener caracteres especiales.';
-
       return null;
     }
 
@@ -197,160 +191,152 @@ class ReferenceFormScreen extends HookConsumerWidget {
       return null;
     }, []);
 
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Crear Referencia'),
-          leading: IconButton(
-            tooltip: 'Volver',
-            onPressed: () => Navigator.pop(context),
-            icon: Icon(Icons.arrow_back),
-          ),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Crear Referencia'),
+        leading: IconButton(
+          tooltip: 'Volver',
+          onPressed: () => Navigator.pop(context),
+          icon: Icon(Icons.arrow_back),
         ),
-        body: Column(
-          children: [
-            ReferenceGroupButton(selectedFields),
+      ),
+      body: Column(
+        children: [
+          ReferenceGroupButton(selectedFields),
 
-            // ReferenceForm(selectedFields),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(8),
-                child: ListView(
-                  padding: const EdgeInsets.only(top: 14, left: 4, right: 4),
-                  children: [
-                    // Note
-                    selectedFields.value.contains(1)
-                        ? TextFormField(
-                            keyboardType: TextInputType.name,
-                            autofocus: true,
-                            forceErrorText: errorNoteMsg(),
-                            controller: noteController,
-                            minLines: 1,
-                            maxLines: 4,
-                            decoration: InputDecoration(
-                              icon: Icon(Icons.notes_outlined),
-                              hintText: 'Ej. $randomNotePlaceholder',
-                              labelText: 'Nota *',
-                              border: OutlineInputBorder(),
-                            ),
-                            onChanged: (String value) => note.value = value,
-                            buildCounter:
-                                (
-                                  context, {
-                                  required currentLength,
-                                  required isFocused,
-                                  required maxLength,
-                                }) => null,
-                            maxLength: 50,
-                          )
-                        : SizedBox.shrink(),
-                    SizedBox(height: 24),
-
-                    //Phone
-                    selectedFields.value.contains(2)
-                        ? TextFormField(
-                            keyboardType: TextInputType.phone,
-                            controller: phoneController,
-                            forceErrorText: errorPhoneMsg(),
-                            inputFormatters: [phoneFormatter],
-                            decoration: const InputDecoration(
-                              icon: Icon(Icons.phone),
-                              hintText: '0412-1234567',
-                              labelText: 'Télefono *',
-                              border: OutlineInputBorder(),
-                            ),
-                            onChanged: (String value) => phone.value = value,
-                            buildCounter:
-                                (
-                                  context, {
-                                  required currentLength,
-                                  required isFocused,
-                                  required maxLength,
-                                }) => null,
-                            maxLength: 12,
-                          )
-                        : SizedBox.shrink(),
-                    selectedFields.value.contains(2)
-                        ? SizedBox(height: 24)
-                        : SizedBox.shrink(),
-
-                    //Bank
-                    selectedFields.value.contains(3)
-                        ? BankAutocompleteForm(bankID: bankID)
-                        : SizedBox.shrink(),
-                    selectedFields.value.contains(3)
-                        ? SizedBox(height: 24)
-                        : SizedBox.shrink(),
-
-                    //Reference
-                    TextFormField(
-                      controller: referenceController,
-                      keyboardType: TextInputType.numberWithOptions(
-                        decimal: false,
-                        signed: false,
-                      ),
-                      forceErrorText: errorReferenceMsg(),
-                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                      decoration: const InputDecoration(
-                        icon: Icon(Icons.pin),
-                        hintText: 'Ej. 2294',
-                        labelText: 'Referencia *',
-                        border: OutlineInputBorder(),
-                      ),
-                      onChanged: (value) => reference.value = value,
-                      maxLength: 4,
-                    ),
-                    SizedBox(height: 10),
-
-                    //Amount
-                    TextFormField(
-                      controller: amountController,
-                      keyboardType: TextInputType.numberWithOptions(
-                        decimal: true,
-                        signed: false,
-                      ),
-                      inputFormatters: [amountFormatter],
-                      decoration: const InputDecoration(
-                        icon: Icon(Icons.attach_money),
-                        hintText: 'Ej. 100,00',
-                        labelText: 'Monto *',
-                        border: OutlineInputBorder(),
-                        suffixText: 'Bs.F',
-                      ),
-                      onChanged: (value) => amount.value = value,
-                    ),
-                    SizedBox(height: 30),
-
-                    Row(
-                      spacing: 5,
-                      children: [
-                        Tooltip(
-                          message: 'Limpiar todos los campos',
-                          verticalOffset: -55.0,
-                          child: IconButton.filled(
-                            onPressed: isEmptyFields()
-                                ? null
-                                : () => clearForm(),
-                            icon: Icon(Icons.delete),
+          // ReferenceForm(selectedFields),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(8),
+              child: ListView(
+                padding: const EdgeInsets.only(top: 14, left: 4, right: 4),
+                children: [
+                  // Note
+                  selectedFields.value.contains(1)
+                      ? TextFormField(
+                          keyboardType: .name,
+                          autofocus: true,
+                          forceErrorText: errorNoteMsg(),
+                          controller: noteController,
+                          minLines: 1,
+                          maxLines: 4,
+                          decoration: InputDecoration(
+                            icon: Icon(Icons.notes_outlined),
+                            hintText: 'Ej. $randomNotePlaceholder',
+                            labelText: 'Nota *',
                           ),
-                        ),
-                        Expanded(
-                          child: FilledButton.icon(
-                            onPressed: enableButton()
-                                ? () => handleSubmitReference()
-                                : null,
-                            icon: Icon(Icons.checklist_outlined),
-                            label: Text('Guardar Referencia'),
+                          onChanged: (String value) => note.value = value,
+                          buildCounter:
+                              (
+                                context, {
+                                required currentLength,
+                                required isFocused,
+                                required maxLength,
+                              }) => null,
+                          maxLength: 50,
+                        )
+                      : SizedBox.shrink(),
+                  SizedBox(height: 24),
+
+                  //Phone
+                  selectedFields.value.contains(2)
+                      ? TextFormField(
+                          keyboardType: .phone,
+                          controller: phoneController,
+                          forceErrorText: errorPhoneMsg(),
+                          inputFormatters: [phoneFormatter],
+                          decoration: const InputDecoration(
+                            icon: Icon(Icons.phone),
+                            hintText: '0412-1234567',
+                            labelText: 'Télefono *',
                           ),
-                        ),
-                      ],
+                          onChanged: (String value) => phone.value = value,
+                          buildCounter:
+                              (
+                                context, {
+                                required currentLength,
+                                required isFocused,
+                                required maxLength,
+                              }) => null,
+                          maxLength: 12,
+                        )
+                      : SizedBox.shrink(),
+                  selectedFields.value.contains(2)
+                      ? SizedBox(height: 24)
+                      : SizedBox.shrink(),
+
+                  //Bank
+                  selectedFields.value.contains(3)
+                      ? BankAutocompleteForm(bankID: bankID)
+                      : SizedBox.shrink(),
+                  selectedFields.value.contains(3)
+                      ? SizedBox(height: 24)
+                      : SizedBox.shrink(),
+
+                  //Reference
+                  TextFormField(
+                    controller: referenceController,
+                    keyboardType: TextInputType.numberWithOptions(
+                      decimal: false,
+                      signed: false,
                     ),
-                  ],
-                ),
+                    forceErrorText: errorReferenceMsg(),
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                    decoration: const InputDecoration(
+                      icon: Icon(Icons.pin),
+                      hintText: 'Ej. 2294',
+                      labelText: 'Referencia *',
+                    ),
+                    onChanged: (value) => reference.value = value,
+                    maxLength: 4,
+                  ),
+                  SizedBox(height: 10),
+
+                  //Amount
+                  TextFormField(
+                    controller: amountController,
+                    keyboardType: TextInputType.numberWithOptions(
+                      decimal: true,
+                      signed: false,
+                    ),
+                    inputFormatters: [amountFormatter],
+                    decoration: const InputDecoration(
+                      icon: Icon(Icons.attach_money),
+                      hintText: 'Ej. 100,00',
+                      labelText: 'Monto *',
+                      suffixText: 'Bs.F',
+                    ),
+                    onChanged: (value) => amount.value = value,
+                  ),
+                  SizedBox(height: 30),
+
+                  Row(
+                    spacing: 5,
+                    children: [
+                      Tooltip(
+                        message: 'Limpiar todos los campos',
+                        verticalOffset: -55.0,
+                        child: IconButton.filled(
+                          onPressed: isEmptyFields() ? null : () => clearForm(),
+                          icon: Icon(Icons.delete),
+                        ),
+                      ),
+                      Expanded(
+                        child: FilledButton.icon(
+                          onPressed: enableButton()
+                              ? () => handleSubmitReference()
+                              : null,
+                          icon: Icon(Icons.checklist_outlined),
+                          label: Text('Guardar Referencia'),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

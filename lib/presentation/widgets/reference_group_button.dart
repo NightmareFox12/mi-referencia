@@ -21,29 +21,32 @@ class ReferenceGroupButton extends StatelessWidget {
       selectedFields.value = newSelection;
     }
 
-    return Center(
-      child: SegmentedButton<int>(
-        segments: [
-          ButtonSegment(
-            value: 1,
-            icon: Icon(Icons.notes_sharp),
-            label: Text('Nota'),
-          ),
-          ButtonSegment(
-            value: 2,
-            icon: Icon(Icons.phone),
-            label: Text('Telefono'),
-          ),
-          ButtonSegment(
-            value: 3,
-            icon: Icon(Icons.account_balance),
-            label: Text('Banco'),
-          ),
-        ],
-        onSelectionChanged: (newSelection) => handleChange(newSelection),
-        selected: selectedFields.value,
-        multiSelectionEnabled: true,
-        emptySelectionAllowed: true,
+    return Padding(
+      padding: const .only(top: 8),
+      child: Center(
+        child: SegmentedButton<int>(
+          segments: [
+            ButtonSegment(
+              value: 1,
+              icon: const Icon(Icons.notes_sharp),
+              label: const Text('Nota'),
+            ),
+            ButtonSegment(
+              value: 2,
+              icon: const Icon(Icons.phone),
+              label: const Text('Telefono'),
+            ),
+            ButtonSegment(
+              value: 3,
+              icon: const Icon(Icons.account_balance),
+              label: const Text('Banco'),
+            ),
+          ],
+          onSelectionChanged: (newSelection) => handleChange(newSelection),
+          selected: selectedFields.value,
+          multiSelectionEnabled: true,
+          emptySelectionAllowed: true,
+        ),
       ),
     );
   }

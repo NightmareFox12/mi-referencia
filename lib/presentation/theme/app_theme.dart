@@ -97,6 +97,9 @@ abstract class AppTheme {
         labelMedium: TextStyle(color: Colors.black),
         labelSmall: TextStyle(color: Colors.black),
       ),
+      segmentedButtonTheme: SegmentedButtonThemeData(
+        style: ButtonStyle(backgroundColor: WidgetStatePropertyAll(_aliceBlue)),
+      ),
       extensions: const [SkeletonizerConfigData()],
     );
   }

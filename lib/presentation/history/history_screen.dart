@@ -20,7 +20,7 @@ class HistoryScreen extends HookConsumerWidget {
       children: [
         Text(
           'Historial del ${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}',
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
+          style: TextStyle(fontWeight: .bold, fontSize: 17),
         ),
         Expanded(
           flex: 5,
@@ -29,27 +29,24 @@ class HistoryScreen extends HookConsumerWidget {
                 ? Center(
                     child: Text(
                       'No hay referencias',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                      ),
+                      style: TextStyle(fontWeight: .bold, fontSize: 20),
                     ),
                   )
                 : ListView.separated(
                     itemCount: data.length,
                     itemBuilder: (context, index) => Padding(
-                      padding: const EdgeInsets.only(left: 8, right: 8),
+                      padding: const .only(left: 8, right: 8),
                       child: ListTile(
                         leading: Text('#${index + 1}'),
                         title: Text(
                           'Referencia: ${data[index].reference}',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                          textAlign: TextAlign.center,
+                          style: TextStyle(fontWeight: .bold),
+                          textAlign: .center,
                         ),
 
                         subtitle: Text(
                           'Monto: ${formatAmount(data[index].amount)} Bs.F',
-                          textAlign: TextAlign.center,
+                          textAlign: .center,
                         ),
                         trailing: Tooltip(
                           message: 'Ver detalles',

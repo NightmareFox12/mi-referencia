@@ -23,12 +23,10 @@ Future<void> showReferenceDetailsDialog(
                   style: TextStyle(fontSize: 17),
                   TextSpan(
                     children: [
+                      TextSpan(text: 'N° de Referencia: '),
                       TextSpan(
-                        text: 'N° de Referencia: ', // Título
-                      ),
-                      TextSpan(
-                        text: '${reference.reference}', // Dato (Normal)
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                        text: '${reference.reference}',
+                        style: TextStyle(fontWeight: .bold),
                       ),
                     ],
                   ),
@@ -39,12 +37,10 @@ Future<void> showReferenceDetailsDialog(
                   style: TextStyle(fontSize: 17),
                   TextSpan(
                     children: [
-                      TextSpan(
-                        text: 'Cantidad: ', // Título
-                      ),
+                      TextSpan(text: 'Cantidad: '),
                       TextSpan(
                         text: '${formatAmount(reference.amount)} Bs.F',
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                        style: TextStyle(fontWeight: .bold),
                       ),
                     ],
                   ),
@@ -57,12 +53,10 @@ Future<void> showReferenceDetailsDialog(
                         style: TextStyle(fontSize: 17),
                         TextSpan(
                           children: [
-                            TextSpan(
-                              text: 'Nota: ', // Título
-                            ),
+                            TextSpan(text: 'Nota: '),
                             TextSpan(
                               text: '${reference.note}',
-                              style: TextStyle(fontWeight: FontWeight.bold),
+                              style: TextStyle(fontWeight: .bold),
                             ),
                           ],
                         ),
@@ -75,12 +69,10 @@ Future<void> showReferenceDetailsDialog(
                         style: TextStyle(fontSize: 17),
                         TextSpan(
                           children: [
-                            TextSpan(
-                              text: 'Banco: ', // Título
-                            ),
+                            TextSpan(text: 'Banco: '),
                             TextSpan(
                               text: '${bankInfo.name}',
-                              style: TextStyle(fontWeight: FontWeight.bold),
+                              style: TextStyle(fontWeight: .bold),
                             ),
                           ],
                         ),
@@ -93,12 +85,10 @@ Future<void> showReferenceDetailsDialog(
                         style: TextStyle(fontSize: 17),
                         TextSpan(
                           children: [
-                            TextSpan(
-                              text: 'Télefono: ', // Título
-                            ),
+                            TextSpan(text: 'Télefono: '),
                             TextSpan(
                               text: '${reference.phone}',
-                              style: TextStyle(fontWeight: FontWeight.bold),
+                              style: TextStyle(fontWeight: .bold),
                             ),
                           ],
                         ),
@@ -109,13 +99,11 @@ Future<void> showReferenceDetailsDialog(
                   style: TextStyle(fontSize: 17),
                   TextSpan(
                     children: [
-                      TextSpan(
-                        text: 'Fecha de creacion: ', // Título
-                      ),
+                      TextSpan(text: 'Fecha de creacion: '),
                       TextSpan(
                         text:
                             '${DateFormat('dd/MM/yyyy').format(reference.date)}',
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                        style: TextStyle(fontWeight: .bold),
                       ),
                     ],
                   ),

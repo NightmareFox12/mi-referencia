@@ -9,8 +9,6 @@ const Color _platinum = Color(0xFFf4f4f5);
 
 // === NIGHT COLORS ===
 const Color _imperialBlue = Color(0xFF00275B);
-const Color _prussianBlue = Color(0xFF00163A);
-const Color _oxfordNavy = Color(0xFF002C66);
 
 abstract class AppTheme {
   static ThemeData lightTheme() {
@@ -119,9 +117,10 @@ abstract class AppTheme {
     return ThemeData(
       brightness: Brightness.dark,
       primaryColor: _imperialBlue,
-      secondaryHeaderColor: _imperialBlue,
+      secondaryHeaderColor: _sapphireSky,
+      scaffoldBackgroundColor: Color(0xFF020618),
       appBarTheme: AppBarTheme(
-        backgroundColor: _oxfordNavy,
+        backgroundColor: _sapphireSky,
         titleTextStyle: TextStyle(color: Colors.white, fontSize: 22),
         elevation: 0,
         systemOverlayStyle: SystemUiOverlayStyle(
@@ -130,20 +129,20 @@ abstract class AppTheme {
         ),
       ),
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
-        backgroundColor: _oxfordNavy,
+        backgroundColor: _sapphireSky,
         selectedItemColor: _aliceBlue,
         unselectedItemColor: _aliceBlue,
       ),
       iconTheme: IconThemeData(color: Colors.white),
-      cardTheme: CardThemeData(color: _prussianBlue),
+      cardTheme: CardThemeData(color: Color(0xFF051120)),
       floatingActionButtonTheme: FloatingActionButtonThemeData(
-        backgroundColor: _imperialBlue,
+        backgroundColor: _sapphireSky,
         foregroundColor: Colors.white,
       ),
       iconButtonTheme: IconButtonThemeData(
         style: ButtonStyle(
           foregroundColor: WidgetStatePropertyAll(Colors.white),
-          backgroundColor: WidgetStatePropertyAll(_imperialBlue),
+          backgroundColor: WidgetStatePropertyAll(_sapphireSky),
         ),
       ),
       filledButtonTheme: FilledButtonThemeData(
@@ -152,7 +151,7 @@ abstract class AppTheme {
           backgroundColor: WidgetStateColor.resolveWith(
             (states) => states.contains(WidgetState.disabled)
                 ? Colors.grey
-                : _imperialBlue,
+                : _sapphireSky,
           ),
         ),
       ),

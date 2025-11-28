@@ -20,10 +20,26 @@ class LastReferences extends HookConsumerWidget {
       child: Column(
         children: [
           Padding(
-            padding: const .only(top: 4),
-            child: Text(
-              "Últimas referencias",
-              style: TextStyle(fontWeight: .bold, fontSize: 18),
+            padding: const .only(top: 4, left: 12, right: 12),
+            child: Row(
+              mainAxisAlignment: .spaceBetween,
+              children: [
+                Text(
+                  "Últimas referencias",
+                  style: TextStyle(fontWeight: .bold, fontSize: 18),
+                ),
+                ElevatedButton.icon(
+                  iconAlignment: .end,
+                  onPressed: () => currentScreen.value = 1,
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: const Size(20, 25),
+                    padding: const .symmetric(horizontal: 10, vertical: 5),
+                    textStyle: const TextStyle(fontSize: 12),
+                  ),
+                  label: const Text('Ver todo'),
+                  icon: const Icon(Icons.arrow_right),
+                ),
+              ],
             ),
           ),
           Expanded(

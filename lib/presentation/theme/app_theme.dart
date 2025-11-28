@@ -2,13 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
+// === COLORS ===
 const Color _aliceBlue = Color(0XffEBF4FF);
 const Color _sapphireSky = Color(0xFF006ce4);
 const Color _lavenderBlue = Color(0xFFd5deff);
 const Color _platinum = Color(0xFFf4f4f5);
-
-// === NIGHT COLORS ===
 const Color _imperialBlue = Color(0xFF00275B);
+const Color _shadowGray = Color(0xFF27272a);
+const Color _inkBlack = Color(0xFF020618);
+const Color _carbonBlack = Color(0xFF262626);
+const Color _carbonBlackDark = Color(0xFF18181b);
+const Color _black = Color(0xFF09090b);
 
 abstract class AppTheme {
   static ThemeData lightTheme() {
@@ -118,14 +122,15 @@ abstract class AppTheme {
       brightness: Brightness.dark,
       primaryColor: _imperialBlue,
       secondaryHeaderColor: _sapphireSky,
-      scaffoldBackgroundColor: Color(0xFF020618),
+      scaffoldBackgroundColor: _black,
+      disabledColor: _carbonBlack,
       appBarTheme: AppBarTheme(
         backgroundColor: _sapphireSky,
         titleTextStyle: TextStyle(color: Colors.white, fontSize: 22),
         elevation: 0,
         systemOverlayStyle: SystemUiOverlayStyle(
-          statusBarColor: Colors.white,
-          statusBarIconBrightness: Brightness.dark,
+          statusBarColor: _black,
+          statusBarIconBrightness: Brightness.light,
         ),
       ),
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
@@ -134,7 +139,7 @@ abstract class AppTheme {
         unselectedItemColor: _aliceBlue,
       ),
       iconTheme: IconThemeData(color: Colors.white),
-      cardTheme: CardThemeData(color: Color(0xFF051120)),
+      cardTheme: CardThemeData(color: _carbonBlack),
       floatingActionButtonTheme: FloatingActionButtonThemeData(
         backgroundColor: _sapphireSky,
         foregroundColor: Colors.white,
@@ -142,7 +147,11 @@ abstract class AppTheme {
       iconButtonTheme: IconButtonThemeData(
         style: ButtonStyle(
           foregroundColor: WidgetStatePropertyAll(Colors.white),
-          backgroundColor: WidgetStatePropertyAll(_sapphireSky),
+          backgroundColor: WidgetStateColor.resolveWith(
+            (states) => states.contains(WidgetState.disabled)
+                ? _carbonBlack
+                : _sapphireSky,
+          ),
         ),
       ),
       filledButtonTheme: FilledButtonThemeData(
@@ -150,7 +159,7 @@ abstract class AppTheme {
           foregroundColor: WidgetStatePropertyAll(Colors.white),
           backgroundColor: WidgetStateColor.resolveWith(
             (states) => states.contains(WidgetState.disabled)
-                ? Colors.grey
+                ? _carbonBlack
                 : _sapphireSky,
           ),
         ),
@@ -158,6 +167,14 @@ abstract class AppTheme {
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: ButtonStyle(
           foregroundColor: WidgetStatePropertyAll(Colors.white),
+        ),
+      ),
+      segmentedButtonTheme: SegmentedButtonThemeData(
+        style: ButtonStyle(
+          backgroundColor: WidgetStateColor.resolveWith(
+            (states) =>
+                states.contains(WidgetState.selected) ? _sapphireSky : _black,
+          ),
         ),
       ),
       inputDecorationTheme: InputDecorationTheme(
@@ -202,15 +219,8 @@ abstract class AppTheme {
         labelMedium: TextStyle(color: Colors.white),
         labelSmall: TextStyle(color: Colors.white),
       ),
-      segmentedButtonTheme: SegmentedButtonThemeData(
-        style: ButtonStyle(
-          backgroundColor: WidgetStateColor.resolveWith(
-            (states) => states.contains(WidgetState.selected)
-                ? _aliceBlue
-                : Colors.white,
-          ),
-        ),
-      ),
+
+      dialogTheme: DialogThemeData(backgroundColor: _carbonBlackDark),
       extensions: const [SkeletonizerConfigData()],
     );
   }

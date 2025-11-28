@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 ButtonStyle dangerButton(BuildContext context) {
+  final theme = Theme.of(context);
   final brightness = Theme.brightnessOf(context);
 
   if (brightness == Brightness.light) {
@@ -17,7 +18,7 @@ ButtonStyle dangerButton(BuildContext context) {
     return ButtonStyle(
       backgroundColor: WidgetStateColor.resolveWith((states) {
         if (states.contains(WidgetState.disabled)) {
-          return Colors.grey;
+          return theme.disabledColor;
         }
         return Colors.redAccent;
       }),

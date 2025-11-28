@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-// import 'package:mi_referencia/presentation/about_screen/about_screen.dart';
 import 'package:mi_referencia/presentation/widgets/delete_all_dialog.dart';
 
 class ConfigurationScreen extends HookConsumerWidget {

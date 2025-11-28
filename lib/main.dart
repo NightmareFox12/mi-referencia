@@ -17,7 +17,7 @@ class MainApp extends StatelessWidget {
       child: MaterialApp(
         theme: AppTheme.lightTheme(),
         darkTheme: AppTheme.darkTheme(),
-        debugShowCheckedModeBanner: false,
+        // debugShowCheckedModeBanner: false,
         themeMode: ThemeMode.system,
         home: SplashScreen(),
       ),

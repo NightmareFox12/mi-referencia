@@ -165,12 +165,6 @@ class FabFastReference extends HookConsumerWidget {
     final reference = useState<String>('');
     final amount = useState<String>('');
 
-    useEffect(() {
-      print('reference: ${reference.value}');
-      print('amount: ${amount.value}');
-      return null;
-    }, [reference.value, amount.value]);
-
     return FloatingActionButton(
       heroTag: 'fab1',
       onPressed: () => showFastReferenceDialog(

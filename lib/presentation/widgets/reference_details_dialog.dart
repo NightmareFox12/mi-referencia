@@ -14,7 +14,7 @@ Future<void> showReferenceDetailsDialog(
     builder: (BuildContext context) {
       return StatefulBuilder(
         builder: (context, setState) => AlertDialog(
-          title: Text('Referencia'),
+          title: Text('Resumen de Referencia'),
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
@@ -115,10 +115,11 @@ Future<void> showReferenceDetailsDialog(
           ),
           actions: <Widget>[
             Row(
+              spacing: 8,
               children: [
                 Expanded(
-                  child: OutlinedButton.icon(
-                    label: Text('Cancelar'),
+                  child: FilledButton.icon(
+                    label: Text('Cerrar'),
                     icon: Icon(Icons.close),
                     onPressed: () {
                       Navigator.of(context).pop();
@@ -126,15 +127,15 @@ Future<void> showReferenceDetailsDialog(
                   ),
                 ),
 
-                Expanded(
-                  child: OutlinedButton.icon(
-                    label: Text('Editar'),
-                    icon: Icon(Icons.edit),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                ),
+                // Expanded(
+                //   child: OutlinedButton.icon(
+                //     label: Text('Editar'),
+                //     icon: Icon(Icons.edit),
+                //     onPressed: () {
+                //       Navigator.of(context).pop();
+                //     },
+                //   ),
+                // ),
               ],
             ),
           ],

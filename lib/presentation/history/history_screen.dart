@@ -32,49 +32,48 @@ class HistoryScreen extends HookConsumerWidget {
                       style: TextStyle(fontWeight: .bold, fontSize: 20),
                     ),
                   )
-                : ListView.separated(
+                : ListView.builder(
                     itemCount: data.length,
-                    itemBuilder: (context, index) => Padding(
-                      padding: const .only(left: 8, right: 8),
-                      child: ListTile(
-                        leading: Text('#${index + 1}'),
-                        title: Text(
-                          'Referencia: ${data[index].reference}',
-                          style: TextStyle(fontWeight: .bold),
-                          textAlign: .center,
-                        ),
+                    itemBuilder: (context, index) => Card(
+                      child: Padding(
+                        padding: const .only(left: 8, right: 8),
+                        child: ListTile(
+                          leading: Text('#${index + 1}'),
+                          title: Text(
+                            'Referencia: ${data[index].reference}',
+                            style: TextStyle(fontWeight: .bold),
+                            textAlign: .center,
+                          ),
 
-                        subtitle: Text(
-                          'Monto: ${formatAmount(data[index].amount)} Bs.F',
-                          textAlign: .center,
-                        ),
-                        trailing: Tooltip(
-                          message: 'Ver detalles',
-                          waitDuration: Duration(milliseconds: 500),
-                          child: IconButton.filled(
-                            onPressed: () {
-                              Bank? bankInfo;
-                              if (data[index].bankID != null) {
-                                bankInfo = ref
-                                    .watch(
-                                      bankInfoProvider(data[index].bankID!),
-                                    )
-                                    .value;
-                              }
-                              showReferenceDetailsDialog(
-                                context,
-                                data[index],
-                                bankInfo,
-                              );
-                            },
-                            icon: Icon(Icons.remove_red_eye),
+                          subtitle: Text(
+                            'Monto: ${formatAmount(data[index].amount)} Bs.F',
+                            textAlign: .center,
+                          ),
+                          trailing: Tooltip(
+                            message: 'Ver detalles',
+                            waitDuration: Duration(milliseconds: 500),
+                            child: IconButton.filled(
+                              onPressed: () {
+                                Bank? bankInfo;
+                                if (data[index].bankID != null) {
+                                  bankInfo = ref
+                                      .watch(
+                                        bankInfoProvider(data[index].bankID!),
+                                      )
+                                      .value;
+                                }
+                                showReferenceDetailsDialog(
+                                  context,
+                                  data[index],
+                                  bankInfo,
+                                );
+                              },
+                              icon: Icon(Icons.remove_red_eye),
+                            ),
                           ),
                         ),
                       ),
                     ),
-                    separatorBuilder: (BuildContext context, int index) {
-                      return Divider();
-                    },
                   ),
 
             loading: () => Center(child: CircularProgressIndicator()),

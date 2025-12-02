@@ -40,6 +40,7 @@ class ReferenceDataSource {
     return result?.read(sumExpression) ?? 0.0;
   }
 
+  // AMOUNT LAST WEEK
   Future<double> getTotalAmountLastWeek() async {
     final sumExpression = db.referenceItem.amount.sum();
 

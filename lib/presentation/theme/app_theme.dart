@@ -111,6 +111,9 @@ abstract class AppTheme {
           ),
         ),
       ),
+      switchTheme: SwitchThemeData(
+        thumbColor: WidgetStatePropertyAll(_sapphireSky),
+      ),
       extensions: const [SkeletonizerConfigData()],
     );
   }
@@ -217,7 +220,10 @@ abstract class AppTheme {
         labelMedium: TextStyle(color: Colors.white),
         labelSmall: TextStyle(color: Colors.white),
       ),
-
+      switchTheme: SwitchThemeData(
+        thumbColor: WidgetStatePropertyAll(_sapphireSky),
+        trackColor: WidgetStatePropertyAll(_carbonBlack),
+      ),
       dialogTheme: DialogThemeData(backgroundColor: _carbonBlackDark),
       extensions: const [SkeletonizerConfigData()],
     );

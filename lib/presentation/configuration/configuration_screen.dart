@@ -10,13 +10,6 @@ class ConfigurationScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final currentThemeMode = ref.watch(themeModeProvider);
 
-    // useEffect(() {
-    //   SharedPreferencesService().getDarkMode().then((value) {
-    //     isLight.value = !value;
-    //   });
-    //   return () {};
-    // }, []);
-
     return Column(
       children: [
         // GestureDetector(

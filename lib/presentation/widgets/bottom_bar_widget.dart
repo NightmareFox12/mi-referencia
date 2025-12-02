@@ -12,7 +12,6 @@ class BottomBarWidget extends StatelessWidget {
       onTap: (value) {
         currentScreen.value = value;
       },
-      //TODO: config donde ira modo oscuro y eliminar datos
       items: [
         BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Inicio'),
         BottomNavigationBarItem(icon: Icon(Icons.list), label: 'Historial'),

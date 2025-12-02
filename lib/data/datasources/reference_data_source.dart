@@ -19,10 +19,42 @@ class ReferenceDataSource {
     await db.delete(db.referenceItem).go();
   }
 
-  // COUNT
-  Future<double> getAmountTotalReference() async {
+  // AMOUNT TODAY
+  Future<double> getTotalAmountToday() async {
     final sumExpression = db.referenceItem.amount.sum();
-    final query = db.selectOnly(db.referenceItem)..addColumns([sumExpression]);
+
+    final today = DateTime.now().toLocal();
+    final startOfToday = DateTime(today.year, today.month, today.day);
+    final endOfToday = startOfToday.add(const Duration(days: 1));
+
+    final query = db.selectOnly(db.referenceItem, distinct: true)
+      ..addColumns([sumExpression])
+      ..where(
+        db.referenceItem.date.isBetween(
+          Variable(startOfToday),
+          Variable(endOfToday),
+        ),
+      );
+
+    final result = await query.getSingleOrNull();
+    return result?.read(sumExpression) ?? 0.0;
+  }
+
+  Future<double> getTotalAmountLastWeek() async {
+    final sumExpression = db.referenceItem.amount.sum();
+
+    final now = DateTime.now().toLocal();
+
+    final lastWeekStart = DateTime(
+      now.year,
+      now.month,
+      now.day,
+    ).subtract(const Duration(days: 7));
+
+    final query = db.selectOnly(db.referenceItem, distinct: true)
+      ..addColumns([sumExpression])
+      ..where(db.referenceItem.date.isBiggerThan(Variable(lastWeekStart)));
+
     final result = await query.getSingleOrNull();
 
     return result?.read(sumExpression) ?? 0.0;

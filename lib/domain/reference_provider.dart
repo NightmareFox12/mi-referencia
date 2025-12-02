@@ -59,12 +59,20 @@ final referenceProvider =
     );
 
 // 3. Para las CONSULTAS, usa FutureProviders simples (NO Notifiers)
-final totalAmountProvider = FutureProvider<double>((ref) async {
+final totalTodayAmountProvider = FutureProvider<double>((ref) async {
   final dataSource = ref.watch(referenceDataSourceProvider);
 
   ref.watch(referenceProvider);
 
-  return await dataSource.getAmountTotalReference();
+  return await dataSource.getTotalAmountToday();
+});
+
+final totalLastWeekAmountProvider = FutureProvider<double>((ref) async {
+  final dataSource = ref.watch(referenceDataSourceProvider);
+
+  ref.watch(referenceProvider);
+
+  return await dataSource.getTotalAmountLastWeek();
 });
 
 final lastReferencesProvider = FutureProvider<List<Reference>>((ref) async {

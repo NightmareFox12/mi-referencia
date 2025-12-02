@@ -7,7 +7,7 @@ import 'package:mi_referencia/presentation/widgets/bottom_bar_widget.dart';
 import 'package:mi_referencia/presentation/widgets/fab_menu.dart';
 import 'package:mi_referencia/presentation/widgets/last_references.dart';
 import 'package:mi_referencia/presentation/widgets/last_week_line_chart.dart';
-import 'package:mi_referencia/presentation/widgets/total_amount_label.dart';
+import 'package:mi_referencia/presentation/widgets/total_amount_button.dart';
 
 class HomeScreen extends HookConsumerWidget {
   const HomeScreen({super.key});
@@ -27,7 +27,7 @@ class HomeScreen extends HookConsumerWidget {
           currentScreen.value == 0
               ? Column(
                   children: [
-                    TotalAmountLabel(),
+                    TotalAmountButton(),
                     LastWeekLineChart(),
                     LastReferences(currentScreen: currentScreen),
                   ],

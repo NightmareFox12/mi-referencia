@@ -18,6 +18,11 @@ class SharedPreferencesService {
     await prefs.setBool('initialData', initialData);
   }
 
+  setDarkMode(bool darkMode) async {
+    final prefs = await _getInstance();
+    await prefs.setBool('darkMode', darkMode);
+  }
+
   //getters
   Future<List<String>> getSelectedFields() async {
     final prefs = await _getInstance();
@@ -27,5 +32,10 @@ class SharedPreferencesService {
   Future<bool> getInitalData() async {
     final prefs = await _getInstance();
     return prefs.getBool('initialData') ?? false;
+  }
+
+  Future<bool> getDarkMode() async {
+    final prefs = await _getInstance();
+    return prefs.getBool('darkMode') ?? false;
   }
 }

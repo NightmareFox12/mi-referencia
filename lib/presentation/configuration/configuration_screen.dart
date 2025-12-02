@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:mi_referencia/domain/theme_provider.dart';
 import 'package:mi_referencia/presentation/widgets/delete_all_dialog.dart';
 
 class ConfigurationScreen extends HookConsumerWidget {
@@ -7,6 +8,15 @@ class ConfigurationScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final currentThemeMode = ref.watch(themeModeProvider);
+
+    // useEffect(() {
+    //   SharedPreferencesService().getDarkMode().then((value) {
+    //     isLight.value = !value;
+    //   });
+    //   return () {};
+    // }, []);
+
     return Column(
       children: [
         // GestureDetector(
@@ -21,6 +31,15 @@ class ConfigurationScreen extends HookConsumerWidget {
         //     trailing: const Icon(Icons.keyboard_arrow_right),
         //   ),
         // ),
+        ListTile(
+          leading: const Icon(Icons.dark_mode),
+          title: const Text('Modo Oscuro'),
+          trailing: Switch(
+            value: currentThemeMode == ThemeMode.dark,
+            onChanged: (value) async =>
+                ref.read(themeModeProvider.notifier).toggleTheme(value),
+          ),
+        ),
         GestureDetector(
           onTap: () {
             showDeleteAllDialog(context, ref);
